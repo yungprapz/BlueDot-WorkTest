@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlueDot Work Test - Course Operations Lead</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --border: #e4e4e7;
+    --text: #18181b;
+    --text-muted: #71717a;
+    --accent: #2563eb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0a;
+      --surface: #18181b;
+      --border: #27272a;
+      --text: #fafafa;
+      --text-muted: #a1a1aa;
+      --accent: #60a5fa;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  .lede { color: var(--text-muted); margin: 0 0 28px; }
+  h2 { font-size: 16px; margin: 28px 0 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .card h3 { margin: 0 0 4px; font-size: 16px; }
+  .card p { margin: 0 0 10px; color: var(--text-muted); font-size: 14px; }
+  .card a {
+    display: inline-block;
+    margin-right: 14px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .card a:hover { text-decoration: underline; }
+  .meta { color: var(--text-muted); font-size: 13px; margin-top: 32px; padding-top: 20px; border-top: 1px solid var(--border); }
+  code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>BlueDot Work Test: Course Operations Lead</h1>
+  <p class="lede">Submission by Prapthi Agarwala. Three artifacts below.</p>
+
+  <h2>Part 3: Systemic fix (the tool)</h2>
+  <div class="card">
+    <h3>Pre-round launch checklist</h3>
+    <p>Single-file HTML tool. Opens in any browser, persists state locally, exports to markdown. Seven sections per cohort covering welcome email, facilitator readiness, calendar invites, Slack channel, roster reconciliation, course materials, and tech check. Round summary, edge case prompts, issue log, and a failure response reference panel.</p>
+    <a href="bluedot-launch-checklist.html">Open the tool</a>
+    <a href="bluedot-launch-checklist.html" download>Download HTML</a>
+  </div>
+
+  <h2>Part 3: Writeup</h2>
+  <div class="card">
+    <h3>What I built, why this fix, two next priorities</h3>
+    <p>The short writeup that accompanies the artifact in the work test submission.</p>
+    <a href="PART_3_WRITEUP.md">Read writeup</a>
+  </div>
+
+  <h2>Next iteration</h2>
+  <div class="card">
+    <h3>Comms watchdog design spec</h3>
+    <p>The next-step proposal: a small Vercel-hosted service that watches scheduled comms and alerts ops when an expected send did not actually go out. Independent system, so the same failure mode as Cohort 12 cannot silently repeat.</p>
+    <a href="docs/superpowers/specs/2026-05-26-comms-watchdog-design.md">Read spec</a>
+  </div>
+
+  <h2>Repository</h2>
+  <div class="card">
+    <h3>Full source on GitHub</h3>
+    <p>Browse the code, clone, or download everything as a zip.</p>
+    <a href="https://github.com/yungprapz/BlueDot-WorkTest">View on GitHub</a>
+    <a href="https://github.com/yungprapz/BlueDot-WorkTest/archive/refs/heads/main.zip">Download zip</a>
+  </div>
+
+  <div class="meta">
+    Tool runs entirely client-side. No accounts, no server, no tracking. State is stored in your browser's localStorage.
+  </div>
+</div>
+</body>
+</html>
