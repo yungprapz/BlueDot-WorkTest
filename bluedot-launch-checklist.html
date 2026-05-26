@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Round Launch Checklist</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --surface-alt: #f4f4f5;
+    --border: #e4e4e7;
+    --border-strong: #d4d4d8;
+    --text: #18181b;
+    --text-muted: #71717a;
+    --text-subtle: #a1a1aa;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --green-bg: #dcfce7;
+    --green-fg: #166534;
+    --amber-bg: #fef3c7;
+    --amber-fg: #92400e;
+    --red-bg: #fee2e2;
+    --red-fg: #991b1b;
+    --grey-bg: #f4f4f5;
+    --grey-fg: #52525b;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+    --focus: 0 0 0 2px var(--accent);
+  }
+  [data-theme="dark"] {
+    --bg: #0a0a0a;
+    --surface: #18181b;
+    --surface-alt: #27272a;
+    --border: #27272a;
+    --border-strong: #3f3f46;
+    --text: #fafafa;
+    --text-muted: #a1a1aa;
+    --text-subtle: #71717a;
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+    --green-bg: #14532d;
+    --green-fg: #bbf7d0;
+    --amber-bg: #78350f;
+    --amber-fg: #fed7aa;
+    --red-bg: #7f1d1d;
+    --red-fg: #fecaca;
+    --grey-bg: #27272a;
+    --grey-fg: #d4d4d8;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.5);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+  }
+  input, textarea, select {
+    font-family: inherit;
+    font-size: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 8px 10px;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus, button:focus-visible {
+    outline: none;
+    box-shadow: var(--focus);
+    border-color: var(--accent);
+  }
+  textarea { resize: vertical; min-height: 60px; }
+
+  .app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .header-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .header-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .header-spacer { flex: 1; }
+  .header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    background: transparent;
+    border: none;
+    padding: 10px 14px;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .nav-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+  .nav-tab:hover { color: var(--text); }
+
+  .main {
+    flex: 1;
+    padding: 24px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .btn {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 7px 12px;
+    font-weight: 500;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  .btn:hover { background: var(--surface-alt); }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .btn-danger {
+    color: var(--red-fg);
+    border-color: var(--border-strong);
+  }
+  .btn-small { padding: 4px 8px; font-size: 13px; }
+  .btn-link {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .setup-wrap {
+    max-width: 520px;
+    margin: 40px auto;
+  }
+  .form-row { margin-bottom: 16px; }
+  .form-row label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .form-row .hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .summary-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .summary-meta .item .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .summary-meta .item .value { font-size: 18px; font-weight: 600; }
+
+  .cohort-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .cohort-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: border-color 0.1s, transform 0.1s;
+    box-shadow: var(--shadow);
+  }
+  .cohort-card:hover {
+    border-color: var(--border-strong);
+  }
+  .cohort-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+  .cohort-card-title { font-weight: 600; font-size: 15px; }
+  .progress-bar {
+    height: 6px;
+    background: var(--surface-alt);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 12px 0 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    transition: width 0.2s;
+  }
+  .cohort-card-foot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+  .status-badge::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .status-green { background: var(--green-bg); color: var(--green-fg); }
+  .status-amber { background: var(--amber-bg); color: var(--amber-fg); }
+  .status-red { background: var(--red-bg); color: var(--red-fg); }
+  .status-grey { background: var(--grey-bg); color: var(--grey-fg); }
+
+  .breadcrumb {
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .breadcrumb button { background: none; border: none; color: var(--accent); padding: 0; cursor: pointer; }
+  .breadcrumb button:hover { text-decoration: underline; }
+
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    background: var(--surface);
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .section-head:hover { background: var(--surface-alt); }
+  .section-title { font-weight: 600; font-size: 15px; }
+  .section-meta { display: flex; gap: 12px; align-items: center; font-size: 13px; color: var(--text-muted); }
+  .section-body { padding: 0 18px 12px; border-top: 1px solid var(--border); }
+  .section.collapsed .section-body { display: none; }
+  .chevron {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    margin-left: 8px;
+    transition: transform 0.15s;
+  }
+  .section.collapsed .chevron { transform: rotate(-45deg); }
+
+  .item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .item:last-child { border-bottom: none; }
+  .item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+  .item-label {
+    cursor: pointer;
+    line-height: 1.5;
+  }
+  .item-label.checked { color: var(--text-muted); text-decoration: line-through; }
+  .item-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .item-note {
+    grid-column: 2 / -1;
+    margin-top: 6px;
+    background: var(--surface-alt);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    border-left: 3px solid var(--accent);
+  }
+  .item-note textarea { width: 100%; background: var(--surface); }
+  .has-note { color: var(--accent); }
+
+  .edge-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-top: 20px;
+  }
+  .edge-section h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+  .edge-section p { margin: 0 0 14px; font-size: 13px; color: var(--text-muted); }
+  .edge-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .edge-item:last-child { border-bottom: none; }
+  .edge-toggle { display: flex; gap: 4px; }
+  .edge-toggle button {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .edge-toggle button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .edge-toggle button.active.na {
+    background: var(--text-muted);
+    border-color: var(--text-muted);
+  }
+
+  .issues-list { display: flex; flex-direction: column; gap: 8px; }
+  .issue-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+  }
+  .issue-meta { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+  .issue-desc { font-weight: 500; margin-bottom: 6px; }
+  .issue-resolution { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .issue-form { display: grid; gap: 10px; }
+  .issue-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Failure panel */
+  .panel-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+  }
+  .panel-backdrop.open { opacity: 1; pointer-events: auto; }
+  .failure-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(720px, 100%);
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 30;
+    transform: translateX(100%);
+    transition: transform 0.2s;
+    overflow-y: auto;
+  }
+  .failure-panel.open { transform: translateX(0); }
+  .failure-panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+  }
+  .failure-panel h2 { margin: 0; font-size: 16px; font-weight: 600; }
+  .failure-panel-body { padding: 16px 20px; }
+  .failure-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .failure-table th, .failure-table td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .failure-table th {
+    background: var(--surface-alt);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 40;
+    padding: 20px;
+  }
+  .modal {
+    background: var(--surface);
+    border-radius: 10px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 22px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+  .modal h3 { margin-top: 0; }
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (max-width: 640px) {
+    .main { padding: 16px; }
+    .header { padding: 10px 16px; }
+    .nav { padding: 0 16px; }
+    .summary-meta { padding: 12px; }
+    .item { grid-template-columns: auto 1fr; }
+    .item-actions { grid-column: 2; margin-top: 4px; }
+    .issue-form .row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+'use strict';
+
+// ----------------------------- CONSTANTS -----------------------------
+
+const SECTIONS = [
+  {
+    id: 's1',
+    title: 'Welcome email',
+    items: [
+      { id: 's1i1', text: 'Automation log shows email triggered for this cohort' },
+      { id: 's1i2', text: 'Spot-check three random participants on the roster: confirm email received' },
+      { id: 's1i3', text: 'Email content reviewed: session 1 date and time correct, facilitator name correct, Slack invite link works when clicked, course materials link works when clicked, Zoom link present' },
+      { id: 's1i4', text: 'If automation did not trigger: send manually using the welcome email template, notify Course Ops Lead within the hour' },
+      { id: 's1i5', text: 'If individual emails bounced: verify email address, resend, contact participant via secondary channel' }
+    ]
+  },
+  {
+    id: 's2',
+    title: 'Facilitator readiness',
+    items: [
+      { id: 's2i1', text: 'Facilitator has accepted the calendar invite for session 1' },
+      { id: 's2i2', text: 'Facilitator has confirmed attendance in writing in the past 48 hours' },
+      { id: 's2i3', text: 'Backup facilitator named for this cohort and aware they are backup' },
+      { id: 's2i4', text: 'New facilitators (fewer than 5 sessions run): shadowing or mentor arrangement documented' },
+      { id: 's2i5', text: "Facilitator has access to the current round's facilitator brief and reading materials" }
+    ]
+  },
+  {
+    id: 's3',
+    title: 'Calendar invites',
+    items: [
+      { id: 's3i1', text: 'Invite sent to every participant on the roster' },
+      { id: 's3i2', text: 'Spot-check three random participants: invite is in their calendar and not in spam' },
+      { id: 's3i3', text: 'Invite includes Zoom link, agenda link, and prep materials link' },
+      { id: 's3i4', text: "Invite shows session time in the participant's timezone, not just UK time" }
+    ]
+  },
+  {
+    id: 's4',
+    title: 'Slack channel',
+    items: [
+      { id: 's4i1', text: 'Channel created with correct naming convention (tais-r[round]-c[cohort])' },
+      { id: 's4i2', text: 'All participants invited; count matches roster exactly' },
+      { id: 's4i3', text: 'Facilitator added as channel admin' },
+      { id: 's4i4', text: 'Welcome message pinned with cohort schedule, course materials link, facilitator intro, support contact' }
+    ]
+  },
+  {
+    id: 's5',
+    title: 'Roster reconciliation',
+    items: [
+      { id: 's5i1', text: 'Final participant list matches admissions output' },
+      { id: 's5i2', text: 'Deferrals from previous round are slotted into all systems, not just one' },
+      { id: 's5i3', text: 'Last-minute withdrawals removed from all systems' },
+      { id: 's5i4', text: 'Career-switchers and other rubric-edge cases flagged in the facilitator brief' },
+      { id: 's5i5', text: 'Recent cohort switches reflected in both old and new cohort systems' }
+    ]
+  },
+  {
+    id: 's6',
+    title: 'Course materials',
+    items: [
+      { id: 's6i1', text: 'Week 1 reading list and materials published' },
+      { id: 's6i2', text: 'Links are not behind a login wall (test in incognito browser)' },
+      { id: 's6i3', text: 'Reflection submission form live and accepts a test submission' },
+      { id: 's6i4', text: 'Pulse survey scheduled to send after session 1' }
+    ]
+  },
+  {
+    id: 's7',
+    title: 'Tech check',
+    items: [
+      { id: 's7i1', text: 'Zoom link tested by opening it and confirming the room loads' },
+      { id: 's7i2', text: 'Breakout room settings configured if the session uses them' },
+      { id: 's7i3', text: 'Recording permissions set per BlueDot policy' },
+      { id: 's7i4', text: 'Backup video conferencing option documented in case of Zoom outage' }
+    ]
+  }
+];
+
+const EDGE_CASES = [
+  { id: 'e1', text: 'New facilitator running their first round: extra check that they have access to facilitator resources, have been onboarded on Slack tooling, and have a named senior facilitator to ping during session 1' },
+  { id: 'e2', text: 'Deferrals being slotted in: added to all systems (calendar, Slack, materials access, roster), not just one' },
+  { id: 'e3', text: 'Last-minute admissions decisions: same risk as deferrals' },
+  { id: 'e4', text: "Participants who changed cohorts within the past week: removed from old cohort's systems and added to new" },
+  { id: 'e5', text: 'Cohort with majority non-UK participants: session time displayed in their timezone in welcome email and calendar invite' },
+  { id: 'e6', text: 'Public holidays: no session falls on a public holiday in the regions of more than 25% of participants' },
+  { id: 'e7', text: 'Facilitator who is also a backup for another cohort: scheduling does not conflict, and what happens if they are needed in both places is documented' }
+];
+
+const FAILURE_TABLE = [
+  { issue: 'Welcome email automation did not trigger', action: 'Send manually from template', escalate: 'Course Ops Lead', timeline: 'Within 4 hours' },
+  { issue: 'Individual emails bounced', action: 'Verify address, resend, secondary contact', escalate: 'Course Ops Lead', timeline: 'Same day' },
+  { issue: 'Facilitator unconfirmed 48 hours before', action: 'Slack DM, then call', escalate: 'Course Ops Lead', timeline: 'Same day' },
+  { issue: 'Facilitator cannot make session 1', action: 'Activate backup facilitator', escalate: 'Course Ops Lead and Course Lead', timeline: 'Same day' },
+  { issue: 'Slack channel issues', action: 'Recreate channel, reinvite all', escalate: 'Course Ops Lead', timeline: 'Within 4 hours' },
+  { issue: 'Roster mismatch', action: 'Cross-check admissions, fix at source', escalate: 'Course Ops Lead', timeline: 'Same day' },
+  { issue: 'Course materials broken', action: 'Republish, test access', escalate: 'Course Ops Lead', timeline: 'Within 4 hours' },
+  { issue: 'Zoom link not working', action: 'Generate new link, update calendar invite, notify participants', escalate: 'Course Ops Lead', timeline: 'Within 2 hours of discovery' }
+];
+
+const STORAGE_KEY = 'bluedot-launch-checklist-v1';
+const TOTAL_ITEMS = SECTIONS.reduce((n, s) => n + s.items.length, 0);
+
+// ----------------------------- STATE -----------------------------
+
+function defaultStore() {
+  return {
+    rounds: {},
+    activeRound: null,
+    darkMode: false,
+    view: 'setup',
+    activeCohort: 0,
+    collapsedSections: {},
+    expandedNotes: {},
+    failurePanelOpen: false,
+    modal: null
+  };
+}
+
+function loadStore() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultStore();
+    const parsed = JSON.parse(raw);
+    return Object.assign(defaultStore(), parsed);
+  } catch (e) {
+    return defaultStore();
+  }
+}
+
+function saveStore() {
+  const persistable = {
+    rounds: store.rounds,
+    activeRound: store.activeRound,
+    darkMode: store.darkMode,
+    view: store.view,
+    activeCohort: store.activeCohort
+  };
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable));
+  } catch (e) {
+    console.error('Failed to save', e);
+  }
+}
+
+function activeRound() {
+  if (!store.activeRound) return null;
+  return store.rounds[store.activeRound] || null;
+}
+
+function newCohortState() {
+  return { checks: {}, notes: {}, edgeCases: {} };
+}
+
+function createRound(setup) {
+  const cohorts = [];
+  for (let i = 0; i < setup.numCohorts; i++) {
+    cohorts.push({
+      label: setup.cohortLabels[i] || ('Cohort ' + (i + 1)),
+      state: newCohortState()
+    });
+  }
+  const round = {
+    roundNumber: setup.roundNumber,
+    courseName: setup.courseName,
+    session1Date: setup.session1Date,
+    cohorts: cohorts,
+    issues: [],
+    createdAt: new Date().toISOString()
+  };
+  store.rounds[String(setup.roundNumber)] = round;
+  store.activeRound = String(setup.roundNumber);
+  store.view = 'summary';
+  store.activeCohort = 0;
+  saveStore();
+}
+
+function updateRoundSetup(setup) {
+  const round = activeRound();
+  if (!round) return;
+  round.roundNumber = setup.roundNumber;
+  round.courseName = setup.courseName;
+  round.session1Date = setup.session1Date;
+  const oldCount = round.cohorts.length;
+  if (setup.numCohorts > oldCount) {
+    for (let i = oldCount; i < setup.numCohorts; i++) {
+      round.cohorts.push({
+        label: setup.cohortLabels[i] || ('Cohort ' + (i + 1)),
+        state: newCohortState()
+      });
+    }
+  } else if (setup.numCohorts < oldCount) {
+    round.cohorts = round.cohorts.slice(0, setup.numCohorts);
+  }
+  for (let i = 0; i < setup.numCohorts; i++) {
+    if (setup.cohortLabels[i]) round.cohorts[i].label = setup.cohortLabels[i];
+  }
+  if (String(setup.roundNumber) !== store.activeRound) {
+    delete store.rounds[store.activeRound];
+    store.rounds[String(setup.roundNumber)] = round;
+    store.activeRound = String(setup.roundNumber);
+  }
+  saveStore();
+}
+
+// ----------------------------- COMPUTED -----------------------------
+
+function cohortProgress(cohort) {
+  const checked = Object.values(cohort.state.checks).filter(Boolean).length;
+  return { checked: checked, total: TOTAL_ITEMS, pct: TOTAL_ITEMS ? Math.round((checked / TOTAL_ITEMS) * 100) : 0 };
+}
+
+function sectionProgress(cohort, section) {
+  const checked = section.items.filter(it => cohort.state.checks[it.id]).length;
+  return { checked: checked, total: section.items.length };
+}
+
+function statusFor(pct, started) {
+  if (!started) return { cls: 'status-grey', label: 'Not started' };
+  if (pct >= 90) return { cls: 'status-green', label: 'Ready' };
+  if (pct >= 50) return { cls: 'status-amber', label: 'In progress' };
+  return { cls: 'status-red', label: 'Not ready' };
+}
+
+function progressColor(pct, started) {
+  if (!started) return 'var(--text-subtle)';
+  if (pct >= 90) return 'var(--green-fg)';
+  if (pct >= 50) return 'var(--amber-fg)';
+  return 'var(--red-fg)';
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  const target = new Date(dateStr + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const diffMs = target - now;
+  return Math.round(diffMs / (1000 * 60 * 60 * 24));
+}
+
+function countdownLabel(dateStr) {
+  const d = daysUntil(dateStr);
+  if (d === null) return '';
+  if (d === 0) return 'Launches today';
+  if (d === 1) return '1 day to launch';
+  if (d > 1) return d + ' days to launch';
+  if (d === -1) return 'Launched 1 day ago';
+  return 'Launched ' + Math.abs(d) + ' days ago';
+}
+
+function uid() {
+  return Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// ----------------------------- DOM UTILS -----------------------------
+
+const $app = document.getElementById('app');
+
+function el(html) {
+  const tpl = document.createElement('template');
+  tpl.innerHTML = html.trim();
+  return tpl.content.firstElementChild;
+}
+
+// ----------------------------- RENDER ROOT -----------------------------
+
+function render() {
+  document.documentElement.setAttribute('data-theme', store.darkMode ? 'dark' : 'light');
+  $app.innerHTML = '';
+  if (!activeRound()) {
+    store.view = 'setup';
+    $app.appendChild(renderHeader(true));
+    $app.appendChild(renderSetup(null));
+  } else {
+    $app.appendChild(renderHeader(false));
+    $app.appendChild(renderNav());
+    const main = document.createElement('main');
+    main.className = 'main';
+    main.id = 'main-content';
+    if (store.view === 'setup') main.appendChild(renderSetup(activeRound()));
+    else if (store.view === 'summary') main.appendChild(renderSummary());
+    else if (store.view === 'cohort') main.appendChild(renderCohort());
+    else if (store.view === 'issues') main.appendChild(renderIssues());
+    $app.appendChild(main);
+  }
+  $app.appendChild(renderFailurePanel());
+  if (store.modal) $app.appendChild(renderModal());
+}
+
+// ----------------------------- HEADER -----------------------------
+
+function renderHeader(setupOnly) {
+  const round = activeRound();
+  const header = document.createElement('header');
+  header.className = 'header';
+  const title = document.createElement('div');
+  title.innerHTML = '<h1 class="header-title">Pre-Round Launch Checklist</h1>';
+  if (round) {
+    const meta = document.createElement('div');
+    meta.className = 'header-meta';
+    meta.textContent = 'Round ' + round.roundNumber + ' · ' + round.courseName;
+    title.appendChild(meta);
+  }
+  header.appendChild(title);
+
+  const spacer = document.createElement('div');
+  spacer.className = 'header-spacer';
+  header.appendChild(spacer);
+
+  const actions = document.createElement('div');
+  actions.className = 'header-actions';
+
+  if (!setupOnly) {
+    const editBtn = document.createElement('button');
+    editBtn.className = 'btn btn-small';
+    editBtn.textContent = 'Edit setup';
+    editBtn.addEventListener('click', () => { store.view = 'setup'; render(); });
+    actions.appendChild(editBtn);
+
+    const failBtn = document.createElement('button');
+    failBtn.className = 'btn btn-small';
+    failBtn.textContent = 'Failure response';
+    failBtn.addEventListener('click', () => { store.failurePanelOpen = true; render(); });
+    actions.appendChild(failBtn);
+
+    const exportBtn = document.createElement('button');
+    exportBtn.className = 'btn btn-small';
+    exportBtn.textContent = 'Export';
+    exportBtn.addEventListener('click', exportMarkdown);
+    actions.appendChild(exportBtn);
+
+    const newRoundBtn = document.createElement('button');
+    newRoundBtn.className = 'btn btn-small btn-danger';
+    newRoundBtn.textContent = 'New round';
+    newRoundBtn.addEventListener('click', confirmNewRound);
+    actions.appendChild(newRoundBtn);
+  }
+
+  const themeBtn = document.createElement('button');
+  themeBtn.className = 'btn btn-small';
+  themeBtn.textContent = store.darkMode ? 'Light mode' : 'Dark mode';
+  themeBtn.setAttribute('aria-label', 'Toggle colour theme');
+  themeBtn.addEventListener('click', () => { store.darkMode = !store.darkMode; saveStore(); render(); });
+  actions.appendChild(themeBtn);
+
+  header.appendChild(actions);
+  return header;
+}
+
+function renderNav() {
+  const round = activeRound();
+  const nav = document.createElement('nav');
+  nav.className = 'nav';
+  nav.setAttribute('aria-label', 'Sections');
+  const tabs = [
+    { id: 'summary', label: 'Round summary' },
+    { id: 'issues', label: 'Issue log (' + round.issues.length + ')' }
+  ];
+  tabs.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'nav-tab' + (store.view === t.id ? ' active' : '');
+    b.textContent = t.label;
+    b.addEventListener('click', () => { store.view = t.id; saveStore(); render(); });
+    nav.appendChild(b);
+  });
+  return nav;
+}
+
+// ----------------------------- SETUP -----------------------------
+
+function renderSetup(existing) {
+  const wrap = document.createElement('div');
+  wrap.className = 'setup-wrap';
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const heading = document.createElement('h2');
+  heading.style.marginTop = '0';
+  heading.textContent = existing ? 'Edit round setup' : 'Set up a new round';
+  card.appendChild(heading);
+
+  const desc = document.createElement('p');
+  desc.style.color = 'var(--text-muted)';
+  desc.style.marginTop = '0';
+  desc.textContent = existing
+    ? 'Update any field below. Existing progress for current cohorts is preserved.'
+    : 'Enter round details to generate one checklist per cohort.';
+  card.appendChild(desc);
+
+  const initial = existing || { roundNumber: '', courseName: 'Technical AI Safety', session1Date: '', numCohorts: 6, cohortLabels: [] };
+
+  card.appendChild(formRow('Round number', `<input type="number" id="setup-round" min="1" value="${escapeHtml(initial.roundNumber)}" required>`));
+  card.appendChild(formRow('Course name', `<input type="text" id="setup-course" value="${escapeHtml(initial.courseName)}" required>`));
+  card.appendChild(formRow('First session date', `<input type="date" id="setup-date" value="${escapeHtml(initial.session1Date)}" required>`));
+  card.appendChild(formRow('Number of cohorts', `<input type="number" id="setup-num" min="1" max="12" value="${existing ? existing.cohorts.length : initial.numCohorts}" required>`));
+
+  const labelsWrap = document.createElement('div');
+  labelsWrap.className = 'form-row';
+  const labelsLabel = document.createElement('label');
+  labelsLabel.textContent = 'Cohort labels';
+  const labelsHint = document.createElement('div');
+  labelsHint.className = 'hint';
+  labelsHint.textContent = 'One label per cohort. Defaults to Cohort N if left blank.';
+  const labelsList = document.createElement('div');
+  labelsList.id = 'setup-labels';
+  labelsList.style.display = 'grid';
+  labelsList.style.gap = '6px';
+  labelsList.style.marginTop = '6px';
+  labelsWrap.appendChild(labelsLabel);
+  labelsWrap.appendChild(labelsList);
+  labelsWrap.appendChild(labelsHint);
+  card.appendChild(labelsWrap);
+
+  const seedLabels = existing ? existing.cohorts.map(c => c.label) : Array.from({ length: initial.numCohorts }, (_, i) => 'Cohort ' + (i + 1));
+  renderLabelInputs(labelsList, seedLabels);
+
+  card.querySelector('#setup-num').addEventListener('input', e => {
+    const n = Math.max(1, Math.min(12, Number(e.target.value) || 1));
+    const current = Array.from(labelsList.querySelectorAll('input')).map(i => i.value);
+    const next = Array.from({ length: n }, (_, i) => current[i] || ('Cohort ' + (i + 1)));
+    renderLabelInputs(labelsList, next);
+  });
+
+  const actions = document.createElement('div');
+  actions.style.display = 'flex';
+  actions.style.gap = '8px';
+  actions.style.marginTop = '20px';
+
+  const submitBtn = document.createElement('button');
+  submitBtn.className = 'btn btn-primary';
+  submitBtn.textContent = existing ? 'Save changes' : 'Create round';
+  submitBtn.addEventListener('click', () => {
+    const setup = {
+      roundNumber: Number(card.querySelector('#setup-round').value),
+      courseName: card.querySelector('#setup-course').value.trim() || 'Technical AI Safety',
+      session1Date: card.querySelector('#setup-date').value,
+      numCohorts: Math.max(1, Math.min(12, Number(card.querySelector('#setup-num').value) || 1)),
+      cohortLabels: Array.from(labelsList.querySelectorAll('input')).map(i => i.value.trim())
+    };
+    if (!setup.roundNumber || !setup.session1Date) {
+      alert('Round number and first session date are required.');
+      return;
+    }
+    if (existing) {
+      const newKey = String(setup.roundNumber);
+      if (newKey !== store.activeRound && store.rounds[newKey]) {
+        alert('Round ' + setup.roundNumber + ' already exists. Pick a different round number.');
+        return;
+      }
+      const oldCount = existing.cohorts.length;
+      if (setup.numCohorts < oldCount) {
+        const dropped = [];
+        for (let i = setup.numCohorts; i < oldCount; i++) {
+          const c = existing.cohorts[i];
+          const checks = Object.values(c.state.checks).filter(Boolean).length;
+          const notes = Object.keys(c.state.notes).length;
+          const edges = Object.values(c.state.edgeCases).filter(Boolean).length;
+          if (checks + notes + edges > 0) dropped.push(c.label);
+        }
+        if (dropped.length > 0) {
+          const ok = confirm('Reducing cohort count will erase progress for: ' + dropped.join(', ') + '. Continue?');
+          if (!ok) return;
+        }
+      }
+      updateRoundSetup(setup);
+    } else {
+      createRound(setup);
+    }
+    store.view = 'summary';
+    saveStore();
+    render();
+  });
+  actions.appendChild(submitBtn);
+
+  if (existing) {
+    const cancel = document.createElement('button');
+    cancel.className = 'btn';
+    cancel.textContent = 'Cancel';
+    cancel.addEventListener('click', () => { store.view = 'summary'; render(); });
+    actions.appendChild(cancel);
+  }
+
+  card.appendChild(actions);
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function formRow(label, inputHtml) {
+  const row = document.createElement('div');
+  row.className = 'form-row';
+  row.innerHTML = `<label>${escapeHtml(label)}</label>${inputHtml}`;
+  return row;
+}
+
+function renderLabelInputs(container, labels) {
+  container.innerHTML = '';
+  labels.forEach((lab, i) => {
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = lab;
+    input.setAttribute('aria-label', 'Label for cohort ' + (i + 1));
+    container.appendChild(input);
+  });
+}
+
+// ----------------------------- SUMMARY -----------------------------
+
+function renderSummary() {
+  const round = activeRound();
+  const wrap = document.createElement('div');
+
+  const meta = document.createElement('div');
+  meta.className = 'summary-meta';
+  meta.innerHTML = `
+    <div class="item"><div class="label">Round</div><div class="value">${escapeHtml(round.roundNumber)}</div></div>
+    <div class="item"><div class="label">Course</div><div class="value">${escapeHtml(round.courseName)}</div></div>
+    <div class="item"><div class="label">Session 1</div><div class="value">${escapeHtml(round.session1Date)}</div></div>
+    <div class="item"><div class="label">Countdown</div><div class="value">${escapeHtml(countdownLabel(round.session1Date))}</div></div>
+    <div class="item"><div class="label">Open issues</div><div class="value">${round.issues.filter(i => i.status === 'open').length}</div></div>
+  `;
+  wrap.appendChild(meta);
+
+  const grid = document.createElement('div');
+  grid.className = 'cohort-grid';
+
+  round.cohorts.forEach((cohort, idx) => {
+    const prog = cohortProgress(cohort);
+    const started = prog.checked > 0;
+    const status = statusFor(prog.pct, started);
+    const cohortIssues = round.issues.filter(i => i.cohortIdx === idx).length;
+
+    const card = document.createElement('button');
+    card.className = 'cohort-card';
+    card.setAttribute('aria-label', 'Open ' + cohort.label);
+    card.innerHTML = `
+      <div class="cohort-card-head">
+        <div class="cohort-card-title">${escapeHtml(cohort.label)}</div>
+        <span class="status-badge ${status.cls}">${status.label}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${prog.pct}%;background:${progressColor(prog.pct, started)}"></div></div>
+      <div class="cohort-card-foot">
+        <span>${prog.checked} of ${prog.total} items</span>
+        <span>${cohortIssues} ${cohortIssues === 1 ? 'issue' : 'issues'}</span>
+      </div>
+    `;
+    card.addEventListener('click', () => { store.activeCohort = idx; store.view = 'cohort'; saveStore(); render(); });
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
+  return wrap;
+}
+
+// ----------------------------- COHORT -----------------------------
+
+function renderCohort() {
+  const round = activeRound();
+  const idx = store.activeCohort;
+  const cohort = round.cohorts[idx];
+  if (!cohort) {
+    const div = document.createElement('div');
+    div.className = 'empty';
+    div.textContent = 'Cohort not found.';
+    return div;
+  }
+  const wrap = document.createElement('div');
+
+  const crumb = document.createElement('div');
+  crumb.className = 'breadcrumb';
+  crumb.innerHTML = `<button id="back-summary">Round summary</button> / ${escapeHtml(cohort.label)}`;
+  crumb.querySelector('#back-summary').addEventListener('click', () => { store.view = 'summary'; render(); });
+  wrap.appendChild(crumb);
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'toolbar';
+  const prog = cohortProgress(cohort);
+  const status = statusFor(prog.pct, prog.checked > 0);
+  toolbar.innerHTML = `
+    <div>
+      <h2 style="margin:0 0 4px;font-size:20px;">${escapeHtml(cohort.label)}</h2>
+      <div style="color:var(--text-muted);font-size:13px;">${prog.checked} of ${prog.total} items complete</div>
+    </div>
+    <span class="status-badge ${status.cls}">${status.label}</span>
+  `;
+  wrap.appendChild(toolbar);
+
+  SECTIONS.forEach((section, sectionIdx) => {
+    wrap.appendChild(renderSection(cohort, section, sectionIdx, idx));
+  });
+
+  wrap.appendChild(renderEdgeCases(cohort, idx));
+
+  const navWrap = document.createElement('div');
+  navWrap.style.display = 'flex';
+  navWrap.style.justifyContent = 'space-between';
+  navWrap.style.marginTop = '24px';
+  navWrap.style.gap = '8px';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'btn';
+  prevBtn.textContent = '← Previous cohort';
+  prevBtn.disabled = idx === 0;
+  if (idx === 0) prevBtn.style.visibility = 'hidden';
+  prevBtn.addEventListener('click', () => { store.activeCohort = Math.max(0, idx - 1); saveStore(); render(); window.scrollTo(0, 0); });
+  navWrap.appendChild(prevBtn);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn';
+  nextBtn.textContent = 'Next cohort →';
+  nextBtn.disabled = idx === round.cohorts.length - 1;
+  if (idx === round.cohorts.length - 1) nextBtn.style.visibility = 'hidden';
+  nextBtn.addEventListener('click', () => { store.activeCohort = Math.min(round.cohorts.length - 1, idx + 1); saveStore(); render(); window.scrollTo(0, 0); });
+  navWrap.appendChild(nextBtn);
+
+  wrap.appendChild(navWrap);
+  return wrap;
+}
+
+function renderSection(cohort, section, sectionIdx, cohortIdx) {
+  const sectionKey = `${cohortIdx}-${section.id}`;
+  const collapsed = store.collapsedSections[sectionKey];
+  const wrap = document.createElement('div');
+  wrap.className = 'section' + (collapsed ? ' collapsed' : '');
+
+  const head = document.createElement('button');
+  head.className = 'section-head';
+  head.setAttribute('aria-expanded', String(!collapsed));
+  const prog = sectionProgress(cohort, section);
+  head.innerHTML = `
+    <div class="section-title">${sectionIdx + 1}. ${escapeHtml(section.title)}</div>
+    <div class="section-meta">
+      <span>${prog.checked} / ${prog.total}</span>
+      <span class="chevron" aria-hidden="true"></span>
+    </div>
+  `;
+  head.addEventListener('click', () => {
+    store.collapsedSections[sectionKey] = !collapsed;
+    render();
+  });
+  wrap.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'section-body';
+  section.items.forEach(item => body.appendChild(renderItem(cohort, section, item, cohortIdx, sectionIdx)));
+  wrap.appendChild(body);
+  return wrap;
+}
+
+function renderItem(cohort, section, item, cohortIdx, sectionIdx) {
+  const checked = !!cohort.state.checks[item.id];
+  const note = cohort.state.notes[item.id] || '';
+  const noteKey = `${cohortIdx}-${item.id}`;
+  const noteOpen = !!store.expandedNotes[noteKey];
+
+  const row = document.createElement('div');
+  row.className = 'item';
+
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.checked = checked;
+  cb.id = 'cb-' + cohortIdx + '-' + item.id;
+  cb.setAttribute('aria-labelledby', 'lbl-' + cohortIdx + '-' + item.id);
+  cb.addEventListener('change', () => {
+    cohort.state.checks[item.id] = cb.checked;
+    saveStore();
+    render();
+  });
+  cb.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      store.expandedNotes[noteKey] = !noteOpen;
+      render();
+    }
+  });
+  row.appendChild(cb);
+
+  const label = document.createElement('label');
+  label.className = 'item-label' + (checked ? ' checked' : '');
+  label.id = 'lbl-' + cohortIdx + '-' + item.id;
+  label.htmlFor = cb.id;
+  label.textContent = item.text;
+  row.appendChild(label);
+
+  const actions = document.createElement('div');
+  actions.className = 'item-actions';
+
+  const noteBtn = document.createElement('button');
+  noteBtn.className = 'btn btn-small' + (note ? ' has-note' : '');
+  noteBtn.textContent = note ? 'Edit note' : 'Add note';
+  noteBtn.setAttribute('aria-label', (note ? 'Edit note for: ' : 'Add note for: ') + item.text);
+  noteBtn.addEventListener('click', () => {
+    store.expandedNotes[noteKey] = !noteOpen;
+    render();
+  });
+  actions.appendChild(noteBtn);
+
+  const issueBtn = document.createElement('button');
+  issueBtn.className = 'btn btn-small';
+  issueBtn.textContent = 'Log issue';
+  issueBtn.setAttribute('aria-label', 'Log issue for: ' + item.text);
+  issueBtn.addEventListener('click', () => openIssueModal({ cohortIdx: cohortIdx, sectionIdx: sectionIdx }));
+  actions.appendChild(issueBtn);
+
+  row.appendChild(actions);
+
+  if (noteOpen || note) {
+    const noteWrap = document.createElement('div');
+    noteWrap.className = 'item-note';
+    const ta = document.createElement('textarea');
+    ta.value = note;
+    ta.placeholder = 'Add a note for this item';
+    ta.setAttribute('aria-label', 'Note for: ' + item.text);
+    ta.addEventListener('input', () => {
+      cohort.state.notes[item.id] = ta.value;
+      saveStore();
+    });
+    ta.addEventListener('blur', () => {
+      if (!ta.value.trim()) {
+        delete cohort.state.notes[item.id];
+        delete store.expandedNotes[noteKey];
+        saveStore();
+        render();
+      }
+    });
+    noteWrap.appendChild(ta);
+    row.appendChild(noteWrap);
+  }
+
+  return row;
+}
+
+function renderEdgeCases(cohort, cohortIdx) {
+  const wrap = document.createElement('div');
+  wrap.className = 'edge-section';
+  const heading = document.createElement('h3');
+  heading.textContent = 'Before you close out, consider';
+  wrap.appendChild(heading);
+  const desc = document.createElement('p');
+  desc.textContent = 'Edge cases that may apply to this cohort. Mark each as checked or not applicable.';
+  wrap.appendChild(desc);
+
+  EDGE_CASES.forEach(ec => {
+    const state = cohort.state.edgeCases[ec.id] || null;
+    const row = document.createElement('div');
+    row.className = 'edge-item';
+
+    const text = document.createElement('div');
+    text.textContent = ec.text;
+    row.appendChild(text);
+
+    const toggle = document.createElement('div');
+    toggle.className = 'edge-toggle';
+    toggle.setAttribute('role', 'group');
+    toggle.setAttribute('aria-label', 'Status for: ' + ec.text);
+
+    const checkedBtn = document.createElement('button');
+    checkedBtn.textContent = 'Checked';
+    checkedBtn.className = state === 'checked' ? 'active' : '';
+    checkedBtn.addEventListener('click', () => {
+      cohort.state.edgeCases[ec.id] = state === 'checked' ? null : 'checked';
+      saveStore();
+      render();
+    });
+
+    const naBtn = document.createElement('button');
+    naBtn.textContent = 'Not applicable';
+    naBtn.className = state === 'na' ? 'active na' : '';
+    naBtn.addEventListener('click', () => {
+      cohort.state.edgeCases[ec.id] = state === 'na' ? null : 'na';
+      saveStore();
+      render();
+    });
+
+    toggle.appendChild(checkedBtn);
+    toggle.appendChild(naBtn);
+    row.appendChild(toggle);
+    wrap.appendChild(row);
+  });
+
+  return wrap;
+}
+
+// ----------------------------- ISSUES -----------------------------
+
+function renderIssues() {
+  const round = activeRound();
+  const wrap = document.createElement('div');
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'toolbar';
+  toolbar.innerHTML = `<h2 style="margin:0;font-size:20px;">Issue log</h2>`;
+  const addBtn = document.createElement('button');
+  addBtn.className = 'btn btn-primary';
+  addBtn.textContent = 'New issue';
+  addBtn.addEventListener('click', () => openIssueModal({}));
+  toolbar.appendChild(addBtn);
+  wrap.appendChild(toolbar);
+
+  if (round.issues.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.innerHTML = '<p>No issues logged for this round yet.</p><p style="font-size:13px;">Use the <strong>Log issue</strong> button on any checklist item, or click <strong>New issue</strong> above.</p>';
+    wrap.appendChild(empty);
+    return wrap;
+  }
+
+  const list = document.createElement('div');
+  list.className = 'issues-list';
+  const ordered = round.issues.slice().sort((a, b) => {
+    if (a.status !== b.status) return a.status === 'open' ? -1 : 1;
+    return b.dateLogged.localeCompare(a.dateLogged);
+  });
+  ordered.forEach(issue => list.appendChild(renderIssueRow(issue, round)));
+  wrap.appendChild(list);
+  return wrap;
+}
+
+function renderIssueRow(issue, round) {
+  const row = document.createElement('div');
+  row.className = 'issue-row';
+  const cohortLabel = round.cohorts[issue.cohortIdx] ? round.cohorts[issue.cohortIdx].label : 'Unknown cohort';
+  const sectionLabel = SECTIONS[issue.sectionIdx] ? SECTIONS[issue.sectionIdx].title : 'General';
+  const left = document.createElement('div');
+  left.innerHTML = `
+    <div class="issue-meta">${escapeHtml(cohortLabel)} · ${escapeHtml(sectionLabel)} · ${escapeHtml(issue.dateLogged.slice(0, 10))}</div>
+    <div class="issue-desc">${escapeHtml(issue.description)}</div>
+    ${issue.resolution ? `<div class="issue-resolution"><strong>Resolution:</strong> ${escapeHtml(issue.resolution)}</div>` : ''}
+  `;
+  row.appendChild(left);
+  const right = document.createElement('div');
+  right.style.display = 'flex';
+  right.style.flexDirection = 'column';
+  right.style.gap = '6px';
+  right.style.alignItems = 'flex-end';
+
+  const statusBadge = document.createElement('span');
+  statusBadge.className = 'status-badge ' + (issue.status === 'open' ? 'status-amber' : 'status-green');
+  statusBadge.textContent = issue.status === 'open' ? 'Open' : 'Resolved';
+  right.appendChild(statusBadge);
+
+  const editBtn = document.createElement('button');
+  editBtn.className = 'btn btn-small';
+  editBtn.textContent = 'Edit';
+  editBtn.addEventListener('click', () => openIssueModal({ editingId: issue.id }));
+  right.appendChild(editBtn);
+
+  row.appendChild(right);
+  return row;
+}
+
+function openIssueModal(opts) {
+  const round = activeRound();
+  opts = opts || {};
+  const editing = opts.editingId ? round.issues.find(i => i.id === opts.editingId) : null;
+  store.modal = {
+    type: 'issue',
+    editingId: opts.editingId || null,
+    draft: editing
+      ? Object.assign({}, editing)
+      : {
+          id: uid(),
+          cohortIdx: opts.cohortIdx != null ? opts.cohortIdx : 0,
+          sectionIdx: opts.sectionIdx != null ? opts.sectionIdx : 0,
+          description: '',
+          resolution: '',
+          dateLogged: new Date().toISOString(),
+          status: 'open'
+        }
+  };
+  render();
+}
+
+function closeModal() {
+  store.modal = null;
+  render();
+}
+
+function renderModal() {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop';
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+
+  if (store.modal.type === 'issue') modal.appendChild(renderIssueForm());
+  else if (store.modal.type === 'confirm') modal.appendChild(renderConfirm());
+
+  backdrop.appendChild(modal);
+  return backdrop;
+}
+
+function renderIssueForm() {
+  const round = activeRound();
+  const draft = store.modal.draft;
+  const editing = !!store.modal.editingId;
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<h3 style="margin-top:0;">${editing ? 'Edit issue' : 'Log new issue'}</h3>`;
+
+  const form = document.createElement('div');
+  form.className = 'issue-form';
+
+  const row1 = document.createElement('div');
+  row1.className = 'row';
+  row1.innerHTML = `
+    <div class="form-row" style="margin:0;">
+      <label>Cohort</label>
+      <select id="iss-cohort">
+        ${round.cohorts.map((c, i) => `<option value="${i}" ${i === draft.cohortIdx ? 'selected' : ''}>${escapeHtml(c.label)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="form-row" style="margin:0;">
+      <label>Section</label>
+      <select id="iss-section">
+        ${SECTIONS.map((s, i) => `<option value="${i}" ${i === draft.sectionIdx ? 'selected' : ''}>${escapeHtml(s.title)}</option>`).join('')}
+      </select>
+    </div>
+  `;
+  form.appendChild(row1);
+
+  const descRow = document.createElement('div');
+  descRow.className = 'form-row';
+  descRow.style.margin = '0';
+  descRow.innerHTML = `<label>Description</label><textarea id="iss-desc" rows="3" placeholder="What happened">${escapeHtml(draft.description)}</textarea>`;
+  form.appendChild(descRow);
+
+  const resRow = document.createElement('div');
+  resRow.className = 'form-row';
+  resRow.style.margin = '0';
+  resRow.innerHTML = `<label>Resolution</label><textarea id="iss-res" rows="2" placeholder="What was done about it (can be added later)">${escapeHtml(draft.resolution)}</textarea>`;
+  form.appendChild(resRow);
+
+  const row2 = document.createElement('div');
+  row2.className = 'row';
+  row2.innerHTML = `
+    <div class="form-row" style="margin:0;">
+      <label>Date logged</label>
+      <input type="date" id="iss-date" value="${escapeHtml(draft.dateLogged.slice(0, 10))}">
+    </div>
+    <div class="form-row" style="margin:0;">
+      <label>Status</label>
+      <select id="iss-status">
+        <option value="open" ${draft.status === 'open' ? 'selected' : ''}>Open</option>
+        <option value="resolved" ${draft.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+      </select>
+    </div>
+  `;
+  form.appendChild(row2);
+
+  wrap.appendChild(form);
+
+  const actions = document.createElement('div');
+  actions.className = 'modal-actions';
+
+  if (editing) {
+    const del = document.createElement('button');
+    del.className = 'btn btn-danger';
+    del.textContent = 'Delete';
+    del.addEventListener('click', () => {
+      if (!confirm('Delete this issue? This cannot be undone.')) return;
+      const idx = round.issues.findIndex(i => i.id === store.modal.editingId);
+      if (idx >= 0) round.issues.splice(idx, 1);
+      saveStore();
+      closeModal();
+    });
+    actions.appendChild(del);
+    const spacer = document.createElement('div');
+    spacer.style.flex = '1';
+    actions.appendChild(spacer);
+  }
+
+  const cancel = document.createElement('button');
+  cancel.className = 'btn';
+  cancel.textContent = 'Cancel';
+  cancel.addEventListener('click', closeModal);
+  actions.appendChild(cancel);
+
+  const save = document.createElement('button');
+  save.className = 'btn btn-primary';
+  save.textContent = editing ? 'Save' : 'Add issue';
+  save.addEventListener('click', () => {
+    const description = wrap.querySelector('#iss-desc').value.trim();
+    if (!description) {
+      alert('Description is required.');
+      return;
+    }
+    const data = {
+      id: draft.id,
+      cohortIdx: Number(wrap.querySelector('#iss-cohort').value),
+      sectionIdx: Number(wrap.querySelector('#iss-section').value),
+      description: description,
+      resolution: wrap.querySelector('#iss-res').value.trim(),
+      dateLogged: wrap.querySelector('#iss-date').value || draft.dateLogged.slice(0, 10),
+      status: wrap.querySelector('#iss-status').value
+    };
+    if (data.dateLogged.length === 10) data.dateLogged = data.dateLogged + 'T00:00:00.000Z';
+    if (editing) {
+      const idx = round.issues.findIndex(i => i.id === store.modal.editingId);
+      if (idx >= 0) round.issues[idx] = data;
+    } else {
+      round.issues.push(data);
+    }
+    saveStore();
+    closeModal();
+    store.view = 'issues';
+    render();
+  });
+  actions.appendChild(save);
+  wrap.appendChild(actions);
+  return wrap;
+}
+
+function renderConfirm() {
+  const m = store.modal;
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<h3 style="margin-top:0;">${escapeHtml(m.title)}</h3><p style="color:var(--text-muted);">${escapeHtml(m.message)}</p>`;
+  const actions = document.createElement('div');
+  actions.className = 'modal-actions';
+  const cancel = document.createElement('button');
+  cancel.className = 'btn';
+  cancel.textContent = m.cancelLabel || 'Cancel';
+  cancel.addEventListener('click', closeModal);
+  actions.appendChild(cancel);
+  if (m.secondaryLabel && m.onSecondary) {
+    const sec = document.createElement('button');
+    sec.className = 'btn';
+    sec.textContent = m.secondaryLabel;
+    sec.addEventListener('click', () => { m.onSecondary(); });
+    actions.appendChild(sec);
+  }
+  const ok = document.createElement('button');
+  ok.className = 'btn btn-danger';
+  ok.textContent = m.confirmLabel || 'Confirm';
+  ok.addEventListener('click', () => { m.onConfirm(); });
+  actions.appendChild(ok);
+  wrap.appendChild(actions);
+  return wrap;
+}
+
+// ----------------------------- FAILURE PANEL -----------------------------
+
+function renderFailurePanel() {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'panel-backdrop' + (store.failurePanelOpen ? ' open' : '');
+  backdrop.addEventListener('click', () => { store.failurePanelOpen = false; render(); });
+
+  const panel = document.createElement('aside');
+  panel.className = 'failure-panel' + (store.failurePanelOpen ? ' open' : '');
+  panel.setAttribute('aria-hidden', String(!store.failurePanelOpen));
+  panel.setAttribute('aria-label', 'Failure response reference');
+
+  const head = document.createElement('div');
+  head.className = 'failure-panel-head';
+  head.innerHTML = '<h2>Failure response reference</h2>';
+  const close = document.createElement('button');
+  close.className = 'btn btn-small';
+  close.textContent = 'Close';
+  close.addEventListener('click', () => { store.failurePanelOpen = false; render(); });
+  head.appendChild(close);
+  panel.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'failure-panel-body';
+  const intro = document.createElement('p');
+  intro.style.color = 'var(--text-muted)';
+  intro.style.marginTop = '0';
+  intro.textContent = 'Reference for common launch failures. Open from any view.';
+  body.appendChild(intro);
+
+  const table = document.createElement('table');
+  table.className = 'failure-table';
+  table.innerHTML = `
+    <thead><tr><th>Issue</th><th>Action</th><th>Escalate to</th><th>Timeline</th></tr></thead>
+    <tbody>
+      ${FAILURE_TABLE.map(r => `<tr>
+        <td>${escapeHtml(r.issue)}</td>
+        <td>${escapeHtml(r.action)}</td>
+        <td>${escapeHtml(r.escalate)}</td>
+        <td>${escapeHtml(r.timeline)}</td>
+      </tr>`).join('')}
+    </tbody>
+  `;
+  body.appendChild(table);
+  panel.appendChild(body);
+
+  const frag = document.createDocumentFragment();
+  frag.appendChild(backdrop);
+  frag.appendChild(panel);
+  return frag;
+}
+
+// ----------------------------- EXPORT -----------------------------
+
+function exportMarkdown() {
+  const round = activeRound();
+  if (!round) return;
+  const lines = [];
+  lines.push('# Pre-Round Launch Checklist');
+  lines.push('');
+  lines.push('- Round: ' + round.roundNumber);
+  lines.push('- Course: ' + round.courseName);
+  lines.push('- First session: ' + round.session1Date);
+  lines.push('- Exported: ' + new Date().toISOString().slice(0, 10));
+  lines.push('');
+
+  round.cohorts.forEach((cohort, idx) => {
+    const prog = cohortProgress(cohort);
+    const status = statusFor(prog.pct, prog.checked > 0);
+    lines.push('## ' + cohort.label);
+    lines.push('');
+    lines.push('Status: ' + status.label + ' (' + prog.checked + ' of ' + prog.total + ' items, ' + prog.pct + '%)');
+    lines.push('');
+    SECTIONS.forEach((section, si) => {
+      const sp = sectionProgress(cohort, section);
+      lines.push('### ' + (si + 1) + '. ' + section.title + ' (' + sp.checked + '/' + sp.total + ')');
+      lines.push('');
+      section.items.forEach(item => {
+        const checked = cohort.state.checks[item.id] ? 'x' : ' ';
+        lines.push('- [' + checked + '] ' + item.text);
+        const note = cohort.state.notes[item.id];
+        if (note) lines.push('  - Note: ' + note);
+      });
+      lines.push('');
+    });
+    lines.push('### Edge cases');
+    lines.push('');
+    EDGE_CASES.forEach(ec => {
+      const st = cohort.state.edgeCases[ec.id];
+      const stLabel = st === 'checked' ? 'Checked' : st === 'na' ? 'Not applicable' : 'Not addressed';
+      lines.push('- [' + (st ? 'x' : ' ') + '] ' + ec.text + ' (' + stLabel + ')');
+    });
+    lines.push('');
+  });
+
+  lines.push('## Issue log');
+  lines.push('');
+  if (round.issues.length === 0) {
+    lines.push('No issues logged.');
+    lines.push('');
+  } else {
+    round.issues.forEach(issue => {
+      const cohortLabel = round.cohorts[issue.cohortIdx] ? round.cohorts[issue.cohortIdx].label : 'Unknown';
+      const sectionLabel = SECTIONS[issue.sectionIdx] ? SECTIONS[issue.sectionIdx].title : 'General';
+      lines.push('### ' + cohortLabel + ' / ' + sectionLabel + ' (' + issue.status + ')');
+      lines.push('- Logged: ' + issue.dateLogged.slice(0, 10));
+      lines.push('- Description: ' + issue.description);
+      if (issue.resolution) lines.push('- Resolution: ' + issue.resolution);
+      lines.push('');
+    });
+  }
+
+  lines.push('## Failure response reference');
+  lines.push('');
+  lines.push('| Issue | Action | Escalate to | Timeline |');
+  lines.push('|---|---|---|---|');
+  FAILURE_TABLE.forEach(r => {
+    lines.push('| ' + r.issue + ' | ' + r.action + ' | ' + r.escalate + ' | ' + r.timeline + ' |');
+  });
+
+  const md = lines.join('\n');
+  const courseSlug = (round.courseName || 'course').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const today = new Date().toISOString().slice(0, 10);
+  const filename = courseSlug + '-round-' + round.roundNumber + '-launch-checklist-' + today + '.md';
+
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ----------------------------- NEW ROUND / RESET -----------------------------
+
+function confirmNewRound() {
+  const round = activeRound();
+  if (!round) return;
+  store.modal = {
+    type: 'confirm',
+    title: 'Start a new round',
+    message: 'This will erase round ' + round.roundNumber + ' data. Export first if you want a record.',
+    confirmLabel: 'Erase and start new',
+    cancelLabel: 'Cancel',
+    secondaryLabel: 'Export first',
+    onSecondary: () => { exportMarkdown(); },
+    onConfirm: () => {
+      delete store.rounds[store.activeRound];
+      store.activeRound = null;
+      store.view = 'setup';
+      store.activeCohort = 0;
+      store.collapsedSections = {};
+      store.expandedNotes = {};
+      saveStore();
+      closeModal();
+    }
+  };
+  render();
+}
+
+// ----------------------------- INIT -----------------------------
+
+let store = loadStore();
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    if (store.modal) { closeModal(); return; }
+    if (store.failurePanelOpen) { store.failurePanelOpen = false; render(); }
+  }
+});
+
+render();
+</script>
+</body>
+</html>
