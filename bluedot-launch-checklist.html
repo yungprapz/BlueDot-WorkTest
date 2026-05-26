@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pre-Round Launch Checklist</title>
+<title>BlueDot Round Operations</title>
 <style>
   :root {
     --bg: #fafafa;
@@ -16,6 +16,9 @@
     --text-subtle: #a1a1aa;
     --accent: #2563eb;
     --accent-hover: #1d4ed8;
+    --accent-md: #0d9488;
+    --accent-md-hover: #0f766e;
+    --accent-md-soft: #ccfbf1;
     --green-bg: #dcfce7;
     --green-fg: #166534;
     --amber-bg: #fef3c7;
@@ -38,6 +41,9 @@
     --text-subtle: #71717a;
     --accent: #3b82f6;
     --accent-hover: #60a5fa;
+    --accent-md: #2dd4bf;
+    --accent-md-hover: #5eead4;
+    --accent-md-soft: #134e4a;
     --green-bg: #14532d;
     --green-fg: #bbf7d0;
     --amber-bg: #78350f;
@@ -533,6 +539,205 @@
     .item-actions { grid-column: 2; margin-top: 4px; }
     .issue-form .row { grid-template-columns: 1fr; }
   }
+
+  /* Mode switcher and mid-round styles */
+  [data-mode="midround"] {
+    --accent: var(--accent-md);
+    --accent-hover: var(--accent-md-hover);
+    --focus: 0 0 0 2px var(--accent-md);
+  }
+  .mode-switcher {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 24px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .mode-switcher-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-right: 8px;
+  }
+  .mode-tab {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .mode-tab:hover { color: var(--text); background: var(--surface-alt); }
+  .mode-tab.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .mode-tab.active.launch-tab { background: #2563eb; border-color: #2563eb; }
+  .mode-tab.active.midround-tab { background: #0d9488; border-color: #0d9488; }
+  [data-theme="dark"] .mode-tab.active.launch-tab { background: #3b82f6; border-color: #3b82f6; }
+  [data-theme="dark"] .mode-tab.active.midround-tab { background: #2dd4bf; border-color: #2dd4bf; color: #0a0a0a; }
+
+  /* Orientation card */
+  .orientation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+  .orientation strong { color: var(--text); }
+
+  /* Week tabs (mid-round cohort view) */
+  .week-tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    margin: 16px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .week-tab {
+    background: transparent;
+    border: none;
+    padding: 8px 14px;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .week-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+  .week-tab .week-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* Mid-round item types */
+  .md-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    gap: 8px;
+  }
+  .md-item:last-child { border-bottom: none; }
+  .md-item-label { font-weight: 500; font-size: 14px; }
+  .md-item .hint-inline { font-size: 13px; color: var(--text-muted); }
+  .md-item input[type="number"], .md-item input[type="text"] { max-width: 320px; }
+  .md-item textarea { min-height: 56px; }
+  .md-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .md-radio-group button {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 5px 12px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .md-radio-group button.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .md-action-required {
+    background: var(--amber-bg);
+    color: var(--amber-fg);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 13px;
+    border-left: 3px solid var(--amber-fg);
+  }
+  .md-action-required.resolved {
+    background: var(--green-bg);
+    color: var(--green-fg);
+    border-left-color: var(--green-fg);
+  }
+  .md-action-required textarea {
+    margin-top: 6px;
+    background: var(--surface);
+  }
+
+  /* Action Required panel (sticky top banner) */
+  .action-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--amber-fg);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .action-banner.empty { border-left-color: var(--green-fg); }
+  .action-banner-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .action-banner h3 { margin: 0; font-size: 14px; font-weight: 600; }
+  .action-list { margin: 0; padding: 0; list-style: none; }
+  .action-list li {
+    padding: 8px 0;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .action-list li:first-child { border-top: 1px solid var(--border); }
+  .action-list-meta { color: var(--text-muted); font-size: 12px; }
+
+  /* Trend chart */
+  .trend-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .trend-block h3 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .trend-block .trend-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+  .trend-svg { display: block; width: 100%; height: 120px; }
+  .trend-svg .axis { stroke: var(--border-strong); stroke-width: 1; }
+  .trend-svg .grid { stroke: var(--border); stroke-width: 1; stroke-dasharray: 2 3; }
+  .trend-svg .line { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .trend-svg .dot { fill: var(--accent); }
+  .trend-svg .label { font-size: 10px; fill: var(--text-muted); }
+  .trend-empty { color: var(--text-muted); font-size: 13px; padding: 20px 0; text-align: center; }
+
+  /* Past rounds list */
+  .past-round-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .past-round-row .meta { font-size: 13px; color: var(--text-muted); }
+
+  /* Retrospective form */
+  .retro-form .form-row textarea { min-height: 70px; }
 </style>
 </head>
 <body>
@@ -643,6 +848,87 @@ const FAILURE_TABLE = [
 const STORAGE_KEY = 'bluedot-launch-checklist-v1';
 const TOTAL_ITEMS = SECTIONS.reduce((n, s) => n + s.items.length, 0);
 
+// Mid-round data: six sections of weekly check items. Each item declares
+// its input type so the renderer can dispatch without per-item code.
+// Types: check (boolean), number (numeric), text (free text), choice (one of options)
+const MIDROUND_SECTIONS = [
+  {
+    id: 'mds1',
+    title: 'Pulse survey signal',
+    items: [
+      { id: 'mds1i1', text: 'Pulse survey for this week reviewed', type: 'check' },
+      { id: 'mds1i2', text: 'Average pulse score this cohort (1 to 10)', type: 'number', min: 1, max: 10 },
+      { id: 'mds1i3', text: 'Trend versus previous week', type: 'choice', options: ['improving', 'steady', 'declining', 'no previous data'] },
+      { id: 'mds1i4', text: 'Individual responses to flag', type: 'text' },
+      { id: 'mds1i5', text: 'Action taken if score below 7 or trending down 2+ weeks', type: 'text', triggersAction: (vals) => (vals.mds1i2 != null && vals.mds1i2 < 7) }
+    ]
+  },
+  {
+    id: 'mds2',
+    title: 'Attendance and engagement',
+    items: [
+      { id: 'mds2i1', text: 'Session attendance this week (count of participants)', type: 'number', min: 0 },
+      { id: 'mds2i2', text: 'Participants missing 2+ consecutive sessions', type: 'text' },
+      { id: 'mds2i3', text: 'Reflections submitted this week (count)', type: 'number', min: 0 },
+      { id: 'mds2i4', text: 'Participants not submitting reflections 2+ weeks', type: 'text' },
+      { id: 'mds2i5', text: 'Outreach documented for flagged participants', type: 'text' }
+    ]
+  },
+  {
+    id: 'mds3',
+    title: 'Facilitator quality',
+    items: [
+      { id: 'mds3i1', text: 'One participant reflection sampled and feedback reviewed', type: 'check' },
+      { id: 'mds3i2', text: 'Feedback was substantive, specific, at least a paragraph', type: 'choice', options: ['yes', 'partial', 'no'] },
+      { id: 'mds3i3', text: 'Session attended or recording reviewed this week', type: 'choice', options: ['yes', 'no', 'not this week'] },
+      { id: 'mds3i4', text: 'Facilitator on time, on camera, prepared', type: 'choice', options: ['yes', 'partial', 'no', 'not observed'] },
+      { id: 'mds3i5', text: 'Concerns to flag', type: 'text' },
+      { id: 'mds3i6', text: 'Action taken if quality or conduct concerns', type: 'text', triggersAction: (vals) => vals.mds3i2 === 'no' || vals.mds3i4 === 'no' || (vals.mds3i5 && vals.mds3i5.trim().length > 0) }
+    ]
+  },
+  {
+    id: 'mds4',
+    title: 'Cohort Slack activity',
+    items: [
+      { id: 'mds4i1', text: 'Slack channel reviewed for the past week', type: 'check' },
+      { id: 'mds4i2', text: 'Activity level', type: 'choice', options: ['high', 'moderate', 'low', 'silent'] },
+      { id: 'mds4i3', text: 'Tension, complaints, or concerns in the channel', type: 'text' },
+      { id: 'mds4i4', text: 'Facilitator posting at least once this week', type: 'choice', options: ['yes', 'no'] }
+    ]
+  },
+  {
+    id: 'mds5',
+    title: 'Open issues from previous weeks',
+    items: [
+      { id: 'mds5i1', text: 'Previous weeks\' flagged issues reviewed', type: 'check' },
+      { id: 'mds5i2', text: 'Issues open 2+ weeks (list and escalation)', type: 'text' },
+      { id: 'mds5i3', text: 'Issues resolved this week', type: 'text' }
+    ]
+  },
+  {
+    id: 'mds6',
+    title: 'Participant communications',
+    items: [
+      { id: 'mds6i1', text: 'Complaints, concerns, or unusual emails this week', type: 'text' },
+      { id: 'mds6i2', text: 'Requests for cohort switches or deferrals', type: 'text' },
+      { id: 'mds6i3', text: 'Participants who have gone silent', type: 'text' },
+      { id: 'mds6i4', text: 'Action taken or planned for each', type: 'text' }
+    ]
+  }
+];
+
+const ESCALATION_TABLE = [
+  { signal: 'Pulse score below 6', first: '1:1 with facilitator within 48 hours', if_unresolved: 'Course Lead conversation', escalate: 'Course Lead' },
+  { signal: 'Pulse trending down 2+ weeks', first: 'Mid-round check-in with 2-3 participants', if_unresolved: 'Facilitator conversation', escalate: 'Course Ops Lead' },
+  { signal: 'Facilitator feedback quality concern', first: 'Sample 2 more reflections, then 1:1 with facilitator', if_unresolved: 'Replacement facilitator consideration', escalate: 'Course Lead' },
+  { signal: 'Participant missed 2+ sessions', first: 'Direct outreach by ops', if_unresolved: 'Direct outreach by facilitator', escalate: 'Course Ops Lead' },
+  { signal: 'Participant not submitting reflections 2+ weeks', first: 'Check-in email', if_unresolved: 'Facilitator outreach', escalate: 'Course Ops Lead' },
+  { signal: 'Slack tension or complaint', first: 'Read in full, decide if intervention needed', if_unresolved: 'Direct conversation with affected participant', escalate: 'Course Lead' },
+  { signal: 'Open issue 2+ weeks unresolved', first: 'Review status, set explicit owner and deadline', if_unresolved: 'Escalate to next level', escalate: 'Course Lead' }
+];
+
+const MD_TOTAL_ITEMS = MIDROUND_SECTIONS.reduce((n, s) => n + s.items.length, 0);
+
 // ----------------------------- STATE -----------------------------
 
 function defaultStore() {
@@ -655,7 +941,15 @@ function defaultStore() {
     collapsedSections: {},
     expandedNotes: {},
     failurePanelOpen: false,
-    modal: null
+    modal: null,
+    mode: 'launch',
+    midroundRounds: {},
+    activeMidroundRound: null,
+    activeMidroundCohort: 0,
+    activeWeek: 1,
+    midroundView: 'summary',
+    escalationPanelOpen: false,
+    archivedMidroundRounds: {}
   };
 }
 
@@ -676,7 +970,14 @@ function saveStore() {
     activeRound: store.activeRound,
     darkMode: store.darkMode,
     view: store.view,
-    activeCohort: store.activeCohort
+    activeCohort: store.activeCohort,
+    mode: store.mode,
+    midroundRounds: store.midroundRounds,
+    activeMidroundRound: store.activeMidroundRound,
+    activeMidroundCohort: store.activeMidroundCohort,
+    activeWeek: store.activeWeek,
+    midroundView: store.midroundView,
+    archivedMidroundRounds: store.archivedMidroundRounds
   };
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable));
@@ -818,13 +1119,29 @@ function el(html) {
 
 function render() {
   document.documentElement.setAttribute('data-theme', store.darkMode ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-mode', store.mode || 'launch');
   $app.innerHTML = '';
+
+  if (store.mode === 'midround') {
+    renderMidround();
+  } else {
+    renderLaunch();
+  }
+
+  $app.appendChild(renderFailurePanel());
+  $app.appendChild(renderEscalationPanel());
+  if (store.modal) $app.appendChild(renderModal());
+}
+
+function renderLaunch() {
   if (!activeRound()) {
     store.view = 'setup';
     $app.appendChild(renderHeader(true));
+    $app.appendChild(renderModeSwitcher());
     $app.appendChild(renderSetup(null));
   } else {
     $app.appendChild(renderHeader(false));
+    $app.appendChild(renderModeSwitcher());
     $app.appendChild(renderNav());
     const main = document.createElement('main');
     main.className = 'main';
@@ -835,22 +1152,74 @@ function render() {
     else if (store.view === 'issues') main.appendChild(renderIssues());
     $app.appendChild(main);
   }
-  $app.appendChild(renderFailurePanel());
-  if (store.modal) $app.appendChild(renderModal());
+}
+
+function renderMidround() {
+  if (!activeMidroundRound()) {
+    store.midroundView = 'setup';
+    $app.appendChild(renderHeader(true));
+    $app.appendChild(renderModeSwitcher());
+    $app.appendChild(renderMidroundSetup(null));
+  } else {
+    $app.appendChild(renderHeader(false));
+    $app.appendChild(renderModeSwitcher());
+    $app.appendChild(renderMidroundNav());
+    const main = document.createElement('main');
+    main.className = 'main';
+    main.id = 'main-content';
+    const v = store.midroundView;
+    if (v === 'setup') main.appendChild(renderMidroundSetup(activeMidroundRound()));
+    else if (v === 'summary') main.appendChild(renderMidroundSummary());
+    else if (v === 'cohort') main.appendChild(renderMidroundCohort());
+    else if (v === 'trends') main.appendChild(renderTrendView());
+    else if (v === 'pastRounds') main.appendChild(renderPastRounds());
+    else main.appendChild(renderMidroundSummary());
+    $app.appendChild(main);
+  }
+}
+
+function renderModeSwitcher() {
+  const bar = document.createElement('div');
+  bar.className = 'mode-switcher';
+  const label = document.createElement('span');
+  label.className = 'mode-switcher-label';
+  label.textContent = 'Mode';
+  bar.appendChild(label);
+
+  const launchTab = document.createElement('button');
+  launchTab.className = 'mode-tab launch-tab' + (store.mode === 'launch' ? ' active' : '');
+  launchTab.textContent = 'Launching a round';
+  launchTab.addEventListener('click', () => { store.mode = 'launch'; saveStore(); render(); });
+  bar.appendChild(launchTab);
+
+  const mdTab = document.createElement('button');
+  mdTab.className = 'mode-tab midround-tab' + (store.mode === 'midround' ? ' active' : '');
+  mdTab.textContent = 'Mid-round check';
+  mdTab.addEventListener('click', () => { store.mode = 'midround'; saveStore(); render(); });
+  bar.appendChild(mdTab);
+
+  return bar;
 }
 
 // ----------------------------- HEADER -----------------------------
 
 function renderHeader(setupOnly) {
-  const round = activeRound();
+  const isMidround = store.mode === 'midround';
+  const round = isMidround ? activeMidroundRound() : activeRound();
   const header = document.createElement('header');
   header.className = 'header';
   const title = document.createElement('div');
-  title.innerHTML = '<h1 class="header-title">Pre-Round Launch Checklist</h1>';
+  const titleText = isMidround ? 'Mid-Round Health Check' : 'Pre-Round Launch Checklist';
+  title.innerHTML = '<h1 class="header-title">' + titleText + '</h1>';
   if (round) {
     const meta = document.createElement('div');
     meta.className = 'header-meta';
-    meta.textContent = 'Round ' + round.roundNumber + ' · ' + round.courseName;
+    let metaText = 'Round ' + round.roundNumber + ' · ' + round.courseName;
+    if (isMidround) {
+      const wk = currentWeekFor(round);
+      metaText += ' · Week ' + wk + ' of ' + round.weeks;
+    }
+    meta.textContent = metaText;
     title.appendChild(meta);
   }
   header.appendChild(title);
@@ -866,26 +1235,56 @@ function renderHeader(setupOnly) {
     const editBtn = document.createElement('button');
     editBtn.className = 'btn btn-small';
     editBtn.textContent = 'Edit setup';
-    editBtn.addEventListener('click', () => { store.view = 'setup'; render(); });
+    editBtn.addEventListener('click', () => {
+      if (isMidround) { store.midroundView = 'setup'; }
+      else { store.view = 'setup'; }
+      render();
+    });
     actions.appendChild(editBtn);
 
-    const failBtn = document.createElement('button');
-    failBtn.className = 'btn btn-small';
-    failBtn.textContent = 'Failure response';
-    failBtn.addEventListener('click', () => { store.failurePanelOpen = true; render(); });
-    actions.appendChild(failBtn);
+    if (isMidround) {
+      const escBtn = document.createElement('button');
+      escBtn.className = 'btn btn-small';
+      escBtn.textContent = 'Escalation guide';
+      escBtn.addEventListener('click', () => { store.escalationPanelOpen = true; render(); });
+      actions.appendChild(escBtn);
 
-    const exportBtn = document.createElement('button');
-    exportBtn.className = 'btn btn-small';
-    exportBtn.textContent = 'Export';
-    exportBtn.addEventListener('click', exportMarkdown);
-    actions.appendChild(exportBtn);
+      const pastBtn = document.createElement('button');
+      pastBtn.className = 'btn btn-small';
+      pastBtn.textContent = 'Past rounds';
+      pastBtn.addEventListener('click', () => { store.midroundView = 'pastRounds'; saveStore(); render(); });
+      actions.appendChild(pastBtn);
 
-    const newRoundBtn = document.createElement('button');
-    newRoundBtn.className = 'btn btn-small btn-danger';
-    newRoundBtn.textContent = 'New round';
-    newRoundBtn.addEventListener('click', confirmNewRound);
-    actions.appendChild(newRoundBtn);
+      const exportBtn = document.createElement('button');
+      exportBtn.className = 'btn btn-small';
+      exportBtn.textContent = 'Export';
+      exportBtn.addEventListener('click', exportMidroundMarkdown);
+      actions.appendChild(exportBtn);
+
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'btn btn-small btn-danger';
+      closeBtn.textContent = 'Close out round';
+      closeBtn.addEventListener('click', startCloseOutFlow);
+      actions.appendChild(closeBtn);
+    } else {
+      const failBtn = document.createElement('button');
+      failBtn.className = 'btn btn-small';
+      failBtn.textContent = 'Failure response';
+      failBtn.addEventListener('click', () => { store.failurePanelOpen = true; render(); });
+      actions.appendChild(failBtn);
+
+      const exportBtn = document.createElement('button');
+      exportBtn.className = 'btn btn-small';
+      exportBtn.textContent = 'Export';
+      exportBtn.addEventListener('click', exportMarkdown);
+      actions.appendChild(exportBtn);
+
+      const newRoundBtn = document.createElement('button');
+      newRoundBtn.className = 'btn btn-small btn-danger';
+      newRoundBtn.textContent = 'New round';
+      newRoundBtn.addEventListener('click', confirmNewRound);
+      actions.appendChild(newRoundBtn);
+    }
   }
 
   const themeBtn = document.createElement('button');
@@ -923,6 +1322,9 @@ function renderNav() {
 function renderSetup(existing) {
   const wrap = document.createElement('div');
   wrap.className = 'setup-wrap';
+
+  if (!existing) wrap.appendChild(renderOrientation());
+
   const card = document.createElement('div');
   card.className = 'card';
 
@@ -1437,6 +1839,7 @@ function renderModal() {
 
   if (store.modal.type === 'issue') modal.appendChild(renderIssueForm());
   else if (store.modal.type === 'confirm') modal.appendChild(renderConfirm());
+  else if (store.modal.type === 'retrospective') modal.appendChild(renderRetrospectiveForm());
 
   backdrop.appendChild(modal);
   return backdrop;
@@ -1565,7 +1968,7 @@ function renderIssueForm() {
 function renderConfirm() {
   const m = store.modal;
   const wrap = document.createElement('div');
-  wrap.innerHTML = `<h3 style="margin-top:0;">${escapeHtml(m.title)}</h3><p style="color:var(--text-muted);">${escapeHtml(m.message)}</p>`;
+  wrap.innerHTML = `<h3 style="margin-top:0;">${escapeHtml(m.title)}</h3><p style="color:var(--text-muted);white-space:pre-wrap;">${escapeHtml(m.message)}</p>`;
   const actions = document.createElement('div');
   actions.className = 'modal-actions';
   const cancel = document.createElement('button');
@@ -1585,6 +1988,56 @@ function renderConfirm() {
   ok.textContent = m.confirmLabel || 'Confirm';
   ok.addEventListener('click', () => { m.onConfirm(); });
   actions.appendChild(ok);
+  wrap.appendChild(actions);
+  return wrap;
+}
+
+function renderRetrospectiveForm() {
+  const round = activeMidroundRound();
+  const draft = store.modal.draft;
+  const wrap = document.createElement('div');
+  wrap.className = 'retro-form';
+  wrap.innerHTML = `<h3 style="margin-top:0;">Close out Round ${escapeHtml(round.roundNumber)}</h3><p style="color:var(--text-muted);">Three short questions before the round is archived. Answers stay with the closed round and are visible from Past rounds.</p>`;
+  const r1 = document.createElement('div');
+  r1.className = 'form-row';
+  r1.innerHTML = `<label>What flags were caught early enough to address?</label><textarea id="retro-caught" rows="3">${escapeHtml(draft.caught)}</textarea>`;
+  wrap.appendChild(r1);
+  const r2 = document.createElement('div');
+  r2.className = 'form-row';
+  r2.innerHTML = `<label>What flags were missed or caught too late?</label><textarea id="retro-missed" rows="3">${escapeHtml(draft.missed)}</textarea>`;
+  wrap.appendChild(r2);
+  const r3 = document.createElement('div');
+  r3.className = 'form-row';
+  r3.innerHTML = `<label>Any patterns across cohorts worth noting for next round?</label><textarea id="retro-patterns" rows="3">${escapeHtml(draft.patterns)}</textarea>`;
+  wrap.appendChild(r3);
+
+  const actions = document.createElement('div');
+  actions.className = 'modal-actions';
+  const cancel = document.createElement('button');
+  cancel.className = 'btn';
+  cancel.textContent = 'Cancel';
+  cancel.addEventListener('click', closeModal);
+  actions.appendChild(cancel);
+
+  const exportFirst = document.createElement('button');
+  exportFirst.className = 'btn';
+  exportFirst.textContent = 'Export first';
+  exportFirst.addEventListener('click', () => { exportMidroundMarkdown(); });
+  actions.appendChild(exportFirst);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn btn-danger';
+  closeBtn.textContent = 'Close out round';
+  closeBtn.addEventListener('click', () => {
+    const retro = {
+      caught: wrap.querySelector('#retro-caught').value.trim(),
+      missed: wrap.querySelector('#retro-missed').value.trim(),
+      patterns: wrap.querySelector('#retro-patterns').value.trim()
+    };
+    closeOutMidroundRound(retro);
+    closeModal();
+  });
+  actions.appendChild(closeBtn);
   wrap.appendChild(actions);
   return wrap;
 }
@@ -1752,6 +2205,1120 @@ function confirmNewRound() {
   render();
 }
 
+// =============================================================================
+//                            MID-ROUND MODE
+// =============================================================================
+
+// ----- State helpers -----
+
+function activeMidroundRound() {
+  if (!store.activeMidroundRound) return null;
+  return store.midroundRounds[store.activeMidroundRound] || null;
+}
+
+function newMidroundCohort(label, facilitator) {
+  return { label: label, facilitator: facilitator || '', weeks: {} };
+}
+
+function newWeekData() {
+  return { values: {}, actions: {}, completedAt: null };
+}
+
+function getOrCreateWeekData(cohort, week) {
+  const key = String(week);
+  if (!cohort.weeks[key]) cohort.weeks[key] = newWeekData();
+  return cohort.weeks[key];
+}
+
+function currentWeekFor(round) {
+  if (!round || !round.session1Date) return 1;
+  const start = new Date(round.session1Date + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const diffDays = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  const week = Math.floor(diffDays / 7) + 1;
+  return Math.max(1, Math.min(round.weeks || 5, week));
+}
+
+function createMidroundRound(setup) {
+  const cohorts = setup.cohortLabels.slice(0, setup.numCohorts).map((lab, i) =>
+    newMidroundCohort(lab || ('Cohort ' + (i + 1)), setup.facilitators[i] || '')
+  );
+  const round = {
+    roundNumber: setup.roundNumber,
+    courseName: setup.courseName,
+    session1Date: setup.session1Date,
+    weeks: setup.weeks,
+    cohorts: cohorts,
+    createdAt: new Date().toISOString(),
+    closed: false
+  };
+  store.midroundRounds[String(setup.roundNumber)] = round;
+  store.activeMidroundRound = String(setup.roundNumber);
+  store.activeMidroundCohort = 0;
+  store.activeWeek = currentWeekFor(round);
+  store.midroundView = 'summary';
+  saveStore();
+}
+
+function updateMidroundSetup(setup) {
+  const round = activeMidroundRound();
+  if (!round) return;
+  round.roundNumber = setup.roundNumber;
+  round.courseName = setup.courseName;
+  round.session1Date = setup.session1Date;
+  round.weeks = setup.weeks;
+  const oldCount = round.cohorts.length;
+  if (setup.numCohorts > oldCount) {
+    for (let i = oldCount; i < setup.numCohorts; i++) {
+      round.cohorts.push(newMidroundCohort(setup.cohortLabels[i] || ('Cohort ' + (i + 1)), setup.facilitators[i] || ''));
+    }
+  } else if (setup.numCohorts < oldCount) {
+    round.cohorts = round.cohorts.slice(0, setup.numCohorts);
+  }
+  for (let i = 0; i < setup.numCohorts; i++) {
+    if (setup.cohortLabels[i]) round.cohorts[i].label = setup.cohortLabels[i];
+    if (setup.facilitators[i] != null) round.cohorts[i].facilitator = setup.facilitators[i];
+  }
+  const newKey = String(setup.roundNumber);
+  if (newKey !== store.activeMidroundRound) {
+    delete store.midroundRounds[store.activeMidroundRound];
+    store.midroundRounds[newKey] = round;
+    store.activeMidroundRound = newKey;
+  }
+  saveStore();
+}
+
+// ----- Computed -----
+
+function cohortLatestWeekData(cohort, currentWeek) {
+  for (let w = currentWeek; w >= 1; w--) {
+    if (cohort.weeks[String(w)]) return { week: w, data: cohort.weeks[String(w)] };
+  }
+  return null;
+}
+
+function weekCompletionRatio(weekData) {
+  if (!weekData) return 0;
+  let done = 0;
+  let total = 0;
+  MIDROUND_SECTIONS.forEach(s => {
+    s.items.forEach(item => {
+      total++;
+      const v = weekData.values[item.id];
+      const hasValue = item.type === 'text'
+        ? (typeof v === 'string' && v.trim().length > 0)
+        : (v != null && v !== '' && v !== false);
+      if (hasValue) done++;
+    });
+  });
+  return total ? done / total : 0;
+}
+
+function cohortMidroundStatus(cohort, currentWeek) {
+  const latest = cohortLatestWeekData(cohort, currentWeek);
+  if (!latest) return { cls: 'status-grey', label: 'Not started', pulse: null };
+  const v = latest.data.values;
+  const pulse = typeof v.mds1i2 === 'number' ? v.mds1i2 : null;
+  const flags = openActionsForWeek(latest.data).length;
+  const facilitatorConcern = v.mds3i2 === 'no' || v.mds3i4 === 'no';
+  // Critical signals fire regardless of how much else is filled in
+  if (pulse != null && pulse < 6) return { cls: 'status-red', label: 'Needs action', pulse: pulse };
+  if (flags >= 3) return { cls: 'status-red', label: 'Needs action', pulse: pulse };
+  if (facilitatorConcern) return { cls: 'status-red', label: 'Needs action', pulse: pulse };
+  // Sparse data with no critical signal means "not started"
+  if (latest.week < currentWeek || weekCompletionRatio(latest.data) < 0.4) {
+    return { cls: 'status-grey', label: 'Not started', pulse: pulse };
+  }
+  if (pulse != null && pulse < 8) return { cls: 'status-amber', label: 'Watch', pulse: pulse };
+  if (flags >= 1) return { cls: 'status-amber', label: 'Watch', pulse: pulse };
+  if (pulse != null && pulse >= 8) return { cls: 'status-green', label: 'Healthy', pulse: pulse };
+  return { cls: 'status-amber', label: 'Watch', pulse: pulse };
+}
+
+function openActionsForWeek(weekData) {
+  const out = [];
+  if (!weekData) return out;
+  MIDROUND_SECTIONS.forEach(s => {
+    s.items.forEach(item => {
+      if (!item.triggersAction) return;
+      if (item.triggersAction(weekData.values)) {
+        const actionText = weekData.actions[item.id] || '';
+        if (!actionText.trim()) out.push({ sectionId: s.id, itemId: item.id, label: item.text });
+      }
+    });
+  });
+  return out;
+}
+
+function pulseTrend(cohort, currentWeek) {
+  const vals = [];
+  for (let w = 1; w <= currentWeek; w++) {
+    const d = cohort.weeks[String(w)];
+    if (d && typeof d.values.mds1i2 === 'number') vals.push({ week: w, value: d.values.mds1i2 });
+  }
+  if (vals.length < 2) return 'insufficient';
+  const last = vals[vals.length - 1].value;
+  const prev = vals[vals.length - 2].value;
+  if (last > prev + 0.3) return 'improving';
+  if (last < prev - 0.3) return 'declining';
+  return 'steady';
+}
+
+function trendArrow(t) {
+  if (t === 'improving') return '↑';
+  if (t === 'declining') return '↓';
+  if (t === 'steady') return '→';
+  return '';
+}
+
+function allOpenActionsForRound(round) {
+  if (!round) return [];
+  const out = [];
+  round.cohorts.forEach((cohort, ci) => {
+    Object.keys(cohort.weeks).forEach(weekKey => {
+      const w = cohort.weeks[weekKey];
+      MIDROUND_SECTIONS.forEach(s => {
+        s.items.forEach(item => {
+          if (!item.triggersAction) return;
+          if (!item.triggersAction(w.values)) return;
+          const actionText = w.actions[item.id] || '';
+          if (actionText.trim()) return;
+          out.push({
+            cohortIdx: ci,
+            cohortLabel: cohort.label,
+            week: Number(weekKey),
+            sectionId: s.id,
+            sectionTitle: s.title,
+            itemId: item.id,
+            itemLabel: item.text
+          });
+        });
+      });
+    });
+  });
+  return out;
+}
+
+// ----- Mid-round Setup -----
+
+function renderMidroundSetup(existing) {
+  const wrap = document.createElement('div');
+  wrap.className = 'setup-wrap';
+
+  if (!existing) wrap.appendChild(renderOrientation());
+
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const heading = document.createElement('h2');
+  heading.style.marginTop = '0';
+  heading.textContent = existing ? 'Edit mid-round setup' : 'Set up mid-round tracking';
+  card.appendChild(heading);
+
+  const desc = document.createElement('p');
+  desc.style.color = 'var(--text-muted)';
+  desc.style.marginTop = '0';
+  desc.textContent = existing
+    ? 'Update any field below. Existing weekly check data is preserved.'
+    : 'Enter round details to start weekly health checks across cohorts.';
+  card.appendChild(desc);
+
+  const initial = existing || { roundNumber: '', courseName: 'Technical AI Safety', session1Date: '', weeks: 5, cohorts: [], cohortLabels: [], facilitators: [] };
+  const initLabels = existing ? existing.cohorts.map(c => c.label) : Array.from({ length: 6 }, (_, i) => 'Cohort ' + (i + 1));
+  const initFacilitators = existing ? existing.cohorts.map(c => c.facilitator) : [];
+  const initNum = existing ? existing.cohorts.length : 6;
+
+  card.appendChild(formRow('Round number', `<input type="number" id="md-setup-round" min="1" value="${escapeHtml(initial.roundNumber)}" required>`));
+  card.appendChild(formRow('Course name', `<input type="text" id="md-setup-course" value="${escapeHtml(initial.courseName)}" required>`));
+  card.appendChild(formRow('First session date', `<input type="date" id="md-setup-date" value="${escapeHtml(initial.session1Date)}" required>`));
+  card.appendChild(formRow('Round length (weeks)', `<input type="number" id="md-setup-weeks" min="3" max="12" value="${initial.weeks || 5}" required>`));
+  card.appendChild(formRow('Number of cohorts', `<input type="number" id="md-setup-num" min="1" max="12" value="${initNum}" required>`));
+
+  const labelsWrap = document.createElement('div');
+  labelsWrap.className = 'form-row';
+  const labelsLabel = document.createElement('label');
+  labelsLabel.textContent = 'Cohort labels and facilitators';
+  const labelsHint = document.createElement('div');
+  labelsHint.className = 'hint';
+  labelsHint.textContent = 'One row per cohort. Facilitator name is free text.';
+  const labelsList = document.createElement('div');
+  labelsList.id = 'md-setup-rows';
+  labelsList.style.display = 'grid';
+  labelsList.style.gap = '6px';
+  labelsList.style.marginTop = '6px';
+  labelsWrap.appendChild(labelsLabel);
+  labelsWrap.appendChild(labelsList);
+  labelsWrap.appendChild(labelsHint);
+  card.appendChild(labelsWrap);
+
+  function renderMdLabelRows(container, labels, facs) {
+    container.innerHTML = '';
+    labels.forEach((lab, i) => {
+      const row = document.createElement('div');
+      row.style.display = 'grid';
+      row.style.gridTemplateColumns = '1fr 1fr';
+      row.style.gap = '6px';
+      const labIn = document.createElement('input');
+      labIn.type = 'text';
+      labIn.value = lab;
+      labIn.placeholder = 'Cohort label';
+      labIn.setAttribute('aria-label', 'Label for cohort ' + (i + 1));
+      labIn.className = 'md-row-label';
+      const facIn = document.createElement('input');
+      facIn.type = 'text';
+      facIn.value = facs[i] || '';
+      facIn.placeholder = 'Facilitator name';
+      facIn.setAttribute('aria-label', 'Facilitator for cohort ' + (i + 1));
+      facIn.className = 'md-row-fac';
+      row.appendChild(labIn);
+      row.appendChild(facIn);
+      container.appendChild(row);
+    });
+  }
+
+  renderMdLabelRows(labelsList, initLabels, initFacilitators);
+
+  card.querySelector('#md-setup-num').addEventListener('input', e => {
+    const n = Math.max(1, Math.min(12, Number(e.target.value) || 1));
+    const curLabels = Array.from(labelsList.querySelectorAll('.md-row-label')).map(i => i.value);
+    const curFacs = Array.from(labelsList.querySelectorAll('.md-row-fac')).map(i => i.value);
+    const nextLabels = Array.from({ length: n }, (_, i) => curLabels[i] || ('Cohort ' + (i + 1)));
+    const nextFacs = Array.from({ length: n }, (_, i) => curFacs[i] || '');
+    renderMdLabelRows(labelsList, nextLabels, nextFacs);
+  });
+
+  const actions = document.createElement('div');
+  actions.style.display = 'flex';
+  actions.style.gap = '8px';
+  actions.style.marginTop = '20px';
+
+  const submitBtn = document.createElement('button');
+  submitBtn.className = 'btn btn-primary';
+  submitBtn.textContent = existing ? 'Save changes' : 'Start tracking';
+  submitBtn.addEventListener('click', () => {
+    const setup = {
+      roundNumber: Number(card.querySelector('#md-setup-round').value),
+      courseName: card.querySelector('#md-setup-course').value.trim() || 'Technical AI Safety',
+      session1Date: card.querySelector('#md-setup-date').value,
+      weeks: Math.max(3, Math.min(12, Number(card.querySelector('#md-setup-weeks').value) || 5)),
+      numCohorts: Math.max(1, Math.min(12, Number(card.querySelector('#md-setup-num').value) || 1)),
+      cohortLabels: Array.from(labelsList.querySelectorAll('.md-row-label')).map(i => i.value.trim()),
+      facilitators: Array.from(labelsList.querySelectorAll('.md-row-fac')).map(i => i.value.trim())
+    };
+    if (!setup.roundNumber || !setup.session1Date) {
+      alert('Round number and first session date are required.');
+      return;
+    }
+    if (existing) {
+      const newKey = String(setup.roundNumber);
+      if (newKey !== store.activeMidroundRound && store.midroundRounds[newKey]) {
+        alert('Round ' + setup.roundNumber + ' already exists in mid-round. Pick a different number.');
+        return;
+      }
+      updateMidroundSetup(setup);
+    } else {
+      createMidroundRound(setup);
+    }
+    store.midroundView = 'summary';
+    saveStore();
+    render();
+  });
+  actions.appendChild(submitBtn);
+
+  if (existing) {
+    const cancel = document.createElement('button');
+    cancel.className = 'btn';
+    cancel.textContent = 'Cancel';
+    cancel.addEventListener('click', () => { store.midroundView = 'summary'; render(); });
+    actions.appendChild(cancel);
+  }
+
+  card.appendChild(actions);
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function renderOrientation() {
+  const o = document.createElement('div');
+  o.className = 'orientation';
+  o.innerHTML = `
+    <p><strong>Two modes, one tool.</strong> Use <strong>Launching a round</strong> the week before a new round of cohorts begins to verify welcome emails, calendar invites, Slack channels, materials, and tech checks across every cohort. Use <strong>Mid-round check</strong> once per week during an active round to track pulse, attendance, facilitator quality, and Slack signal so problems surface before they escalate.</p>
+    <p>Each mode keeps its own state, so you can have a launch checklist ready for Round 8 while continuing the weekly check for Round 7. All data lives in your browser. Export to markdown any time from the header.</p>
+  `;
+  return o;
+}
+
+function renderMidroundNav() {
+  const round = activeMidroundRound();
+  const nav = document.createElement('nav');
+  nav.className = 'nav';
+  nav.setAttribute('aria-label', 'Mid-round sections');
+  const openActions = allOpenActionsForRound(round).length;
+  const tabs = [
+    { id: 'summary', label: 'Round summary' },
+    { id: 'trends', label: 'Trends' }
+  ];
+  tabs.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'nav-tab' + (store.midroundView === t.id ? ' active' : '');
+    b.textContent = t.label;
+    b.addEventListener('click', () => { store.midroundView = t.id; saveStore(); render(); });
+    nav.appendChild(b);
+  });
+  const actBadge = document.createElement('span');
+  actBadge.style.marginLeft = 'auto';
+  actBadge.style.padding = '8px 14px';
+  actBadge.style.fontSize = '13px';
+  actBadge.style.color = openActions > 0 ? 'var(--amber-fg)' : 'var(--text-muted)';
+  actBadge.textContent = openActions > 0 ? (openActions + ' open ' + (openActions === 1 ? 'action' : 'actions')) : 'No open actions';
+  nav.appendChild(actBadge);
+  return nav;
+}
+
+// ----- Summary view -----
+
+function renderMidroundSummary() {
+  const round = activeMidroundRound();
+  const currentWeek = currentWeekFor(round);
+  const wrap = document.createElement('div');
+
+  const meta = document.createElement('div');
+  meta.className = 'summary-meta';
+  const latestCheckDate = latestCheckDateFor(round);
+  meta.innerHTML = `
+    <div class="item"><div class="label">Round</div><div class="value">${escapeHtml(round.roundNumber)}</div></div>
+    <div class="item"><div class="label">Course</div><div class="value">${escapeHtml(round.courseName)}</div></div>
+    <div class="item"><div class="label">Current week</div><div class="value">${currentWeek} of ${round.weeks}</div></div>
+    <div class="item"><div class="label">Latest check</div><div class="value">${latestCheckDate || 'none yet'}</div></div>
+    <div class="item"><div class="label">Open actions</div><div class="value">${allOpenActionsForRound(round).length}</div></div>
+  `;
+  wrap.appendChild(meta);
+
+  wrap.appendChild(renderActionRequiredPanel(round));
+
+  const grid = document.createElement('div');
+  grid.className = 'cohort-grid';
+
+  round.cohorts.forEach((cohort, idx) => {
+    const status = cohortMidroundStatus(cohort, currentWeek);
+    const trend = pulseTrend(cohort, currentWeek);
+    const arrow = trendArrow(trend);
+    const card = document.createElement('button');
+    card.className = 'cohort-card';
+    card.setAttribute('aria-label', 'Open ' + cohort.label);
+    const facLine = cohort.facilitator ? '<div style="color:var(--text-muted);font-size:13px;margin-top:4px;">Facilitator: ' + escapeHtml(cohort.facilitator) + '</div>' : '';
+    const pulseLine = status.pulse != null
+      ? `Pulse ${status.pulse.toFixed(1)} <span aria-label="trend ${trend}">${arrow}</span>`
+      : 'No pulse yet';
+    const weeksCovered = Object.keys(cohort.weeks).length;
+    card.innerHTML = `
+      <div class="cohort-card-head">
+        <div>
+          <div class="cohort-card-title">${escapeHtml(cohort.label)}</div>
+          ${facLine}
+        </div>
+        <span class="status-badge ${status.cls}">${status.label}</span>
+      </div>
+      <div style="margin-top:10px;font-size:14px;">${pulseLine}</div>
+      <div class="cohort-card-foot" style="margin-top:8px;">
+        <span>Weeks checked: ${weeksCovered} of ${round.weeks}</span>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      store.activeMidroundCohort = idx;
+      store.activeWeek = currentWeek;
+      store.midroundView = 'cohort';
+      saveStore();
+      render();
+    });
+    grid.appendChild(card);
+  });
+  wrap.appendChild(grid);
+
+  return wrap;
+}
+
+function latestCheckDateFor(round) {
+  let latest = null;
+  round.cohorts.forEach(c => {
+    Object.values(c.weeks).forEach(w => {
+      if (w.completedAt) {
+        if (!latest || w.completedAt > latest) latest = w.completedAt;
+      }
+    });
+  });
+  return latest ? latest.slice(0, 10) : null;
+}
+
+function renderActionRequiredPanel(round) {
+  const items = allOpenActionsForRound(round);
+  const wrap = document.createElement('div');
+  wrap.className = 'action-banner' + (items.length === 0 ? ' empty' : '');
+  const head = document.createElement('div');
+  head.className = 'action-banner-head';
+  head.innerHTML = `<h3>${items.length === 0 ? 'No open actions' : 'Action required (' + items.length + ')'}</h3>`;
+  wrap.appendChild(head);
+  if (items.length === 0) {
+    const note = document.createElement('div');
+    note.style.fontSize = '13px';
+    note.style.color = 'var(--text-muted)';
+    note.textContent = 'Triggered actions log here. Log a response inside the relevant weekly check to clear an entry.';
+    wrap.appendChild(note);
+    return wrap;
+  }
+  const ul = document.createElement('ul');
+  ul.className = 'action-list';
+  items.forEach(it => {
+    const li = document.createElement('li');
+    const left = document.createElement('div');
+    left.innerHTML = `<div>${escapeHtml(it.cohortLabel)} - ${escapeHtml(it.sectionTitle)}</div><div class="action-list-meta">Week ${it.week}: ${escapeHtml(it.itemLabel)}</div>`;
+    li.appendChild(left);
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-small';
+    btn.textContent = 'Open';
+    btn.addEventListener('click', () => {
+      store.activeMidroundCohort = it.cohortIdx;
+      store.activeWeek = it.week;
+      store.midroundView = 'cohort';
+      saveStore();
+      render();
+    });
+    li.appendChild(btn);
+    ul.appendChild(li);
+  });
+  wrap.appendChild(ul);
+  return wrap;
+}
+
+// ----- Cohort weekly view -----
+
+function renderMidroundCohort() {
+  const round = activeMidroundRound();
+  const cohort = round.cohorts[store.activeMidroundCohort];
+  if (!cohort) {
+    const div = document.createElement('div'); div.className = 'empty'; div.textContent = 'Cohort not found.'; return div;
+  }
+  const currentWeek = currentWeekFor(round);
+  const wrap = document.createElement('div');
+
+  const crumb = document.createElement('div');
+  crumb.className = 'breadcrumb';
+  crumb.innerHTML = `<button id="back-md-summary">Round summary</button> / ${escapeHtml(cohort.label)}`;
+  crumb.querySelector('#back-md-summary').addEventListener('click', () => { store.midroundView = 'summary'; render(); });
+  wrap.appendChild(crumb);
+
+  const head = document.createElement('div');
+  head.className = 'toolbar';
+  const status = cohortMidroundStatus(cohort, currentWeek);
+  head.innerHTML = `
+    <div>
+      <h2 style="margin:0 0 4px;font-size:20px;">${escapeHtml(cohort.label)}</h2>
+      <div style="color:var(--text-muted);font-size:13px;">${cohort.facilitator ? 'Facilitator: ' + escapeHtml(cohort.facilitator) : 'No facilitator set'}</div>
+    </div>
+    <span class="status-badge ${status.cls}">${status.label}</span>
+  `;
+  wrap.appendChild(head);
+
+  // Week tabs
+  const weekBar = document.createElement('div');
+  weekBar.className = 'week-tabs';
+  weekBar.setAttribute('role', 'tablist');
+  for (let w = 1; w <= round.weeks; w++) {
+    const t = document.createElement('button');
+    t.className = 'week-tab' + (store.activeWeek === w ? ' active' : '');
+    const wd = cohort.weeks[String(w)];
+    const ratio = weekCompletionRatio(wd);
+    let dotColor = 'var(--text-subtle)';
+    if (wd) {
+      if (ratio >= 0.8) dotColor = 'var(--green-fg)';
+      else if (ratio >= 0.4) dotColor = 'var(--amber-fg)';
+      else dotColor = 'var(--red-fg)';
+    }
+    t.innerHTML = 'Week ' + w + '<span class="week-status" style="background:' + dotColor + '"></span>';
+    if (w > currentWeek) t.style.opacity = '0.6';
+    t.addEventListener('click', () => { store.activeWeek = w; saveStore(); render(); });
+    weekBar.appendChild(t);
+  }
+  wrap.appendChild(weekBar);
+
+  if (store.activeWeek > currentWeek) {
+    const future = document.createElement('div');
+    future.className = 'empty';
+    future.textContent = 'This week has not started yet based on the round\'s session 1 date. Entries are still allowed if you need to backfill.';
+    wrap.appendChild(future);
+  }
+
+  const weekData = getOrCreateWeekData(cohort, store.activeWeek);
+
+  MIDROUND_SECTIONS.forEach((section, si) => {
+    wrap.appendChild(renderMidroundSection(section, weekData, cohort, store.activeWeek, si));
+  });
+
+  // Completion button
+  const completeRow = document.createElement('div');
+  completeRow.style.display = 'flex';
+  completeRow.style.justifyContent = 'space-between';
+  completeRow.style.alignItems = 'center';
+  completeRow.style.marginTop = '20px';
+  completeRow.style.gap = '8px';
+  completeRow.style.flexWrap = 'wrap';
+  const ratio = weekCompletionRatio(weekData);
+  const status2 = weekData.completedAt
+    ? 'Marked complete on ' + weekData.completedAt.slice(0, 10)
+    : (ratio >= 0.8 ? 'Ready to mark complete' : 'Some items still empty');
+  const note = document.createElement('div');
+  note.style.color = 'var(--text-muted)';
+  note.style.fontSize = '13px';
+  note.textContent = status2;
+  completeRow.appendChild(note);
+
+  const completeBtn = document.createElement('button');
+  completeBtn.className = 'btn btn-primary';
+  completeBtn.textContent = weekData.completedAt ? 'Unmark complete' : 'Mark week complete';
+  completeBtn.addEventListener('click', () => {
+    if (weekData.completedAt) weekData.completedAt = null;
+    else weekData.completedAt = new Date().toISOString();
+    saveStore();
+    render();
+  });
+  completeRow.appendChild(completeBtn);
+  wrap.appendChild(completeRow);
+
+  return wrap;
+}
+
+function renderMidroundSection(section, weekData, cohort, week, sectionIdx) {
+  const wrap = document.createElement('div');
+  wrap.className = 'section';
+  const head = document.createElement('div');
+  head.className = 'section-head';
+  head.style.cursor = 'default';
+  const filled = section.items.filter(it => {
+    const v = weekData.values[it.id];
+    return it.type === 'text' ? (typeof v === 'string' && v.trim().length > 0) : (v != null && v !== '' && v !== false);
+  }).length;
+  head.innerHTML = `<div class="section-title">${sectionIdx + 1}. ${escapeHtml(section.title)}</div><div class="section-meta"><span>${filled} / ${section.items.length}</span></div>`;
+  wrap.appendChild(head);
+  const body = document.createElement('div');
+  body.className = 'section-body';
+  section.items.forEach(item => {
+    body.appendChild(renderMidroundItem(item, weekData, cohort, week, section));
+  });
+  wrap.appendChild(body);
+  return wrap;
+}
+
+function renderMidroundItem(item, weekData, cohort, week, section) {
+  const row = document.createElement('div');
+  row.className = 'md-item';
+  const label = document.createElement('div');
+  label.className = 'md-item-label';
+  label.textContent = item.text;
+  row.appendChild(label);
+
+  const value = weekData.values[item.id];
+
+  if (item.type === 'check') {
+    const wrapper = document.createElement('div');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!value;
+    cb.id = 'md-cb-' + cohort.label + '-w' + week + '-' + item.id;
+    cb.style.width = '18px';
+    cb.style.height = '18px';
+    cb.style.cursor = 'pointer';
+    cb.addEventListener('change', () => {
+      weekData.values[item.id] = cb.checked;
+      saveStore();
+      render();
+    });
+    const lab = document.createElement('label');
+    lab.htmlFor = cb.id;
+    lab.textContent = ' Confirm';
+    lab.style.marginLeft = '6px';
+    lab.style.cursor = 'pointer';
+    wrapper.appendChild(cb);
+    wrapper.appendChild(lab);
+    row.appendChild(wrapper);
+  } else if (item.type === 'number') {
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.value = value == null ? '' : value;
+    if (item.min != null) input.min = item.min;
+    if (item.max != null) input.max = item.max;
+    input.setAttribute('aria-label', item.text);
+    input.addEventListener('input', () => {
+      const n = input.value === '' ? null : Number(input.value);
+      weekData.values[item.id] = n;
+      saveStore();
+    });
+    input.addEventListener('blur', () => render());
+    row.appendChild(input);
+  } else if (item.type === 'text') {
+    const ta = document.createElement('textarea');
+    ta.value = value || '';
+    ta.placeholder = 'Notes';
+    ta.setAttribute('aria-label', item.text);
+    ta.addEventListener('input', () => {
+      weekData.values[item.id] = ta.value;
+      saveStore();
+    });
+    ta.addEventListener('blur', () => render());
+    row.appendChild(ta);
+  } else if (item.type === 'choice') {
+    const group = document.createElement('div');
+    group.className = 'md-radio-group';
+    group.setAttribute('role', 'radiogroup');
+    group.setAttribute('aria-label', item.text);
+    item.options.forEach(opt => {
+      const b = document.createElement('button');
+      b.textContent = opt;
+      b.setAttribute('role', 'radio');
+      b.setAttribute('aria-checked', value === opt ? 'true' : 'false');
+      b.className = value === opt ? 'active' : '';
+      b.addEventListener('click', () => {
+        weekData.values[item.id] = (value === opt) ? null : opt;
+        saveStore();
+        render();
+      });
+      group.appendChild(b);
+    });
+    row.appendChild(group);
+  }
+
+  // Action-required panel
+  if (item.triggersAction) {
+    const needs = item.triggersAction(weekData.values);
+    if (needs) {
+      const actionText = weekData.actions[item.id] || '';
+      const ar = document.createElement('div');
+      ar.className = 'md-action-required' + (actionText.trim() ? ' resolved' : '');
+      ar.innerHTML = '<strong>' + (actionText.trim() ? 'Action logged' : 'Action required') + '.</strong> ' + (actionText.trim() ? '' : 'Log the action you have taken or will take.');
+      const ta = document.createElement('textarea');
+      ta.value = actionText;
+      ta.placeholder = 'Action taken';
+      ta.setAttribute('aria-label', 'Action for: ' + item.text);
+      ta.addEventListener('input', () => {
+        weekData.actions[item.id] = ta.value;
+        saveStore();
+      });
+      ta.addEventListener('blur', () => render());
+      ar.appendChild(ta);
+      row.appendChild(ar);
+    }
+  }
+  return row;
+}
+
+// ----- Trend view -----
+
+function renderTrendView() {
+  const round = activeMidroundRound();
+  const wrap = document.createElement('div');
+
+  const crumb = document.createElement('div');
+  crumb.className = 'breadcrumb';
+  crumb.innerHTML = `<button id="back-md-summary">Round summary</button> / Trends`;
+  crumb.querySelector('#back-md-summary').addEventListener('click', () => { store.midroundView = 'summary'; render(); });
+  wrap.appendChild(crumb);
+
+  const intro = document.createElement('p');
+  intro.style.color = 'var(--text-muted)';
+  intro.style.marginTop = '0';
+  intro.textContent = 'Per cohort, week-over-week pulse, attendance, and reflection submission. Plus a chronological log of every flagged issue and its resolution status.';
+  wrap.appendChild(intro);
+
+  round.cohorts.forEach((cohort, ci) => {
+    const block = document.createElement('div');
+    block.style.marginBottom = '32px';
+    const heading = document.createElement('h3');
+    heading.style.fontSize = '17px';
+    heading.style.marginBottom = '12px';
+    heading.textContent = cohort.label + (cohort.facilitator ? ' (' + cohort.facilitator + ')' : '');
+    block.appendChild(heading);
+
+    const charts = document.createElement('div');
+    charts.style.display = 'grid';
+    charts.style.gridTemplateColumns = 'repeat(auto-fit, minmax(260px, 1fr))';
+    charts.style.gap = '10px';
+
+    charts.appendChild(trendBlock('Pulse score (1-10)', 'mds1i2', cohort, round.weeks, 1, 10));
+    charts.appendChild(trendBlock('Attendance (count)', 'mds2i1', cohort, round.weeks, 0, null));
+    charts.appendChild(trendBlock('Reflections submitted (count)', 'mds2i3', cohort, round.weeks, 0, null));
+
+    block.appendChild(charts);
+
+    // Flags log
+    const flags = document.createElement('div');
+    flags.style.marginTop = '12px';
+    const flagsTitle = document.createElement('div');
+    flagsTitle.style.fontSize = '13px';
+    flagsTitle.style.fontWeight = '600';
+    flagsTitle.style.color = 'var(--text-muted)';
+    flagsTitle.textContent = 'Flag log';
+    flags.appendChild(flagsTitle);
+
+    const flagList = collectFlagsFor(cohort);
+    if (flagList.length === 0) {
+      const empty = document.createElement('div');
+      empty.style.fontSize = '13px';
+      empty.style.color = 'var(--text-subtle)';
+      empty.style.padding = '6px 0';
+      empty.textContent = 'No flags raised.';
+      flags.appendChild(empty);
+    } else {
+      flagList.forEach(f => {
+        const row = document.createElement('div');
+        row.style.padding = '6px 0';
+        row.style.borderTop = '1px solid var(--border)';
+        row.style.fontSize = '13px';
+        const status = f.resolved ? 'resolved' : 'open';
+        const sCls = f.resolved ? 'status-green' : 'status-amber';
+        row.innerHTML = `<div><span class="status-badge ${sCls}">${status}</span> <strong>Week ${f.week}:</strong> ${escapeHtml(f.itemLabel)}</div>${f.action ? '<div style="color:var(--text-muted);margin-top:2px;">' + escapeHtml(f.action) + '</div>' : ''}`;
+        flags.appendChild(row);
+      });
+    }
+    block.appendChild(flags);
+
+    wrap.appendChild(block);
+  });
+
+  return wrap;
+}
+
+function collectFlagsFor(cohort) {
+  const out = [];
+  Object.keys(cohort.weeks).sort((a, b) => Number(a) - Number(b)).forEach(wk => {
+    const wd = cohort.weeks[wk];
+    MIDROUND_SECTIONS.forEach(s => {
+      s.items.forEach(item => {
+        if (!item.triggersAction) return;
+        if (item.triggersAction(wd.values)) {
+          const action = wd.actions[item.id] || '';
+          out.push({
+            week: Number(wk),
+            itemLabel: item.text,
+            action: action,
+            resolved: action.trim().length > 0
+          });
+        }
+      });
+    });
+  });
+  return out;
+}
+
+function trendBlock(title, fieldId, cohort, totalWeeks, yMin, yMax) {
+  const wrap = document.createElement('div');
+  wrap.className = 'trend-block';
+  const h = document.createElement('h3');
+  h.textContent = title;
+  wrap.appendChild(h);
+  const points = [];
+  for (let w = 1; w <= totalWeeks; w++) {
+    const wd = cohort.weeks[String(w)];
+    if (wd && typeof wd.values[fieldId] === 'number') points.push({ x: w, y: wd.values[fieldId] });
+  }
+  if (points.length === 0) {
+    const e = document.createElement('div');
+    e.className = 'trend-empty';
+    e.textContent = 'No data yet.';
+    wrap.appendChild(e);
+    return wrap;
+  }
+  const ys = points.map(p => p.y);
+  const yLo = yMin != null ? yMin : Math.min(...ys);
+  const yHi = yMax != null ? yMax : Math.max(...ys, yLo + 1);
+  const W = 280;
+  const H = 100;
+  const padL = 24;
+  const padR = 8;
+  const padT = 10;
+  const padB = 18;
+  const xRange = totalWeeks - 1 || 1;
+  const yRange = (yHi - yLo) || 1;
+  const xAt = (x) => padL + ((x - 1) / xRange) * (W - padL - padR);
+  const yAt = (y) => padT + (1 - (y - yLo) / yRange) * (H - padT - padB);
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('class', 'trend-svg');
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', title + ' trend');
+
+  // Grid lines (3 horizontal)
+  for (let i = 0; i <= 2; i++) {
+    const y = padT + (i / 2) * (H - padT - padB);
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', padL); line.setAttribute('x2', W - padR);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    line.setAttribute('class', 'grid');
+    svg.appendChild(line);
+  }
+  // Axis
+  const axis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  axis.setAttribute('x1', padL); axis.setAttribute('x2', padL);
+  axis.setAttribute('y1', padT); axis.setAttribute('y2', H - padB);
+  axis.setAttribute('class', 'axis');
+  svg.appendChild(axis);
+  // Y labels
+  [yHi, (yHi + yLo) / 2, yLo].forEach((val, i) => {
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', 4);
+    t.setAttribute('y', padT + (i / 2) * (H - padT - padB) + 3);
+    t.setAttribute('class', 'label');
+    t.textContent = typeof val === 'number' ? (Math.round(val * 10) / 10) : val;
+    svg.appendChild(t);
+  });
+  // X labels (every couple weeks)
+  for (let w = 1; w <= totalWeeks; w++) {
+    if (totalWeeks > 6 && w % 2 === 0) continue;
+    const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    t.setAttribute('x', xAt(w) - 4);
+    t.setAttribute('y', H - 4);
+    t.setAttribute('class', 'label');
+    t.textContent = 'W' + w;
+    svg.appendChild(t);
+  }
+  // Line path
+  const d = points.map((p, i) => (i === 0 ? 'M' : 'L') + xAt(p.x) + ' ' + yAt(p.y)).join(' ');
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', d);
+  path.setAttribute('class', 'line');
+  svg.appendChild(path);
+  // Dots
+  points.forEach(p => {
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', xAt(p.x));
+    c.setAttribute('cy', yAt(p.y));
+    c.setAttribute('r', 3);
+    c.setAttribute('class', 'dot');
+    svg.appendChild(c);
+  });
+  wrap.appendChild(svg);
+  return wrap;
+}
+
+// ----- Escalation panel -----
+
+function renderEscalationPanel() {
+  const backdrop = document.createElement('div');
+  backdrop.className = 'panel-backdrop' + (store.escalationPanelOpen ? ' open' : '');
+  backdrop.addEventListener('click', () => { store.escalationPanelOpen = false; render(); });
+
+  const panel = document.createElement('aside');
+  panel.className = 'failure-panel' + (store.escalationPanelOpen ? ' open' : '');
+  panel.setAttribute('aria-hidden', String(!store.escalationPanelOpen));
+  panel.setAttribute('aria-label', 'Escalation guide');
+
+  const head = document.createElement('div');
+  head.className = 'failure-panel-head';
+  head.innerHTML = '<h2>Escalation guide</h2>';
+  const close = document.createElement('button');
+  close.className = 'btn btn-small';
+  close.textContent = 'Close';
+  close.addEventListener('click', () => { store.escalationPanelOpen = false; render(); });
+  head.appendChild(close);
+  panel.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'failure-panel-body';
+  const intro = document.createElement('p');
+  intro.style.color = 'var(--text-muted)';
+  intro.style.marginTop = '0';
+  intro.textContent = 'Reference for common mid-round signals. Open from any view.';
+  body.appendChild(intro);
+  const table = document.createElement('table');
+  table.className = 'failure-table';
+  table.innerHTML = `
+    <thead><tr><th>Signal</th><th>First action</th><th>If unresolved after 1 week</th><th>Escalate to</th></tr></thead>
+    <tbody>
+      ${ESCALATION_TABLE.map(r => `<tr>
+        <td>${escapeHtml(r.signal)}</td>
+        <td>${escapeHtml(r.first)}</td>
+        <td>${escapeHtml(r.if_unresolved)}</td>
+        <td>${escapeHtml(r.escalate)}</td>
+      </tr>`).join('')}
+    </tbody>
+  `;
+  body.appendChild(table);
+  panel.appendChild(body);
+
+  const frag = document.createDocumentFragment();
+  frag.appendChild(backdrop);
+  frag.appendChild(panel);
+  return frag;
+}
+
+// ----- Close out & retrospective -----
+
+function startCloseOutFlow() {
+  const round = activeMidroundRound();
+  if (!round) return;
+  store.modal = {
+    type: 'retrospective',
+    draft: { caught: '', missed: '', patterns: '' }
+  };
+  render();
+}
+
+function closeOutMidroundRound(retro) {
+  const round = activeMidroundRound();
+  if (!round) return;
+  round.closed = true;
+  round.closedAt = new Date().toISOString();
+  round.retrospective = retro;
+  store.archivedMidroundRounds[store.activeMidroundRound] = round;
+  delete store.midroundRounds[store.activeMidroundRound];
+  store.activeMidroundRound = null;
+  store.midroundView = 'setup';
+  saveStore();
+}
+
+// ----- Past rounds view -----
+
+function renderPastRounds() {
+  const wrap = document.createElement('div');
+  const crumb = document.createElement('div');
+  crumb.className = 'breadcrumb';
+  crumb.innerHTML = `<button id="back-md-summary">Round summary</button> / Past rounds`;
+  const backBtn = crumb.querySelector('#back-md-summary');
+  if (backBtn) backBtn.addEventListener('click', () => {
+    if (activeMidroundRound()) { store.midroundView = 'summary'; }
+    else { store.midroundView = 'setup'; }
+    render();
+  });
+  wrap.appendChild(crumb);
+
+  const arr = Object.values(store.archivedMidroundRounds);
+  if (arr.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No closed rounds yet. Close out a round from the active mid-round to archive it here.';
+    wrap.appendChild(empty);
+    return wrap;
+  }
+  arr.sort((a, b) => (b.closedAt || '').localeCompare(a.closedAt || ''));
+  arr.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'past-round-row';
+    const flagsCount = (function () {
+      let c = 0;
+      r.cohorts.forEach(co => {
+        Object.values(co.weeks).forEach(w => {
+          MIDROUND_SECTIONS.forEach(s => s.items.forEach(it => {
+            if (it.triggersAction && it.triggersAction(w.values)) c++;
+          }));
+        });
+      });
+      return c;
+    })();
+    const left = document.createElement('div');
+    left.innerHTML = `
+      <div style="font-weight:600;">Round ${escapeHtml(r.roundNumber)} - ${escapeHtml(r.courseName)}</div>
+      <div class="meta">Closed ${r.closedAt ? r.closedAt.slice(0, 10) : '?'} - ${r.cohorts.length} cohorts - ${flagsCount} flags raised</div>
+    `;
+    const right = document.createElement('div');
+    right.style.display = 'flex';
+    right.style.gap = '6px';
+    const view = document.createElement('button');
+    view.className = 'btn btn-small';
+    view.textContent = 'View retrospective';
+    view.addEventListener('click', () => {
+      const m = r.retrospective || { caught: '', missed: '', patterns: '' };
+      store.modal = {
+        type: 'confirm',
+        title: 'Round ' + r.roundNumber + ' retrospective',
+        message:
+          'Caught early enough: ' + (m.caught || '(none recorded)') + '\n\n' +
+          'Missed or caught late: ' + (m.missed || '(none recorded)') + '\n\n' +
+          'Patterns to carry forward: ' + (m.patterns || '(none recorded)'),
+        confirmLabel: 'Close',
+        onConfirm: () => { closeModal(); }
+      };
+      render();
+    });
+    right.appendChild(view);
+    row.appendChild(left);
+    row.appendChild(right);
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+
+// ----- Mid-round export -----
+
+function exportMidroundMarkdown() {
+  const round = activeMidroundRound();
+  if (!round) return;
+  const lines = [];
+  lines.push('# Mid-Round Health Check');
+  lines.push('');
+  lines.push('- Round: ' + round.roundNumber);
+  lines.push('- Course: ' + round.courseName);
+  lines.push('- First session: ' + round.session1Date);
+  lines.push('- Round length: ' + round.weeks + ' weeks');
+  lines.push('- Exported: ' + new Date().toISOString().slice(0, 10));
+  lines.push('');
+
+  round.cohorts.forEach(cohort => {
+    lines.push('## ' + cohort.label + (cohort.facilitator ? ' (' + cohort.facilitator + ')' : ''));
+    lines.push('');
+    const weekKeys = Object.keys(cohort.weeks).sort((a, b) => Number(a) - Number(b));
+    if (weekKeys.length === 0) {
+      lines.push('No weekly checks completed yet.');
+      lines.push('');
+      return;
+    }
+    weekKeys.forEach(wk => {
+      const w = cohort.weeks[wk];
+      lines.push('### Week ' + wk + (w.completedAt ? ' - completed ' + w.completedAt.slice(0, 10) : ' - in progress'));
+      lines.push('');
+      MIDROUND_SECTIONS.forEach((s, si) => {
+        lines.push('#### ' + (si + 1) + '. ' + s.title);
+        lines.push('');
+        s.items.forEach(item => {
+          const v = w.values[item.id];
+          let display = '';
+          if (item.type === 'check') display = v ? 'yes' : 'no';
+          else if (item.type === 'choice') display = v || '(not selected)';
+          else if (item.type === 'number') display = v == null ? '(empty)' : String(v);
+          else display = v && v.trim() ? v : '(empty)';
+          lines.push('- ' + item.text + ': ' + display);
+          if (item.triggersAction && item.triggersAction(w.values)) {
+            const a = w.actions[item.id] || '';
+            lines.push('  - Action: ' + (a.trim() ? a : '(open)'));
+          }
+        });
+        lines.push('');
+      });
+    });
+  });
+
+  lines.push('## Escalation guide');
+  lines.push('');
+  lines.push('| Signal | First action | If unresolved after 1 week | Escalate to |');
+  lines.push('|---|---|---|---|');
+  ESCALATION_TABLE.forEach(r => {
+    lines.push('| ' + r.signal + ' | ' + r.first + ' | ' + r.if_unresolved + ' | ' + r.escalate + ' |');
+  });
+
+  const md = lines.join('\n');
+  const courseSlug = (round.courseName || 'course').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const today = new Date().toISOString().slice(0, 10);
+  const filename = courseSlug + '-round-' + round.roundNumber + '-midround-history-' + today + '.md';
+
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 // ----------------------------- INIT -----------------------------
 
 let store = loadStore();
@@ -1759,7 +3326,8 @@ let store = loadStore();
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     if (store.modal) { closeModal(); return; }
-    if (store.failurePanelOpen) { store.failurePanelOpen = false; render(); }
+    if (store.failurePanelOpen) { store.failurePanelOpen = false; render(); return; }
+    if (store.escalationPanelOpen) { store.escalationPanelOpen = false; render(); }
   }
 });
 
