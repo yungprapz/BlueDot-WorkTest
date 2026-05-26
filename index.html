@@ -78,11 +78,16 @@
     <a href="PART_3_WRITEUP.md">Read writeup</a>
   </div>
 
-  <h2>Next iteration</h2>
+  <h2>Next iterations</h2>
   <div class="card">
-    <h3>Comms watchdog design spec</h3>
-    <p>The next-step proposal: a small Vercel-hosted service that watches scheduled comms and alerts ops when an expected send did not actually go out. Independent system, so the same failure mode as Cohort 12 cannot silently repeat.</p>
+    <h3>v2: Comms watchdog design spec</h3>
+    <p>A small Vercel-hosted service that watches scheduled comms and alerts ops when an expected send did not actually go out. Independent system, so the same failure mode as Cohort 12 cannot silently repeat.</p>
     <a href="docs/superpowers/specs/2026-05-26-comms-watchdog-design.md">Read spec</a>
+  </div>
+  <div class="card">
+    <h3>v3: Reminders and notifications design spec</h3>
+    <p>The layer between v1 and v2 that proactively reaches the right human at the right time. Deadline-driven reminders, watchdog-driven failure alerts, browser notifications and Service Worker push, with email and SMS fallback when the browser is closed.</p>
+    <a href="docs/superpowers/specs/2026-05-26-reminders-and-notifications-design.md">Read spec</a>
   </div>
 
   <h2>Repository</h2>
