@@ -738,6 +738,185 @@
 
   /* Retrospective form */
   .retro-form .form-row textarea { min-height: 70px; }
+
+  /* Dashboard */
+  .mode-tab.active.dashboard-tab { background: #18181b; border-color: #18181b; color: white; }
+  [data-theme="dark"] .mode-tab.active.dashboard-tab { background: #fafafa; border-color: #fafafa; color: #0a0a0a; }
+  .dash-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+  }
+  .dash-banner .cell .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .dash-banner .cell .value { font-size: 22px; font-weight: 600; margin-top: 2px; }
+  .dash-banner .cell .sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .dash-section {
+    margin-bottom: 28px;
+  }
+  .dash-section h2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 10px;
+  }
+  .dash-flags-toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .dash-flags-toolbar select { max-width: 200px; }
+  .dash-flag-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 6px;
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .dash-flag-row .signal-type {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .dash-flag-row .desc { font-weight: 500; }
+  .dash-flag-row .meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .dash-flag-row .days-open { font-size: 13px; color: var(--text-muted); text-align: right; min-width: 90px; }
+  .dash-flag-row.aged { border-left: 3px solid var(--amber-fg); }
+  .dash-flag-row.very-aged { border-left: 3px solid var(--red-fg); }
+  .dash-active-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+  .dash-active-card .head { font-weight: 600; }
+  .dash-active-card .mode-pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--surface-alt);
+    color: var(--text-muted);
+    margin-left: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .dash-active-card .meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .dash-upcoming {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 16px;
+  }
+  .dash-upcoming-row {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .dash-upcoming-row:last-child { border-bottom: none; }
+  .dash-upcoming-row .meta { font-size: 12px; color: var(--text-muted); }
+
+  /* Heatmap */
+  .heatmap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    overflow-x: auto;
+  }
+  .heatmap-grid {
+    display: grid;
+    gap: 4px;
+    min-width: 480px;
+  }
+  .heatmap-cell {
+    height: 24px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface-alt);
+    padding: 0 4px;
+    text-align: center;
+    transition: transform 0.1s;
+  }
+  .heatmap-cell:hover { transform: scale(1.05); }
+  .heatmap-cell.disabled { cursor: default; background: transparent; }
+  .heatmap-cell.disabled:hover { transform: none; }
+  .heatmap-cell.row-label, .heatmap-cell.col-label {
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 11px;
+    text-align: left;
+    padding: 4px 6px;
+    cursor: default;
+    font-weight: 500;
+  }
+  .heatmap-cell.col-label { text-align: center; }
+  .heatmap-cell.green { background: var(--green-bg); color: var(--green-fg); }
+  .heatmap-cell.amber { background: var(--amber-bg); color: var(--amber-fg); }
+  .heatmap-cell.red { background: var(--red-bg); color: var(--red-fg); }
+  .heatmap-cell.grey { background: var(--surface-alt); color: var(--text-muted); }
+  .heatmap-legend {
+    display: flex;
+    gap: 14px;
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+  }
+  .heatmap-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .heatmap-legend span::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--surface-alt);
+  }
+  .heatmap-legend .green::before { background: var(--green-bg); }
+  .heatmap-legend .amber::before { background: var(--amber-bg); }
+  .heatmap-legend .red::before { background: var(--red-bg); }
+
+  /* Empty state */
+  .dash-empty {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .dash-empty h2 { margin: 0 0 8px; font-size: 18px; }
+  .dash-empty p { color: var(--text-muted); max-width: 560px; margin: 0 auto 18px; }
+  .dash-empty-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -1122,7 +1301,9 @@ function render() {
   document.documentElement.setAttribute('data-mode', store.mode || 'launch');
   $app.innerHTML = '';
 
-  if (store.mode === 'midround') {
+  if (store.mode === 'dashboard') {
+    renderDashboardMode();
+  } else if (store.mode === 'midround') {
     renderMidround();
   } else {
     renderLaunch();
@@ -1131,6 +1312,16 @@ function render() {
   $app.appendChild(renderFailurePanel());
   $app.appendChild(renderEscalationPanel());
   if (store.modal) $app.appendChild(renderModal());
+}
+
+function renderDashboardMode() {
+  $app.appendChild(renderHeader(true));
+  $app.appendChild(renderModeSwitcher());
+  const main = document.createElement('main');
+  main.className = 'main';
+  main.id = 'main-content';
+  main.appendChild(renderDashboard());
+  $app.appendChild(main);
 }
 
 function renderLaunch() {
@@ -1185,6 +1376,12 @@ function renderModeSwitcher() {
   label.className = 'mode-switcher-label';
   label.textContent = 'Mode';
   bar.appendChild(label);
+
+  const dashTab = document.createElement('button');
+  dashTab.className = 'mode-tab dashboard-tab' + (store.mode === 'dashboard' ? ' active' : '');
+  dashTab.textContent = 'Dashboard';
+  dashTab.addEventListener('click', () => { store.mode = 'dashboard'; saveStore(); render(); });
+  bar.appendChild(dashTab);
 
   const launchTab = document.createElement('button');
   launchTab.className = 'mode-tab launch-tab' + (store.mode === 'launch' ? ' active' : '');
@@ -3319,9 +3516,780 @@ function exportMidroundMarkdown() {
   URL.revokeObjectURL(url);
 }
 
+// =============================================================================
+//                              DASHBOARD MODE
+// =============================================================================
+
+function getActiveLaunchRounds() {
+  return Object.values(store.rounds || {});
+}
+function getActiveMidroundRounds() {
+  return Object.values(store.midroundRounds || {}).filter(r => !r.closed);
+}
+function hasAnyActiveRounds() {
+  return getActiveLaunchRounds().length + getActiveMidroundRounds().length > 0;
+}
+
+function flagSignalType(itemId) {
+  if (itemId === 'mds1i5') return 'pulse';
+  if (itemId === 'mds2i5') return 'engagement';
+  if (itemId === 'mds3i6') return 'facilitator';
+  return 'other';
+}
+
+function dashboardFlags() {
+  const out = [];
+  const now = Date.now();
+
+  getActiveLaunchRounds().forEach(round => {
+    (round.issues || []).filter(i => i.status === 'open').forEach(issue => {
+      const cohortLabel = round.cohorts[issue.cohortIdx] ? round.cohorts[issue.cohortIdx].label : 'Unknown';
+      const sectionTitle = SECTIONS[issue.sectionIdx] ? SECTIONS[issue.sectionIdx].title : 'General';
+      const daysOpen = Math.max(0, Math.floor((now - new Date(issue.dateLogged).getTime()) / (1000 * 60 * 60 * 24)));
+      out.push({
+        kind: 'launch',
+        roundKey: String(round.roundNumber),
+        roundLabel: 'Round ' + round.roundNumber,
+        cohortIdx: issue.cohortIdx,
+        cohortLabel: cohortLabel,
+        signalType: 'launch blocker',
+        sectionTitle: sectionTitle,
+        description: issue.description,
+        daysOpen: daysOpen,
+        weekRaised: null,
+        issueId: issue.id
+      });
+    });
+  });
+
+  getActiveMidroundRounds().forEach(round => {
+    const current = currentWeekFor(round);
+    round.cohorts.forEach((cohort, ci) => {
+      Object.keys(cohort.weeks).forEach(wk => {
+        const w = cohort.weeks[wk];
+        const weekNum = Number(wk);
+        MIDROUND_SECTIONS.forEach(s => {
+          s.items.forEach(item => {
+            if (!item.triggersAction) return;
+            if (!item.triggersAction(w.values)) return;
+            const actionText = (w.actions[item.id] || '').trim();
+            if (actionText) return;
+            const sessionStart = round.session1Date ? new Date(round.session1Date + 'T00:00:00').getTime() : now;
+            const weekStart = sessionStart + (weekNum - 1) * 7 * 24 * 60 * 60 * 1000;
+            const daysOpen = Math.max(0, Math.floor((now - weekStart) / (1000 * 60 * 60 * 24)));
+            out.push({
+              kind: 'midround',
+              roundKey: String(round.roundNumber),
+              roundLabel: 'Round ' + round.roundNumber,
+              cohortIdx: ci,
+              cohortLabel: cohort.label,
+              signalType: flagSignalType(item.id),
+              sectionTitle: s.title,
+              description: item.text,
+              daysOpen: daysOpen,
+              weekRaised: weekNum,
+              itemId: item.id
+            });
+          });
+        });
+      });
+    });
+  });
+  return out;
+}
+
+function dashboardActiveCards() {
+  const cards = [];
+  const now = Date.now();
+  getActiveLaunchRounds().forEach(round => {
+    const totalChecked = round.cohorts.reduce((n, c) => n + Object.values(c.state.checks).filter(Boolean).length, 0);
+    const total = round.cohorts.length * TOTAL_ITEMS;
+    const pct = total ? Math.round((totalChecked / total) * 100) : 0;
+    const openIssues = (round.issues || []).filter(i => i.status === 'open').length;
+    const session1 = round.session1Date ? new Date(round.session1Date + 'T00:00:00').getTime() : null;
+    const days = session1 != null ? Math.round((session1 - now) / (1000 * 60 * 60 * 24)) : null;
+    let urgency = 100;
+    if (days != null) urgency = Math.max(0, days);
+    let statusCls = 'status-grey', statusLabel = 'Not started';
+    if (pct >= 90) { statusCls = 'status-green'; statusLabel = 'Ready'; }
+    else if (pct >= 50) { statusCls = 'status-amber'; statusLabel = 'In progress'; }
+    else if (pct > 0) { statusCls = 'status-red'; statusLabel = 'Behind'; }
+    cards.push({
+      kind: 'launch',
+      roundKey: String(round.roundNumber),
+      title: 'Round ' + round.roundNumber,
+      course: round.courseName,
+      modeLabel: 'launching',
+      pct: pct,
+      openIssues: openIssues,
+      days: days,
+      statusCls: statusCls,
+      statusLabel: statusLabel,
+      urgency: urgency
+    });
+  });
+  getActiveMidroundRounds().forEach(round => {
+    const current = currentWeekFor(round);
+    const openActions = allOpenActionsForRound(round).length;
+    let worst = 'status-green';
+    round.cohorts.forEach(c => {
+      const s = cohortMidroundStatus(c, current);
+      if (s.cls === 'status-red') worst = 'status-red';
+      else if (s.cls === 'status-amber' && worst === 'status-green') worst = 'status-amber';
+      else if (s.cls === 'status-grey' && worst === 'status-green') worst = 'status-grey';
+    });
+    const checksDoneThisWeek = round.cohorts.filter(c => c.weeks[String(current)] && c.weeks[String(current)].completedAt).length;
+    let urgency = 50;
+    if (worst === 'status-red') urgency = 5;
+    else if (worst === 'status-amber') urgency = 15;
+    else if (worst === 'status-grey') urgency = 30;
+    cards.push({
+      kind: 'midround',
+      roundKey: String(round.roundNumber),
+      title: 'Round ' + round.roundNumber,
+      course: round.courseName,
+      modeLabel: 'mid-round',
+      currentWeek: current,
+      weeks: round.weeks,
+      checksDone: checksDoneThisWeek,
+      cohortCount: round.cohorts.length,
+      openActions: openActions,
+      statusCls: worst,
+      statusLabel: worst === 'status-red' ? 'Needs action' : worst === 'status-amber' ? 'Watch' : worst === 'status-grey' ? 'Check pending' : 'Healthy',
+      urgency: urgency
+    });
+  });
+  cards.sort((a, b) => a.urgency - b.urgency);
+  return cards;
+}
+
+function dashboardUpcomingThisWeek() {
+  const items = [];
+  const now = Date.now();
+  const inSevenDays = now + 7 * 24 * 60 * 60 * 1000;
+  getActiveLaunchRounds().forEach(round => {
+    if (!round.session1Date) return;
+    const session = new Date(round.session1Date + 'T00:00:00').getTime();
+    if (session >= now && session <= inSevenDays) {
+      const days = Math.round((session - now) / (1000 * 60 * 60 * 24));
+      const totalChecked = round.cohorts.reduce((n, c) => n + Object.values(c.state.checks).filter(Boolean).length, 0);
+      const total = round.cohorts.length * TOTAL_ITEMS;
+      const pct = total ? Math.round((totalChecked / total) * 100) : 0;
+      items.push({
+        kind: 'launch',
+        label: 'Round ' + round.roundNumber + ' launches in ' + days + ' day' + (days === 1 ? '' : 's'),
+        meta: 'Launch checklist ' + pct + '% complete',
+        roundKey: String(round.roundNumber)
+      });
+    }
+  });
+  getActiveMidroundRounds().forEach(round => {
+    const current = currentWeekFor(round);
+    const cohortsNeedingCheck = round.cohorts.filter(c => !c.weeks[String(current)] || !c.weeks[String(current)].completedAt).length;
+    if (cohortsNeedingCheck > 0) {
+      items.push({
+        kind: 'midround',
+        label: 'Round ' + round.roundNumber + ' week ' + current + ' check due',
+        meta: cohortsNeedingCheck + ' of ' + round.cohorts.length + ' cohorts still to complete',
+        roundKey: String(round.roundNumber)
+      });
+    }
+  });
+  dashboardFlags().filter(f => f.daysOpen > 7).forEach(f => {
+    items.push({
+      kind: 'aging',
+      label: f.roundLabel + ' / ' + f.cohortLabel + ' flag aging',
+      meta: f.daysOpen + ' days open: ' + f.description.slice(0, 60),
+      roundKey: f.roundKey,
+      cohortIdx: f.cohortIdx,
+      weekRaised: f.weekRaised
+    });
+  });
+  return items;
+}
+
+function renderDashboard() {
+  const wrap = document.createElement('div');
+  if (!hasAnyActiveRounds()) {
+    wrap.appendChild(renderDashboardEmpty());
+    return wrap;
+  }
+  wrap.appendChild(renderDashboardBanner());
+  wrap.appendChild(renderDashboardFlagsSection());
+  wrap.appendChild(renderDashboardActiveRoundsSection());
+  wrap.appendChild(renderDashboardUpcomingSection());
+  wrap.appendChild(renderDashboardHeatmapSection());
+  wrap.appendChild(renderDashboardQuickActions());
+  return wrap;
+}
+
+function renderDashboardEmpty() {
+  const wrap = document.createElement('div');
+  wrap.className = 'dash-empty';
+  const allArchived = Object.values(store.archivedMidroundRounds || {}).length;
+  const heading = allArchived > 0 ? 'No active rounds' : 'Welcome';
+  const body = allArchived > 0
+    ? 'All rounds have been closed out. Start a new one below, or view past rounds from the mid-round mode header.'
+    : 'This tool helps you run a round of cohort-based courses safely. Set up a new round in launching mode to use the pre-launch checklist, or in mid-round mode to run weekly health checks.';
+  wrap.innerHTML = '<h2>' + heading + '</h2><p>' + escapeHtml(body) + '</p>';
+  const actions = document.createElement('div');
+  actions.className = 'dash-empty-actions';
+  const launchBtn = document.createElement('button');
+  launchBtn.className = 'btn btn-primary';
+  launchBtn.textContent = 'Set up a new round (launching)';
+  launchBtn.addEventListener('click', () => { store.mode = 'launch'; store.view = 'setup'; saveStore(); render(); });
+  actions.appendChild(launchBtn);
+  const mdBtn = document.createElement('button');
+  mdBtn.className = 'btn';
+  mdBtn.textContent = 'Set up a new round (mid-round)';
+  mdBtn.addEventListener('click', () => { store.mode = 'midround'; store.midroundView = 'setup'; saveStore(); render(); });
+  actions.appendChild(mdBtn);
+  wrap.appendChild(actions);
+  return wrap;
+}
+
+function renderDashboardBanner() {
+  const flags = dashboardFlags();
+  const cards = dashboardActiveCards();
+  const upcoming = dashboardUpcomingThisWeek();
+  const launchesInWeek = upcoming.filter(u => u.kind === 'launch').length;
+  let checksDue = 0, checksDone = 0;
+  getActiveMidroundRounds().forEach(round => {
+    const current = currentWeekFor(round);
+    round.cohorts.forEach(c => {
+      checksDue++;
+      if (c.weeks[String(current)] && c.weeks[String(current)].completedAt) checksDone++;
+    });
+  });
+  const today = new Date();
+  const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][today.getDay()];
+  const dateStr = today.toISOString().slice(0, 10);
+  const banner = document.createElement('div');
+  banner.className = 'dash-banner';
+  const healthy = flags.length === 0 && launchesInWeek === 0 && checksDue === checksDone;
+  banner.innerHTML = `
+    <div class="cell"><div class="label">Today</div><div class="value">${escapeHtml(dayName)}</div><div class="sub">${escapeHtml(dateStr)}</div></div>
+    <div class="cell"><div class="label">Active rounds</div><div class="value">${cards.length}</div><div class="sub">${getActiveLaunchRounds().length} launching, ${getActiveMidroundRounds().length} mid-round</div></div>
+    <div class="cell"><div class="label">Action required</div><div class="value" style="color:${flags.length > 0 ? 'var(--red-fg)' : 'var(--text)'}">${flags.length}</div><div class="sub">${flags.length === 0 ? 'no open flags' : flags.filter(f => f.daysOpen > 7).length + ' open over 7 days'}</div></div>
+    <div class="cell"><div class="label">Weekly checks this week</div><div class="value">${checksDone} / ${checksDue}</div><div class="sub">${checksDue > 0 ? Math.round((checksDone / checksDue) * 100) + '% complete' : 'no checks scheduled'}</div></div>
+    <div class="cell"><div class="label">Launches in 7 days</div><div class="value">${launchesInWeek}</div><div class="sub">${healthy ? 'all systems healthy' : ''}</div></div>
+  `;
+  return banner;
+}
+
+function renderDashboardFlagsSection() {
+  const sec = document.createElement('div');
+  sec.className = 'dash-section';
+  const heading = document.createElement('h2');
+  heading.textContent = 'Action required';
+  sec.appendChild(heading);
+
+  const flags = dashboardFlags();
+
+  if (flags.length === 0) {
+    const empty = document.createElement('div');
+    empty.style.background = 'var(--surface)';
+    empty.style.border = '1px solid var(--border)';
+    empty.style.borderLeft = '4px solid var(--green-fg)';
+    empty.style.borderRadius = '8px';
+    empty.style.padding = '14px 18px';
+    empty.style.fontSize = '14px';
+    empty.style.color = 'var(--text-muted)';
+    empty.textContent = 'No open action-required flags. Nothing on fire across active rounds.';
+    sec.appendChild(empty);
+    return sec;
+  }
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'dash-flags-toolbar';
+  toolbar.innerHTML = `
+    <span style="font-size:13px;color:var(--text-muted);">Sort by</span>
+    <select id="dash-flag-sort">
+      <option value="days-open">Days open</option>
+      <option value="week">Week raised</option>
+      <option value="round">Round</option>
+      <option value="signal">Signal type</option>
+    </select>
+  `;
+  sec.appendChild(toolbar);
+
+  const sortSel = toolbar.querySelector('#dash-flag-sort');
+  const listWrap = document.createElement('div');
+  sec.appendChild(listWrap);
+
+  function paint() {
+    const mode = sortSel.value;
+    const sorted = flags.slice().sort((a, b) => {
+      if (mode === 'days-open') return b.daysOpen - a.daysOpen;
+      if (mode === 'week') return (a.weekRaised || 0) - (b.weekRaised || 0);
+      if (mode === 'round') return a.roundLabel.localeCompare(b.roundLabel);
+      if (mode === 'signal') return a.signalType.localeCompare(b.signalType);
+      return 0;
+    });
+    listWrap.innerHTML = '';
+    sorted.forEach(f => {
+      const row = document.createElement('div');
+      row.className = 'dash-flag-row' + (f.daysOpen > 14 ? ' very-aged' : f.daysOpen > 7 ? ' aged' : '');
+      const tag = document.createElement('span');
+      tag.className = 'signal-type';
+      tag.textContent = f.signalType;
+      row.appendChild(tag);
+      const middle = document.createElement('div');
+      middle.innerHTML = `<div class="desc">${escapeHtml(f.description)}</div><div class="meta">${escapeHtml(f.roundLabel)} / ${escapeHtml(f.cohortLabel)} / ${escapeHtml(f.sectionTitle)}${f.weekRaised != null ? ' / Week ' + f.weekRaised : ''}</div>`;
+      row.appendChild(middle);
+      const days = document.createElement('div');
+      days.className = 'days-open';
+      days.textContent = f.daysOpen + ' day' + (f.daysOpen === 1 ? '' : 's') + ' open';
+      row.appendChild(days);
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-small';
+      btn.textContent = 'Log action';
+      btn.addEventListener('click', () => {
+        if (f.kind === 'launch') {
+          store.mode = 'launch';
+          store.activeRound = f.roundKey;
+          store.activeCohort = f.cohortIdx;
+          store.view = 'issues';
+          saveStore();
+          openIssueModal({ editingId: f.issueId });
+        } else {
+          store.mode = 'midround';
+          store.activeMidroundRound = f.roundKey;
+          store.activeMidroundCohort = f.cohortIdx;
+          store.activeWeek = f.weekRaised || 1;
+          store.midroundView = 'cohort';
+          saveStore();
+          render();
+        }
+      });
+      row.appendChild(btn);
+      listWrap.appendChild(row);
+    });
+  }
+  sortSel.addEventListener('change', paint);
+  paint();
+  return sec;
+}
+
+function renderDashboardActiveRoundsSection() {
+  const sec = document.createElement('div');
+  sec.className = 'dash-section';
+  const heading = document.createElement('h2');
+  heading.textContent = 'Active rounds';
+  sec.appendChild(heading);
+  const cards = dashboardActiveCards();
+  cards.forEach(c => {
+    const row = document.createElement('div');
+    row.className = 'dash-active-card';
+    const left = document.createElement('div');
+    let metaLine = '';
+    if (c.kind === 'launch') {
+      const dayLine = c.days != null
+        ? (c.days >= 0 ? c.days + ' day' + (c.days === 1 ? '' : 's') + ' to launch' : 'Launched ' + Math.abs(c.days) + ' days ago')
+        : 'No launch date set';
+      metaLine = dayLine + ' / Checklist ' + c.pct + '% / ' + c.openIssues + ' open ' + (c.openIssues === 1 ? 'issue' : 'issues');
+    } else {
+      metaLine = 'Week ' + c.currentWeek + ' of ' + c.weeks + ' / Checks ' + c.checksDone + ' of ' + c.cohortCount + ' / ' + c.openActions + ' open ' + (c.openActions === 1 ? 'action' : 'actions');
+    }
+    left.innerHTML = `
+      <div class="head">${escapeHtml(c.title)}<span class="mode-pill">${escapeHtml(c.modeLabel)}</span></div>
+      <div class="meta">${escapeHtml(c.course)}</div>
+      <div class="meta" style="margin-top:6px;">${escapeHtml(metaLine)}</div>
+    `;
+    row.appendChild(left);
+    const right = document.createElement('div');
+    right.style.display = 'flex';
+    right.style.flexDirection = 'column';
+    right.style.gap = '6px';
+    right.style.alignItems = 'flex-end';
+    const badge = document.createElement('span');
+    badge.className = 'status-badge ' + c.statusCls;
+    badge.textContent = c.statusLabel;
+    right.appendChild(badge);
+    const jump = document.createElement('button');
+    jump.className = 'btn btn-small';
+    jump.textContent = 'Jump in';
+    jump.addEventListener('click', () => {
+      if (c.kind === 'launch') {
+        store.mode = 'launch';
+        store.activeRound = c.roundKey;
+        store.view = 'summary';
+      } else {
+        store.mode = 'midround';
+        store.activeMidroundRound = c.roundKey;
+        store.midroundView = 'summary';
+      }
+      saveStore();
+      render();
+    });
+    right.appendChild(jump);
+    row.appendChild(right);
+    sec.appendChild(row);
+  });
+  return sec;
+}
+
+function renderDashboardUpcomingSection() {
+  const sec = document.createElement('div');
+  sec.className = 'dash-section';
+  const heading = document.createElement('h2');
+  heading.textContent = 'Upcoming this week';
+  sec.appendChild(heading);
+  const items = dashboardUpcomingThisWeek();
+  if (items.length === 0) {
+    const empty = document.createElement('div');
+    empty.style.background = 'var(--surface)';
+    empty.style.border = '1px solid var(--border)';
+    empty.style.borderRadius = '8px';
+    empty.style.padding = '14px 18px';
+    empty.style.fontSize = '14px';
+    empty.style.color = 'var(--text-muted)';
+    empty.textContent = 'Nothing scheduled in the next 7 days.';
+    sec.appendChild(empty);
+    return sec;
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'dash-upcoming';
+  items.forEach(it => {
+    const row = document.createElement('div');
+    row.className = 'dash-upcoming-row';
+    const left = document.createElement('div');
+    left.innerHTML = `<div>${escapeHtml(it.label)}</div><div class="meta">${escapeHtml(it.meta)}</div>`;
+    row.appendChild(left);
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-small';
+    btn.textContent = 'Open';
+    btn.addEventListener('click', () => {
+      if (it.kind === 'launch') {
+        store.mode = 'launch';
+        store.activeRound = it.roundKey;
+        store.view = 'summary';
+      } else if (it.kind === 'midround') {
+        store.mode = 'midround';
+        store.activeMidroundRound = it.roundKey;
+        store.midroundView = 'summary';
+      } else if (it.kind === 'aging') {
+        store.mode = 'midround';
+        store.activeMidroundRound = it.roundKey;
+        store.activeMidroundCohort = it.cohortIdx;
+        store.activeWeek = it.weekRaised || 1;
+        store.midroundView = 'cohort';
+      }
+      saveStore();
+      render();
+    });
+    row.appendChild(btn);
+    wrap.appendChild(row);
+  });
+  sec.appendChild(wrap);
+  return sec;
+}
+
+function renderDashboardHeatmapSection() {
+  const sec = document.createElement('div');
+  sec.className = 'dash-section';
+  const heading = document.createElement('h2');
+  heading.textContent = 'Cohort heatmap';
+  sec.appendChild(heading);
+
+  const launchRounds = getActiveLaunchRounds();
+  const midroundRounds = getActiveMidroundRounds();
+  if (launchRounds.length === 0 && midroundRounds.length === 0) {
+    return sec;
+  }
+
+  const maxWeeks = Math.max(5, ...midroundRounds.map(r => r.weeks || 5));
+  const wrap = document.createElement('div');
+  wrap.className = 'heatmap';
+  const grid = document.createElement('div');
+  grid.className = 'heatmap-grid';
+  const cols = 1 + 1 + maxWeeks;
+  grid.style.gridTemplateColumns = '160px 1fr repeat(' + maxWeeks + ', minmax(40px, 1fr))';
+
+  // Header row
+  const empty = document.createElement('div');
+  empty.className = 'heatmap-cell row-label';
+  empty.textContent = 'Cohort';
+  grid.appendChild(empty);
+  const launchHead = document.createElement('div');
+  launchHead.className = 'heatmap-cell col-label';
+  launchHead.textContent = 'Launch';
+  grid.appendChild(launchHead);
+  for (let w = 1; w <= maxWeeks; w++) {
+    const h = document.createElement('div');
+    h.className = 'heatmap-cell col-label';
+    h.textContent = 'W' + w;
+    grid.appendChild(h);
+  }
+
+  // Rows for launch rounds
+  launchRounds.forEach(round => {
+    round.cohorts.forEach((cohort, ci) => {
+      const label = document.createElement('div');
+      label.className = 'heatmap-cell row-label';
+      label.textContent = 'R' + round.roundNumber + ': ' + cohort.label;
+      grid.appendChild(label);
+
+      const checked = Object.values(cohort.state.checks).filter(Boolean).length;
+      const pct = TOTAL_ITEMS ? checked / TOTAL_ITEMS : 0;
+      const launchCell = document.createElement('button');
+      let cls = 'grey';
+      if (pct >= 0.9) cls = 'green';
+      else if (pct >= 0.5) cls = 'amber';
+      else if (pct > 0) cls = 'red';
+      launchCell.className = 'heatmap-cell ' + cls;
+      launchCell.textContent = Math.round(pct * 100) + '%';
+      launchCell.setAttribute('aria-label', 'Launch readiness for ' + cohort.label + ' in Round ' + round.roundNumber);
+      launchCell.addEventListener('click', () => {
+        store.mode = 'launch';
+        store.activeRound = String(round.roundNumber);
+        store.activeCohort = ci;
+        store.view = 'cohort';
+        saveStore();
+        render();
+      });
+      grid.appendChild(launchCell);
+
+      for (let w = 1; w <= maxWeeks; w++) {
+        const c = document.createElement('div');
+        c.className = 'heatmap-cell disabled';
+        c.textContent = '';
+        grid.appendChild(c);
+      }
+    });
+  });
+
+  // Rows for midround rounds
+  midroundRounds.forEach(round => {
+    const current = currentWeekFor(round);
+    round.cohorts.forEach((cohort, ci) => {
+      const label = document.createElement('div');
+      label.className = 'heatmap-cell row-label';
+      label.textContent = 'R' + round.roundNumber + ': ' + cohort.label;
+      grid.appendChild(label);
+
+      const launchCell = document.createElement('div');
+      launchCell.className = 'heatmap-cell disabled';
+      grid.appendChild(launchCell);
+
+      for (let w = 1; w <= maxWeeks; w++) {
+        const cell = document.createElement('button');
+        if (w > round.weeks) {
+          cell.className = 'heatmap-cell disabled';
+          grid.appendChild(cell);
+          continue;
+        }
+        if (w > current) {
+          cell.className = 'heatmap-cell grey';
+          cell.textContent = '';
+          cell.disabled = true;
+          grid.appendChild(cell);
+          continue;
+        }
+        const wd = cohort.weeks[String(w)];
+        let cls = 'grey';
+        let txt = '';
+        if (wd) {
+          const status = cohortMidroundStatus(cohort, w);
+          if (status.cls === 'status-red') cls = 'red';
+          else if (status.cls === 'status-amber') cls = 'amber';
+          else if (status.cls === 'status-green') cls = 'green';
+          else cls = 'grey';
+          if (status.pulse != null) txt = String(Math.round(status.pulse * 10) / 10);
+        }
+        cell.className = 'heatmap-cell ' + cls;
+        cell.textContent = txt;
+        cell.setAttribute('aria-label', cohort.label + ' Round ' + round.roundNumber + ' Week ' + w);
+        cell.addEventListener('click', () => {
+          store.mode = 'midround';
+          store.activeMidroundRound = String(round.roundNumber);
+          store.activeMidroundCohort = ci;
+          store.activeWeek = w;
+          store.midroundView = 'cohort';
+          saveStore();
+          render();
+        });
+        grid.appendChild(cell);
+      }
+    });
+  });
+
+  wrap.appendChild(grid);
+  const legend = document.createElement('div');
+  legend.className = 'heatmap-legend';
+  legend.innerHTML = '<span class="green">Healthy</span><span class="amber">Watch</span><span class="red">Needs action</span><span>Not reached / not applicable</span>';
+  wrap.appendChild(legend);
+  sec.appendChild(wrap);
+  return sec;
+}
+
+function renderDashboardQuickActions() {
+  const sec = document.createElement('div');
+  sec.className = 'dash-section';
+  const heading = document.createElement('h2');
+  heading.textContent = 'Quick actions';
+  sec.appendChild(heading);
+  const row = document.createElement('div');
+  row.style.display = 'flex';
+  row.style.gap = '8px';
+  row.style.flexWrap = 'wrap';
+
+  // Most-pressing midround check
+  const midroundRounds = getActiveMidroundRounds();
+  if (midroundRounds.length > 0) {
+    const ranked = midroundRounds.map(r => ({ r: r, cards: dashboardActiveCards().find(c => c.roundKey === String(r.roundNumber) && c.kind === 'midround') }))
+      .filter(x => x.cards)
+      .sort((a, b) => a.cards.urgency - b.cards.urgency);
+    if (ranked.length > 0) {
+      const r = ranked[0].r;
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-primary';
+      btn.textContent = 'Run this week\'s check for Round ' + r.roundNumber;
+      btn.addEventListener('click', () => {
+        store.mode = 'midround';
+        store.activeMidroundRound = String(r.roundNumber);
+        store.midroundView = 'summary';
+        saveStore();
+        render();
+      });
+      row.appendChild(btn);
+    }
+  }
+
+  // Continue setup if any launch round is in progress (pct < 90)
+  const launchInProgress = getActiveLaunchRounds().filter(r => {
+    const checked = r.cohorts.reduce((n, c) => n + Object.values(c.state.checks).filter(Boolean).length, 0);
+    const total = r.cohorts.length * TOTAL_ITEMS;
+    return total > 0 && checked / total < 0.9;
+  });
+  if (launchInProgress.length > 0) {
+    const r = launchInProgress[0];
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.textContent = 'Continue setup for Round ' + r.roundNumber;
+    btn.addEventListener('click', () => {
+      store.mode = 'launch';
+      store.activeRound = String(r.roundNumber);
+      store.view = 'summary';
+      saveStore();
+      render();
+    });
+    row.appendChild(btn);
+  }
+
+  const startNew = document.createElement('button');
+  startNew.className = 'btn';
+  startNew.textContent = 'Start a new round';
+  startNew.addEventListener('click', () => {
+    store.modal = {
+      type: 'confirm',
+      title: 'Start a new round',
+      message: 'Which mode? Launching is for the week before a round starts. Mid-round is for weekly checks during an active round.',
+      confirmLabel: 'Launching',
+      cancelLabel: 'Cancel',
+      secondaryLabel: 'Mid-round',
+      onConfirm: () => { store.mode = 'launch'; store.activeRound = null; store.view = 'setup'; saveStore(); closeModal(); },
+      onSecondary: () => { store.mode = 'midround'; store.activeMidroundRound = null; store.midroundView = 'setup'; saveStore(); closeModal(); }
+    };
+    render();
+  });
+  row.appendChild(startNew);
+
+  const exp = document.createElement('button');
+  exp.className = 'btn';
+  exp.textContent = 'Export this week\'s summary';
+  exp.addEventListener('click', exportDashboardSummary);
+  row.appendChild(exp);
+
+  sec.appendChild(row);
+  return sec;
+}
+
+function weekNumber(date) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+
+function exportDashboardSummary() {
+  const lines = [];
+  const today = new Date();
+  const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][today.getDay()];
+  lines.push('# Ops weekly summary');
+  lines.push('');
+  lines.push('Date: ' + today.toISOString().slice(0, 10) + ' (' + dayName + ', week ' + weekNumber(today) + ')');
+  lines.push('');
+
+  const cards = dashboardActiveCards();
+  lines.push('## Active rounds (' + cards.length + ')');
+  lines.push('');
+  if (cards.length === 0) {
+    lines.push('No active rounds.');
+    lines.push('');
+  } else {
+    cards.forEach(c => {
+      if (c.kind === 'launch') {
+        const dayStr = c.days != null ? (c.days >= 0 ? 'in ' + c.days + ' days' : Math.abs(c.days) + ' days ago') : 'no date';
+        lines.push('- Round ' + c.roundKey + ' (launching) - launches ' + dayStr + ' - checklist ' + c.pct + '% - ' + c.openIssues + ' open issues - ' + c.statusLabel);
+      } else {
+        lines.push('- Round ' + c.roundKey + ' (mid-round) - week ' + c.currentWeek + ' of ' + c.weeks + ' - ' + c.checksDone + '/' + c.cohortCount + ' weekly checks done - ' + c.openActions + ' open actions - ' + c.statusLabel);
+      }
+    });
+    lines.push('');
+  }
+
+  const flags = dashboardFlags();
+  lines.push('## Open action-required (' + flags.length + ')');
+  lines.push('');
+  if (flags.length === 0) {
+    lines.push('None.');
+  } else {
+    flags.slice().sort((a, b) => b.daysOpen - a.daysOpen).forEach(f => {
+      lines.push('- ' + f.roundLabel + ' / ' + f.cohortLabel + ' / ' + f.sectionTitle + (f.weekRaised != null ? ' (W' + f.weekRaised + ')' : '') + ' - ' + f.daysOpen + ' days open - ' + f.description);
+    });
+  }
+  lines.push('');
+
+  const upcoming = dashboardUpcomingThisWeek();
+  lines.push('## Upcoming this week');
+  lines.push('');
+  if (upcoming.length === 0) lines.push('Nothing scheduled.');
+  else upcoming.forEach(u => lines.push('- ' + u.label + ' - ' + u.meta));
+  lines.push('');
+
+  lines.push('## Notable trends');
+  lines.push('');
+  const trends = [];
+  getActiveMidroundRounds().forEach(round => {
+    const current = currentWeekFor(round);
+    round.cohorts.forEach(c => {
+      const t = pulseTrend(c, current);
+      if (t === 'declining') trends.push('Round ' + round.roundNumber + ' / ' + c.label + ': pulse declining');
+    });
+  });
+  if (trends.length === 0) lines.push('No declining trends.');
+  else trends.forEach(t => lines.push('- ' + t));
+
+  const md = lines.join('\n');
+  const filename = 'ops-weekly-summary-' + today.toISOString().slice(0, 10) + '.md';
+  const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 // ----------------------------- INIT -----------------------------
 
 let store = loadStore();
+// Default to dashboard on every load if any rounds exist (per spec: "first thing seen on every visit")
+if (hasAnyActiveRounds()) store.mode = 'dashboard';
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
