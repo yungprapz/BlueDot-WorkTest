@@ -21,14 +21,29 @@
     --accent-md-soft: #ccfbf1;
     --green-bg: #dcfce7;
     --green-fg: #166534;
+    --green-solid: #16a34a;
     --amber-bg: #fef3c7;
     --amber-fg: #92400e;
+    --amber-solid: #d97706;
     --red-bg: #fee2e2;
     --red-fg: #991b1b;
+    --red-solid: #dc2626;
     --grey-bg: #f4f4f5;
     --grey-fg: #52525b;
     --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
     --focus: 0 0 0 2px var(--accent);
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --fs-xs: 12px;
+    --fs-sm: 13px;
+    --fs-md: 15px;
+    --fs-lg: 18px;
+    --fs-xl: 22px;
+    --fs-2xl: 32px;
   }
   [data-theme="dark"] {
     --bg: #0a0a0a;
@@ -46,10 +61,13 @@
     --accent-md-soft: #134e4a;
     --green-bg: #14532d;
     --green-fg: #bbf7d0;
+    --green-solid: #22c55e;
     --amber-bg: #78350f;
     --amber-fg: #fed7aa;
+    --amber-solid: #f59e0b;
     --red-bg: #7f1d1d;
     --red-fg: #fecaca;
+    --red-solid: #ef4444;
     --grey-bg: #27272a;
     --grey-fg: #d4d4d8;
     --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.5);
@@ -80,8 +98,8 @@
     width: 100%;
   }
   input:focus, textarea:focus, select:focus, button:focus-visible {
-    outline: none;
-    box-shadow: var(--focus);
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
     border-color: var(--accent);
   }
   textarea { resize: vertical; min-height: 60px; }
@@ -530,6 +548,13 @@
     border: 0;
   }
 
+  @media (max-width: 960px) {
+    .dash-banner { grid-template-columns: repeat(2, 1fr); }
+    .dash-banner .cell.alert { grid-column: 1 / -1; }
+    .dash-flag-row { grid-template-columns: auto 1fr auto; gap: var(--space-2); }
+    .dash-flag-row .days-open { grid-column: 2 / -1; text-align: left; min-width: 0; }
+    .dash-flag-row .btn { grid-column: 1 / -1; justify-self: end; }
+  }
   @media (max-width: 640px) {
     .main { padding: 16px; }
     .header { padding: 10px 16px; }
@@ -538,6 +563,11 @@
     .item { grid-template-columns: auto 1fr; }
     .item-actions { grid-column: 2; margin-top: 4px; }
     .issue-form .row { grid-template-columns: 1fr; }
+    .dash-banner { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-3); }
+    .dash-banner .cell.alert { grid-column: auto; }
+    .dash-banner .cell .value { font-size: var(--fs-lg); }
+    .dash-active-card { grid-template-columns: 1fr; }
+    .dash-active-card .right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   }
 
   /* Mode switcher and mid-round styles */
@@ -576,10 +606,9 @@
     color: white;
     border-color: var(--accent);
   }
-  .mode-tab.active.launch-tab { background: #2563eb; border-color: #2563eb; }
-  .mode-tab.active.midround-tab { background: #0d9488; border-color: #0d9488; }
-  [data-theme="dark"] .mode-tab.active.launch-tab { background: #3b82f6; border-color: #3b82f6; }
-  [data-theme="dark"] .mode-tab.active.midround-tab { background: #2dd4bf; border-color: #2dd4bf; color: #0a0a0a; }
+  .mode-tab.active.launch-tab { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .mode-tab.active.midround-tab { background: var(--accent-md); border-color: var(--accent-md); color: #fff; }
+  [data-theme="dark"] .mode-tab.active.midround-tab { color: #0a0a0a; }
 
   /* Orientation card */
   .orientation {
@@ -740,36 +769,47 @@
   .retro-form .form-row textarea { min-height: 70px; }
 
   /* Dashboard */
-  .mode-tab.active.dashboard-tab { background: #18181b; border-color: #18181b; color: white; }
-  [data-theme="dark"] .mode-tab.active.dashboard-tab { background: #fafafa; border-color: #fafafa; color: #0a0a0a; }
+  .mode-tab.active.dashboard-tab { background: var(--surface-alt); border-color: var(--border-strong); color: var(--text); }
+  [data-theme="dark"] .mode-tab.active.dashboard-tab { background: var(--surface-alt); border-color: var(--border-strong); color: var(--text); }
   .dash-banner {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 18px 22px;
-    margin-bottom: 18px;
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-4);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-4);
   }
-  .dash-banner .cell .label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-  .dash-banner .cell .value { font-size: 22px; font-weight: 600; margin-top: 2px; }
-  .dash-banner .cell .sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-  .dash-section {
-    margin-bottom: 28px;
+  .dash-banner .cell .label { font-size: var(--fs-xs); line-height: 1.3; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .dash-banner .cell .value { font-size: var(--fs-xl); line-height: 1.1; font-weight: 600; margin-top: var(--space-1); font-variant-numeric: tabular-nums; }
+  .dash-banner .cell .sub { font-size: var(--fs-xs); line-height: 1.3; color: var(--text-muted); margin-top: var(--space-1); }
+  .dash-banner .cell.alert {
+    background: var(--red-bg);
+    border-radius: 6px;
+    margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-3));
+    padding: var(--space-2) var(--space-3);
+    border-left: 3px solid var(--red-solid);
   }
+  .dash-banner .cell.alert .label { color: var(--red-fg); }
+  .dash-banner .cell.alert .value { color: var(--red-fg); font-size: var(--fs-2xl); }
+  .dash-banner .cell.alert .sub { color: var(--red-fg); font-weight: 500; }
+
+  .dash-section { margin-bottom: var(--space-6); }
   .dash-section h2 {
-    font-size: 13px;
+    font-size: var(--fs-lg);
+    line-height: 1.3;
     font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 0 10px;
+    color: var(--text);
+    letter-spacing: -0.005em;
+    margin: 0 0 var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--border);
   }
   .dash-flags-toolbar {
     display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
     flex-wrap: wrap;
     align-items: center;
   }
@@ -778,105 +818,179 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 6px;
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-2);
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    gap: 12px;
-    align-items: center;
-    font-size: 14px;
+    grid-template-columns: 120px 1fr auto auto;
+    gap: var(--space-3);
+    align-items: start;
+    font-size: var(--fs-md);
+    transition: border-color 0.1s, background 0.1s;
   }
+  .dash-flag-row:hover { border-color: var(--border-strong); }
   .dash-flag-row .signal-type {
-    font-size: 11px;
+    font-size: var(--fs-xs);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding: 3px 8px;
+    padding: var(--space-1) var(--space-2);
     border-radius: 4px;
-    background: var(--surface-alt);
-    color: var(--text-muted);
+    background: var(--signal-bg, var(--surface-alt));
+    color: var(--signal-fg, var(--text));
     font-weight: 600;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    align-self: start;
   }
-  .dash-flag-row .desc { font-weight: 500; }
-  .dash-flag-row .meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-  .dash-flag-row .days-open { font-size: 13px; color: var(--text-muted); text-align: right; min-width: 90px; }
-  .dash-flag-row.aged { border-left: 3px solid var(--amber-fg); }
-  .dash-flag-row.very-aged { border-left: 3px solid var(--red-fg); }
+  .dash-flag-row .signal-type.pulse { --signal-bg: #e0e7ff; --signal-fg: #3730a3; }
+  .dash-flag-row .signal-type.facilitator { --signal-bg: #f3e8ff; --signal-fg: #6b21a8; }
+  .dash-flag-row .signal-type.engagement { --signal-bg: #cffafe; --signal-fg: #155e75; }
+  .dash-flag-row .signal-type.launch-blocker { --signal-bg: var(--red-bg); --signal-fg: var(--red-fg); }
+  [data-theme="dark"] .dash-flag-row .signal-type.pulse { --signal-bg: #1e1b4b; --signal-fg: #c7d2fe; }
+  [data-theme="dark"] .dash-flag-row .signal-type.facilitator { --signal-bg: #2e1065; --signal-fg: #e9d5ff; }
+  [data-theme="dark"] .dash-flag-row .signal-type.engagement { --signal-bg: #164e63; --signal-fg: #a5f3fc; }
+  .dash-flag-row .desc {
+    font-weight: 500;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+  }
+  .dash-flag-row .meta {
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+    color: var(--text-muted);
+    margin-top: var(--space-1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dash-flag-row .days-open {
+    font-size: var(--fs-sm);
+    color: var(--text);
+    text-align: right;
+    min-width: 90px;
+    font-variant-numeric: tabular-nums;
+  }
+  .dash-flag-row.aged { border-left: 3px solid var(--amber-solid); }
+  .dash-flag-row.aged .days-open { color: var(--amber-fg); font-weight: 600; }
+  .dash-flag-row.very-aged { border-left: 4px solid var(--red-solid); }
+  .dash-flag-row.very-aged .days-open { color: var(--red-fg); font-weight: 600; }
   .dash-active-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 16px 18px;
-    margin-bottom: 8px;
+    padding: var(--space-4);
+    margin-bottom: var(--space-2);
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 12px;
-    align-items: center;
+    gap: var(--space-3);
+    align-items: start;
+    transition: border-color 0.1s;
   }
-  .dash-active-card .head { font-weight: 600; }
+  .dash-active-card:hover { border-color: var(--border-strong); }
+  .dash-active-card .head { font-weight: 600; font-size: var(--fs-md); }
   .dash-active-card .mode-pill {
-    font-size: 11px;
+    font-size: var(--fs-xs);
     padding: 2px 8px;
     border-radius: 10px;
     background: var(--surface-alt);
-    color: var(--text-muted);
-    margin-left: 6px;
+    color: var(--text);
+    margin-left: var(--space-2);
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-weight: 500;
   }
-  .dash-active-card .meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .dash-active-card .meta { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-1); }
+  .dash-active-card .right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-end;
+    min-width: 100px;
+  }
   .dash-upcoming {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 6px 16px;
+    padding: var(--space-2) var(--space-4);
   }
   .dash-upcoming-row {
-    padding: 10px 0;
+    padding: var(--space-3) var(--space-2);
     border-bottom: 1px solid var(--border);
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 10px;
+    gap: var(--space-3);
     align-items: center;
-    font-size: 14px;
+    font-size: var(--fs-md);
+    margin: 0 calc(-1 * var(--space-2));
+    border-radius: 4px;
+    transition: background 0.1s;
   }
   .dash-upcoming-row:last-child { border-bottom: none; }
-  .dash-upcoming-row .meta { font-size: 12px; color: var(--text-muted); }
+  .dash-upcoming-row:hover { background: var(--surface-alt); }
+  .dash-upcoming-row .meta { font-size: var(--fs-xs); color: var(--text-muted); }
+
+  .dash-empty-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--fs-md);
+    color: var(--text-muted);
+  }
+  .dash-empty-row.healthy { border-left: 4px solid var(--green-solid); }
+  .dash-empty-row.neutral { border-left: 4px solid var(--border-strong); }
 
   /* Heatmap */
   .heatmap {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 12px;
+    padding: var(--space-3);
     overflow-x: auto;
   }
   .heatmap-grid {
     display: grid;
-    gap: 4px;
+    gap: var(--space-1);
     min-width: 480px;
   }
   .heatmap-cell {
-    height: 24px;
+    height: 28px;
     border-radius: 4px;
-    border: none;
+    border: 1px solid transparent;
     cursor: pointer;
-    font-size: 11px;
+    font-size: var(--fs-xs);
     color: var(--text-muted);
     background: var(--surface-alt);
-    padding: 0 4px;
+    padding: 0 var(--space-1);
     text-align: center;
-    transition: transform 0.1s;
+    font-weight: 500;
+    transition: border-color 0.1s, filter 0.1s;
+    font-variant-numeric: tabular-nums;
   }
-  .heatmap-cell:hover { transform: scale(1.05); }
-  .heatmap-cell.disabled { cursor: default; background: transparent; }
-  .heatmap-cell.disabled:hover { transform: none; }
+  button.heatmap-cell:hover:not(.disabled):not(.row-label):not(.col-label) {
+    border-color: var(--border-strong);
+    filter: brightness(0.96);
+  }
+  [data-theme="dark"] button.heatmap-cell:hover:not(.disabled):not(.row-label):not(.col-label) {
+    filter: brightness(1.15);
+  }
+  .heatmap-cell.disabled {
+    cursor: default;
+    background: transparent;
+    pointer-events: none;
+  }
   .heatmap-cell.row-label, .heatmap-cell.col-label {
     background: transparent;
     color: var(--text-muted);
-    font-size: 11px;
+    font-size: var(--fs-xs);
     text-align: left;
-    padding: 4px 6px;
+    padding: var(--space-1) var(--space-2);
     cursor: default;
     font-weight: 500;
   }
@@ -884,16 +998,16 @@
   .heatmap-cell.green { background: var(--green-bg); color: var(--green-fg); }
   .heatmap-cell.amber { background: var(--amber-bg); color: var(--amber-fg); }
   .heatmap-cell.red { background: var(--red-bg); color: var(--red-fg); }
-  .heatmap-cell.grey { background: var(--surface-alt); color: var(--text-muted); }
+  .heatmap-cell.grey { background: var(--surface-alt); color: var(--grey-fg); }
   .heatmap-legend {
     display: flex;
-    gap: 14px;
-    margin-top: 10px;
-    font-size: 12px;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+    font-size: var(--fs-xs);
     color: var(--text-muted);
     flex-wrap: wrap;
   }
-  .heatmap-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .heatmap-legend span { display: inline-flex; align-items: center; gap: var(--space-1); }
   .heatmap-legend span::before {
     content: '';
     display: inline-block;
@@ -905,6 +1019,7 @@
   .heatmap-legend .green::before { background: var(--green-bg); }
   .heatmap-legend .amber::before { background: var(--amber-bg); }
   .heatmap-legend .red::before { background: var(--red-bg); }
+  .heatmap-legend .grey::before { background: var(--surface-alt); border: 1px solid var(--border-strong); }
 
   /* Empty state */
   .dash-empty {
@@ -1373,7 +1488,7 @@ function renderModeSwitcher() {
   const bar = document.createElement('div');
   bar.className = 'mode-switcher';
   const label = document.createElement('span');
-  label.className = 'mode-switcher-label';
+  label.className = 'visually-hidden';
   label.textContent = 'Mode';
   bar.appendChild(label);
 
@@ -1401,20 +1516,30 @@ function renderModeSwitcher() {
 // ----------------------------- HEADER -----------------------------
 
 function renderHeader(setupOnly) {
+  const isDashboard = store.mode === 'dashboard';
   const isMidround = store.mode === 'midround';
-  const round = isMidround ? activeMidroundRound() : activeRound();
+  const round = isDashboard ? null : (isMidround ? activeMidroundRound() : activeRound());
   const header = document.createElement('header');
   header.className = 'header';
   const title = document.createElement('div');
-  const titleText = isMidround ? 'Mid-Round Health Check' : 'Pre-Round Launch Checklist';
+  let titleText;
+  if (isDashboard) titleText = 'Course Operations';
+  else if (isMidround) titleText = 'Mid-Round Health Check';
+  else titleText = 'Pre-Round Launch Checklist';
   title.innerHTML = '<h1 class="header-title">' + titleText + '</h1>';
-  if (round) {
+  if (isDashboard) {
     const meta = document.createElement('div');
     meta.className = 'header-meta';
-    let metaText = 'Round ' + round.roundNumber + ' · ' + round.courseName;
+    const total = getActiveLaunchRounds().length + getActiveMidroundRounds().length;
+    meta.textContent = total === 0 ? 'No active rounds' : (total === 1 ? '1 active round' : total + ' active rounds');
+    title.appendChild(meta);
+  } else if (round) {
+    const meta = document.createElement('div');
+    meta.className = 'header-meta';
+    let metaText = 'Round ' + round.roundNumber + ' / ' + round.courseName;
     if (isMidround) {
       const wk = currentWeekFor(round);
-      metaText += ' · Week ' + wk + ' of ' + round.weeks;
+      metaText += ' / Week ' + wk + ' of ' + round.weeks;
     }
     meta.textContent = metaText;
     title.appendChild(meta);
@@ -2181,7 +2306,7 @@ function renderConfirm() {
     actions.appendChild(sec);
   }
   const ok = document.createElement('button');
-  ok.className = 'btn btn-danger';
+  ok.className = 'btn ' + (m.confirmVariant === 'primary' ? 'btn-primary' : 'btn-danger');
   ok.textContent = m.confirmLabel || 'Confirm';
   ok.addEventListener('click', () => { m.onConfirm(); });
   actions.appendChild(ok);
@@ -3530,6 +3655,13 @@ function hasAnyActiveRounds() {
   return getActiveLaunchRounds().length + getActiveMidroundRounds().length > 0;
 }
 
+function dashEmptyRow(text, variant) {
+  const d = document.createElement('div');
+  d.className = 'dash-empty-row' + (variant ? ' ' + variant : '');
+  d.textContent = text;
+  return d;
+}
+
 function flagSignalType(itemId) {
   if (itemId === 'mds1i5') return 'pulse';
   if (itemId === 'mds2i5') return 'engagement';
@@ -3766,13 +3898,23 @@ function renderDashboardBanner() {
   const dateStr = today.toISOString().slice(0, 10);
   const banner = document.createElement('div');
   banner.className = 'dash-banner';
-  const healthy = flags.length === 0 && launchesInWeek === 0 && checksDue === checksDone;
+  const agedFlags = flags.filter(f => f.daysOpen > 7).length;
+  const checksPct = checksDue > 0 ? Math.round((checksDone / checksDue) * 100) : 0;
+  const launchesSub = launchesInWeek === 0
+    ? 'none scheduled'
+    : (launchesInWeek === 1 ? '1 round launching' : launchesInWeek + ' rounds launching');
+  const checksSub = checksDue === 0
+    ? 'none scheduled this week'
+    : 'this week, ' + checksPct + '%';
+  const flagsSub = flags.length === 0
+    ? 'no open flags'
+    : (agedFlags === 0 ? 'all under 7 days' : agedFlags + ' open over 7 days');
   banner.innerHTML = `
     <div class="cell"><div class="label">Today</div><div class="value">${escapeHtml(dayName)}</div><div class="sub">${escapeHtml(dateStr)}</div></div>
     <div class="cell"><div class="label">Active rounds</div><div class="value">${cards.length}</div><div class="sub">${getActiveLaunchRounds().length} launching, ${getActiveMidroundRounds().length} mid-round</div></div>
-    <div class="cell"><div class="label">Action required</div><div class="value" style="color:${flags.length > 0 ? 'var(--red-fg)' : 'var(--text)'}">${flags.length}</div><div class="sub">${flags.length === 0 ? 'no open flags' : flags.filter(f => f.daysOpen > 7).length + ' open over 7 days'}</div></div>
-    <div class="cell"><div class="label">Weekly checks this week</div><div class="value">${checksDone} / ${checksDue}</div><div class="sub">${checksDue > 0 ? Math.round((checksDone / checksDue) * 100) + '% complete' : 'no checks scheduled'}</div></div>
-    <div class="cell"><div class="label">Launches in 7 days</div><div class="value">${launchesInWeek}</div><div class="sub">${healthy ? 'all systems healthy' : ''}</div></div>
+    <div class="cell${flags.length > 0 ? ' alert' : ''}"><div class="label">Action required</div><div class="value">${flags.length}</div><div class="sub">${flagsSub}</div></div>
+    <div class="cell"><div class="label">Checks complete</div><div class="value">${checksDone}<span style="color:var(--text-muted);font-weight:400;"> of ${checksDue}</span></div><div class="sub">${checksSub}</div></div>
+    <div class="cell"><div class="label">Launches in 7 days</div><div class="value">${launchesInWeek}</div><div class="sub">${launchesSub}</div></div>
   `;
   return banner;
 }
@@ -3787,16 +3929,7 @@ function renderDashboardFlagsSection() {
   const flags = dashboardFlags();
 
   if (flags.length === 0) {
-    const empty = document.createElement('div');
-    empty.style.background = 'var(--surface)';
-    empty.style.border = '1px solid var(--border)';
-    empty.style.borderLeft = '4px solid var(--green-fg)';
-    empty.style.borderRadius = '8px';
-    empty.style.padding = '14px 18px';
-    empty.style.fontSize = '14px';
-    empty.style.color = 'var(--text-muted)';
-    empty.textContent = 'No open action-required flags. Nothing on fire across active rounds.';
-    sec.appendChild(empty);
+    sec.appendChild(dashEmptyRow('No open action-required flags. Nothing on fire across active rounds.', 'healthy'));
     return sec;
   }
 
@@ -3830,8 +3963,9 @@ function renderDashboardFlagsSection() {
     sorted.forEach(f => {
       const row = document.createElement('div');
       row.className = 'dash-flag-row' + (f.daysOpen > 14 ? ' very-aged' : f.daysOpen > 7 ? ' aged' : '');
+      row.title = f.description;
       const tag = document.createElement('span');
-      tag.className = 'signal-type';
+      tag.className = 'signal-type ' + f.signalType.toLowerCase().replace(/\s+/g, '-');
       tag.textContent = f.signalType;
       row.appendChild(tag);
       const middle = document.createElement('div');
@@ -3898,10 +4032,7 @@ function renderDashboardActiveRoundsSection() {
     `;
     row.appendChild(left);
     const right = document.createElement('div');
-    right.style.display = 'flex';
-    right.style.flexDirection = 'column';
-    right.style.gap = '6px';
-    right.style.alignItems = 'flex-end';
+    right.className = 'right';
     const badge = document.createElement('span');
     badge.className = 'status-badge ' + c.statusCls;
     badge.textContent = c.statusLabel;
@@ -3937,15 +4068,7 @@ function renderDashboardUpcomingSection() {
   sec.appendChild(heading);
   const items = dashboardUpcomingThisWeek();
   if (items.length === 0) {
-    const empty = document.createElement('div');
-    empty.style.background = 'var(--surface)';
-    empty.style.border = '1px solid var(--border)';
-    empty.style.borderRadius = '8px';
-    empty.style.padding = '14px 18px';
-    empty.style.fontSize = '14px';
-    empty.style.color = 'var(--text-muted)';
-    empty.textContent = 'Nothing scheduled in the next 7 days.';
-    sec.appendChild(empty);
+    sec.appendChild(dashEmptyRow('Nothing scheduled in the next 7 days.', 'neutral'));
     return sec;
   }
   const wrap = document.createElement('div');
@@ -3995,6 +4118,7 @@ function renderDashboardHeatmapSection() {
   const launchRounds = getActiveLaunchRounds();
   const midroundRounds = getActiveMidroundRounds();
   if (launchRounds.length === 0 && midroundRounds.length === 0) {
+    sec.appendChild(dashEmptyRow('No active rounds. The heatmap will populate when you start a launching or mid-round round.', 'neutral'));
     return sec;
   }
 
@@ -4003,8 +4127,7 @@ function renderDashboardHeatmapSection() {
   wrap.className = 'heatmap';
   const grid = document.createElement('div');
   grid.className = 'heatmap-grid';
-  const cols = 1 + 1 + maxWeeks;
-  grid.style.gridTemplateColumns = '160px 1fr repeat(' + maxWeeks + ', minmax(40px, 1fr))';
+  grid.style.gridTemplateColumns = '160px 56px repeat(' + maxWeeks + ', minmax(40px, 1fr))';
 
   // Header row
   const empty = document.createElement('div');
@@ -4117,7 +4240,7 @@ function renderDashboardHeatmapSection() {
   wrap.appendChild(grid);
   const legend = document.createElement('div');
   legend.className = 'heatmap-legend';
-  legend.innerHTML = '<span class="green">Healthy</span><span class="amber">Watch</span><span class="red">Needs action</span><span>Not reached / not applicable</span>';
+  legend.innerHTML = '<span class="green">Healthy</span><span class="amber">Watch</span><span class="red">Needs action</span><span class="grey">Not reached / not applicable</span>';
   wrap.appendChild(legend);
   sec.appendChild(wrap);
   return sec;
@@ -4184,10 +4307,11 @@ function renderDashboardQuickActions() {
     store.modal = {
       type: 'confirm',
       title: 'Start a new round',
-      message: 'Which mode? Launching is for the week before a round starts. Mid-round is for weekly checks during an active round.',
-      confirmLabel: 'Launching',
+      message: 'Pick a mode. Launching is for the week before a round starts. Mid-round is for weekly checks during an active round.',
+      confirmLabel: 'Start launching mode',
+      confirmVariant: 'primary',
       cancelLabel: 'Cancel',
-      secondaryLabel: 'Mid-round',
+      secondaryLabel: 'Start mid-round mode',
       onConfirm: () => { store.mode = 'launch'; store.activeRound = null; store.view = 'setup'; saveStore(); closeModal(); },
       onSecondary: () => { store.mode = 'midround'; store.activeMidroundRound = null; store.midroundView = 'setup'; saveStore(); closeModal(); }
     };
@@ -4195,8 +4319,12 @@ function renderDashboardQuickActions() {
   });
   row.appendChild(startNew);
 
+  const spacer = document.createElement('div');
+  spacer.style.flex = '1';
+  row.appendChild(spacer);
+
   const exp = document.createElement('button');
-  exp.className = 'btn';
+  exp.className = 'btn btn-link';
   exp.textContent = 'Export this week\'s summary';
   exp.addEventListener('click', exportDashboardSummary);
   row.appendChild(exp);
