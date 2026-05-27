@@ -184,6 +184,13 @@
     border-color: var(--accent);
   }
   .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--accent);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+  .btn-secondary:hover { background: var(--surface-alt); }
   .btn-danger {
     color: var(--red-fg);
     border-color: var(--border-strong);
@@ -548,13 +555,6 @@
     border: 0;
   }
 
-  @media (max-width: 960px) {
-    .dash-banner { grid-template-columns: repeat(2, 1fr); }
-    .dash-banner .cell.alert { grid-column: 1 / -1; }
-    .dash-flag-row { grid-template-columns: auto 1fr auto; gap: var(--space-2); }
-    .dash-flag-row .days-open { grid-column: 2 / -1; text-align: left; min-width: 0; }
-    .dash-flag-row .btn { grid-column: 1 / -1; justify-self: end; }
-  }
   @media (max-width: 640px) {
     .main { padding: 16px; }
     .header { padding: 10px 16px; }
@@ -563,11 +563,6 @@
     .item { grid-template-columns: auto 1fr; }
     .item-actions { grid-column: 2; margin-top: 4px; }
     .issue-form .row { grid-template-columns: 1fr; }
-    .dash-banner { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-3); }
-    .dash-banner .cell.alert { grid-column: auto; }
-    .dash-banner .cell .value { font-size: var(--fs-lg); }
-    .dash-active-card { grid-template-columns: 1fr; }
-    .dash-active-card .right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
   }
 
   /* Mode switcher and mid-round styles */
@@ -583,6 +578,7 @@
     display: flex;
     gap: 6px;
     align-items: center;
+    flex-wrap: wrap;
   }
   .mode-switcher-label {
     font-size: 12px;
@@ -691,12 +687,12 @@
     border-radius: 6px;
     padding: 10px 12px;
     font-size: 13px;
-    border-left: 3px solid var(--amber-fg);
+    border-left: 3px solid var(--amber-solid);
   }
   .md-action-required.resolved {
     background: var(--green-bg);
     color: var(--green-fg);
-    border-left-color: var(--green-fg);
+    border-left-color: var(--green-solid);
   }
   .md-action-required textarea {
     margin-top: 6px;
@@ -707,12 +703,12 @@
   .action-banner {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--amber-fg);
+    border-left: 4px solid var(--amber-solid);
     border-radius: 8px;
     padding: 14px 18px;
     margin-bottom: 16px;
   }
-  .action-banner.empty { border-left-color: var(--green-fg); }
+  .action-banner.empty { border-left-color: var(--green-solid); }
   .action-banner-head {
     display: flex;
     justify-content: space-between;
@@ -775,8 +771,8 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: var(--space-4) var(--space-5);
-    margin-bottom: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-3);
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: var(--space-4);
@@ -794,8 +790,18 @@
   .dash-banner .cell.alert .label { color: var(--red-fg); }
   .dash-banner .cell.alert .value { color: var(--red-fg); font-size: var(--fs-2xl); }
   .dash-banner .cell.alert .sub { color: var(--red-fg); font-weight: 500; }
+  .dash-banner .cell.healthy-message {
+    background: var(--green-bg);
+    border-radius: 6px;
+    margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-3));
+    padding: var(--space-2) var(--space-3);
+    border-left: 3px solid var(--green-solid);
+  }
+  .dash-banner .cell.healthy-message .label { color: var(--green-fg); }
+  .dash-banner .cell.healthy-message .value { color: var(--green-fg); font-size: var(--fs-lg); }
+  .dash-banner .cell.healthy-message .sub { color: var(--green-fg); font-weight: 500; }
 
-  .dash-section { margin-bottom: var(--space-6); }
+  .dash-section { margin-bottom: var(--space-4); }
   .dash-section h2 {
     font-size: var(--fs-lg);
     line-height: 1.3;
@@ -814,6 +820,13 @@
     align-items: center;
   }
   .dash-flags-toolbar select { max-width: 200px; }
+  .dash-flags-toolbar .toolbar-label {
+    font-size: var(--fs-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
   .dash-flag-row {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -846,11 +859,16 @@
   }
   .dash-flag-row .signal-type.pulse { --signal-bg: #e0e7ff; --signal-fg: #3730a3; }
   .dash-flag-row .signal-type.facilitator { --signal-bg: #f3e8ff; --signal-fg: #6b21a8; }
-  .dash-flag-row .signal-type.engagement { --signal-bg: #cffafe; --signal-fg: #155e75; }
+  .dash-flag-row .signal-type.attendance { --signal-bg: #cffafe; --signal-fg: #155e75; }
+  .dash-flag-row .signal-type.complaint { --signal-bg: #ffedd5; --signal-fg: #9a3412; }
+  .dash-flag-row .signal-type.communication { --signal-bg: #ecfccb; --signal-fg: #3f6212; }
+  .dash-flag-row .signal-type.other { --signal-bg: var(--surface-alt); --signal-fg: var(--text); }
   .dash-flag-row .signal-type.launch-blocker { --signal-bg: var(--red-bg); --signal-fg: var(--red-fg); }
   [data-theme="dark"] .dash-flag-row .signal-type.pulse { --signal-bg: #1e1b4b; --signal-fg: #c7d2fe; }
   [data-theme="dark"] .dash-flag-row .signal-type.facilitator { --signal-bg: #2e1065; --signal-fg: #e9d5ff; }
-  [data-theme="dark"] .dash-flag-row .signal-type.engagement { --signal-bg: #164e63; --signal-fg: #a5f3fc; }
+  [data-theme="dark"] .dash-flag-row .signal-type.attendance { --signal-bg: #164e63; --signal-fg: #a5f3fc; }
+  [data-theme="dark"] .dash-flag-row .signal-type.complaint { --signal-bg: #7c2d12; --signal-fg: #fed7aa; }
+  [data-theme="dark"] .dash-flag-row .signal-type.communication { --signal-bg: #365314; --signal-fg: #d9f99d; }
   .dash-flag-row .desc {
     font-weight: 500;
     line-height: 1.35;
@@ -906,6 +924,16 @@
     font-weight: 500;
   }
   .dash-active-card .meta { font-size: var(--fs-xs); color: var(--text-muted); margin-top: var(--space-1); }
+  .dash-active-card .blocked-list {
+    margin: var(--space-2) 0 0;
+    padding: 0 0 0 var(--space-4);
+    list-style: disc;
+    font-size: var(--fs-xs);
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .dash-active-card .blocked-list li { margin: 2px 0; }
+  .dash-active-card .blocked-list .blocked-more { color: var(--text-subtle); list-style: none; margin-left: calc(-1 * var(--space-4)); }
   .dash-active-card .right {
     display: flex;
     flex-direction: column;
@@ -1032,6 +1060,23 @@
   .dash-empty h2 { margin: 0 0 8px; font-size: 18px; }
   .dash-empty p { color: var(--text-muted); max-width: 560px; margin: 0 auto 18px; }
   .dash-empty-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+  /* Dashboard responsive breakpoints (after dashboard base rules so they actually win) */
+  @media (max-width: 960px) {
+    .dash-banner { grid-template-columns: repeat(2, 1fr); }
+    .dash-banner .cell.alert { grid-column: 1 / -1; }
+    .dash-flag-row { grid-template-columns: auto 1fr auto; gap: var(--space-2); }
+    .dash-flag-row .days-open { grid-column: 2 / -1; text-align: left; min-width: 0; }
+    .dash-flag-row .btn { grid-column: 1 / -1; justify-self: end; }
+  }
+  @media (max-width: 640px) {
+    .dash-banner { grid-template-columns: 1fr; gap: var(--space-3); padding: var(--space-3); }
+    .dash-banner .cell.alert { grid-column: auto; }
+    .dash-banner .cell .value { font-size: var(--fs-lg); }
+    .dash-active-card { grid-template-columns: 1fr; }
+    .dash-active-card .right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+    .mode-switcher { padding: 8px 16px; flex-wrap: wrap; }
+  }
 </style>
 </head>
 <body>
@@ -1162,9 +1207,9 @@ const MIDROUND_SECTIONS = [
     title: 'Attendance and engagement',
     items: [
       { id: 'mds2i1', text: 'Session attendance this week (count of participants)', type: 'number', min: 0 },
-      { id: 'mds2i2', text: 'Participants missing 2+ consecutive sessions', type: 'text' },
+      { id: 'mds2i2', text: 'Participants missing 2+ consecutive sessions', type: 'text', triggersAction: (vals) => typeof vals.mds2i2 === 'string' && vals.mds2i2.trim().length > 0 },
       { id: 'mds2i3', text: 'Reflections submitted this week (count)', type: 'number', min: 0 },
-      { id: 'mds2i4', text: 'Participants not submitting reflections 2+ weeks', type: 'text' },
+      { id: 'mds2i4', text: 'Participants not submitting reflections 2+ weeks', type: 'text', triggersAction: (vals) => typeof vals.mds2i4 === 'string' && vals.mds2i4.trim().length > 0 },
       { id: 'mds2i5', text: 'Outreach documented for flagged participants', type: 'text' }
     ]
   },
@@ -1186,7 +1231,7 @@ const MIDROUND_SECTIONS = [
     items: [
       { id: 'mds4i1', text: 'Slack channel reviewed for the past week', type: 'check' },
       { id: 'mds4i2', text: 'Activity level', type: 'choice', options: ['high', 'moderate', 'low', 'silent'] },
-      { id: 'mds4i3', text: 'Tension, complaints, or concerns in the channel', type: 'text' },
+      { id: 'mds4i3', text: 'Tension, complaints, or concerns in the channel', type: 'text', triggersAction: (vals) => typeof vals.mds4i3 === 'string' && vals.mds4i3.trim().length > 0 },
       { id: 'mds4i4', text: 'Facilitator posting at least once this week', type: 'choice', options: ['yes', 'no'] }
     ]
   },
@@ -1203,9 +1248,9 @@ const MIDROUND_SECTIONS = [
     id: 'mds6',
     title: 'Participant communications',
     items: [
-      { id: 'mds6i1', text: 'Complaints, concerns, or unusual emails this week', type: 'text' },
+      { id: 'mds6i1', text: 'Complaints, concerns, or unusual emails this week', type: 'text', triggersAction: (vals) => typeof vals.mds6i1 === 'string' && vals.mds6i1.trim().length > 0 },
       { id: 'mds6i2', text: 'Requests for cohort switches or deferrals', type: 'text' },
-      { id: 'mds6i3', text: 'Participants who have gone silent', type: 'text' },
+      { id: 'mds6i3', text: 'Participants who have gone silent', type: 'text', triggersAction: (vals) => typeof vals.mds6i3 === 'string' && vals.mds6i3.trim().length > 0 },
       { id: 'mds6i4', text: 'Action taken or planned for each', type: 'text' }
     ]
   }
@@ -1462,6 +1507,16 @@ function renderLaunch() {
 
 function renderMidround() {
   if (!activeMidroundRound()) {
+    if (store.midroundView === 'pastRounds') {
+      $app.appendChild(renderHeader(true));
+      $app.appendChild(renderModeSwitcher());
+      const main = document.createElement('main');
+      main.className = 'main';
+      main.id = 'main-content';
+      main.appendChild(renderPastRounds());
+      $app.appendChild(main);
+      return;
+    }
     store.midroundView = 'setup';
     $app.appendChild(renderHeader(true));
     $app.appendChild(renderModeSwitcher());
@@ -2139,7 +2194,8 @@ function openIssueModal(opts) {
           description: '',
           resolution: '',
           dateLogged: new Date().toISOString(),
-          status: 'open'
+          status: 'open',
+          owner: 'Course Ops Lead'
         }
   };
   render();
@@ -2162,6 +2218,7 @@ function renderModal() {
   if (store.modal.type === 'issue') modal.appendChild(renderIssueForm());
   else if (store.modal.type === 'confirm') modal.appendChild(renderConfirm());
   else if (store.modal.type === 'retrospective') modal.appendChild(renderRetrospectiveForm());
+  else if (store.modal.type === 'log-action') modal.appendChild(renderLogActionForm());
 
   backdrop.appendChild(modal);
   return backdrop;
@@ -2218,11 +2275,18 @@ function renderIssueForm() {
       <label>Status</label>
       <select id="iss-status">
         <option value="open" ${draft.status === 'open' ? 'selected' : ''}>Open</option>
+        <option value="in-progress" ${draft.status === 'in-progress' ? 'selected' : ''}>In progress</option>
         <option value="resolved" ${draft.status === 'resolved' ? 'selected' : ''}>Resolved</option>
       </select>
     </div>
   `;
   form.appendChild(row2);
+
+  const ownerRow = document.createElement('div');
+  ownerRow.className = 'form-row';
+  ownerRow.style.margin = '0';
+  ownerRow.innerHTML = `<label>Owner</label><input type="text" id="iss-owner" value="${escapeHtml(draft.owner || 'Course Ops Lead')}" placeholder="Course Ops Lead">`;
+  form.appendChild(ownerRow);
 
   wrap.appendChild(form);
 
@@ -2263,6 +2327,7 @@ function renderIssueForm() {
     }
     const data = {
       id: draft.id,
+      owner: wrap.querySelector('#iss-owner').value.trim() || 'Course Ops Lead',
       cohortIdx: Number(wrap.querySelector('#iss-cohort').value),
       sectionIdx: Number(wrap.querySelector('#iss-section').value),
       description: description,
@@ -2300,7 +2365,7 @@ function renderConfirm() {
   actions.appendChild(cancel);
   if (m.secondaryLabel && m.onSecondary) {
     const sec = document.createElement('button');
-    sec.className = 'btn';
+    sec.className = 'btn btn-secondary';
     sec.textContent = m.secondaryLabel;
     sec.addEventListener('click', () => { m.onSecondary(); });
     actions.appendChild(sec);
@@ -2700,12 +2765,14 @@ function allOpenActionsForRound(round) {
   round.cohorts.forEach((cohort, ci) => {
     Object.keys(cohort.weeks).forEach(weekKey => {
       const w = cohort.weeks[weekKey];
+      if (!w.actionStatus) w.actionStatus = {};
       MIDROUND_SECTIONS.forEach(s => {
         s.items.forEach(item => {
           if (!item.triggersAction) return;
           if (!item.triggersAction(w.values)) return;
-          const actionText = w.actions[item.id] || '';
-          if (actionText.trim()) return;
+          const actionText = (w.actions[item.id] || '').trim();
+          const status = w.actionStatus[item.id] || (actionText ? 'resolved' : 'open');
+          if (status === 'resolved') return;
           out.push({
             cohortIdx: ci,
             cohortLabel: cohort.label,
@@ -2713,7 +2780,8 @@ function allOpenActionsForRound(round) {
             sectionId: s.id,
             sectionTitle: s.title,
             itemId: item.id,
-            itemLabel: item.text
+            itemLabel: item.text,
+            status: status
           });
         });
       });
@@ -3662,10 +3730,127 @@ function dashEmptyRow(text, variant) {
   return d;
 }
 
+function openLogActionModal(flag) {
+  let currentActionText = '';
+  if (flag.kind === 'launch') {
+    const round = store.rounds[flag.roundKey];
+    const issue = round && round.issues.find(i => i.id === flag.issueId);
+    currentActionText = issue ? (issue.resolution || '') : '';
+  } else {
+    const round = store.midroundRounds[flag.roundKey];
+    const cohort = round && round.cohorts[flag.cohortIdx];
+    const w = cohort && cohort.weeks[String(flag.weekRaised)];
+    currentActionText = (w && w.actions[flag.itemId]) || '';
+  }
+  store.modal = {
+    type: 'log-action',
+    draft: {
+      kind: flag.kind,
+      roundKey: flag.roundKey,
+      cohortIdx: flag.cohortIdx,
+      weekRaised: flag.weekRaised,
+      itemId: flag.itemId,
+      issueId: flag.issueId,
+      cohortLabel: flag.cohortLabel,
+      roundLabel: flag.roundLabel,
+      sectionTitle: flag.sectionTitle,
+      description: flag.description,
+      actionText: currentActionText,
+      status: flag.status || 'open',
+      owner: flag.owner || 'Course Ops Lead'
+    }
+  };
+  render();
+}
+
+function renderLogActionForm() {
+  const m = store.modal;
+  const d = m.draft;
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `
+    <h3 style="margin-top:0;">Log action</h3>
+    <p style="color:var(--text-muted);margin-top:0;font-size:13px;">
+      ${escapeHtml(d.roundLabel)} / ${escapeHtml(d.cohortLabel)} / ${escapeHtml(d.sectionTitle)}${d.weekRaised != null ? ' / Week ' + d.weekRaised : ''}
+    </p>
+    <div style="background:var(--surface-alt);padding:10px 12px;border-radius:6px;font-size:14px;margin-bottom:14px;">
+      ${escapeHtml(d.description)}
+    </div>
+  `;
+  const actionRow = document.createElement('div');
+  actionRow.className = 'form-row';
+  actionRow.innerHTML = `<label>Action taken or planned</label><textarea id="log-action-text" rows="3" placeholder="What did you do, or what will you do, about this">${escapeHtml(d.actionText)}</textarea>`;
+  wrap.appendChild(actionRow);
+
+  const row2 = document.createElement('div');
+  row2.className = 'form-row';
+  row2.style.display = 'grid';
+  row2.style.gridTemplateColumns = '1fr 1fr';
+  row2.style.gap = '10px';
+  row2.innerHTML = `
+    <div>
+      <label>Status</label>
+      <select id="log-action-status">
+        <option value="open" ${d.status === 'open' ? 'selected' : ''}>Open</option>
+        <option value="in-progress" ${d.status === 'in-progress' ? 'selected' : ''}>In progress</option>
+        <option value="resolved" ${d.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+      </select>
+    </div>
+    <div>
+      <label>Owner</label>
+      <input type="text" id="log-action-owner" value="${escapeHtml(d.owner)}" placeholder="Course Ops Lead">
+    </div>
+  `;
+  wrap.appendChild(row2);
+
+  const actions = document.createElement('div');
+  actions.className = 'modal-actions';
+  const cancel = document.createElement('button');
+  cancel.className = 'btn';
+  cancel.textContent = 'Cancel';
+  cancel.addEventListener('click', closeModal);
+  actions.appendChild(cancel);
+
+  const save = document.createElement('button');
+  save.className = 'btn btn-primary';
+  save.textContent = 'Save';
+  save.addEventListener('click', () => {
+    const text = wrap.querySelector('#log-action-text').value.trim();
+    const status = wrap.querySelector('#log-action-status').value;
+    const owner = wrap.querySelector('#log-action-owner').value.trim() || 'Course Ops Lead';
+    if (d.kind === 'launch') {
+      const round = store.rounds[d.roundKey];
+      const issue = round && round.issues.find(i => i.id === d.issueId);
+      if (issue) {
+        issue.resolution = text;
+        issue.status = status;
+        issue.owner = owner;
+      }
+    } else {
+      const round = store.midroundRounds[d.roundKey];
+      const cohort = round && round.cohorts[d.cohortIdx];
+      const w = cohort && cohort.weeks[String(d.weekRaised)];
+      if (w) {
+        w.actions[d.itemId] = text;
+        if (!w.actionStatus) w.actionStatus = {};
+        if (!w.actionOwner) w.actionOwner = {};
+        w.actionStatus[d.itemId] = status;
+        w.actionOwner[d.itemId] = owner;
+      }
+    }
+    saveStore();
+    closeModal();
+  });
+  actions.appendChild(save);
+  wrap.appendChild(actions);
+  return wrap;
+}
+
 function flagSignalType(itemId) {
   if (itemId === 'mds1i5') return 'pulse';
-  if (itemId === 'mds2i5') return 'engagement';
+  if (itemId === 'mds2i2' || itemId === 'mds2i4' || itemId === 'mds2i5') return 'attendance';
   if (itemId === 'mds3i6') return 'facilitator';
+  if (itemId === 'mds4i3' || itemId === 'mds6i1') return 'complaint';
+  if (itemId === 'mds6i3') return 'communication';
   return 'other';
 }
 
@@ -3674,7 +3859,7 @@ function dashboardFlags() {
   const now = Date.now();
 
   getActiveLaunchRounds().forEach(round => {
-    (round.issues || []).filter(i => i.status === 'open').forEach(issue => {
+    (round.issues || []).forEach(issue => {
       const cohortLabel = round.cohorts[issue.cohortIdx] ? round.cohorts[issue.cohortIdx].label : 'Unknown';
       const sectionTitle = SECTIONS[issue.sectionIdx] ? SECTIONS[issue.sectionIdx].title : 'General';
       const daysOpen = Math.max(0, Math.floor((now - new Date(issue.dateLogged).getTime()) / (1000 * 60 * 60 * 24)));
@@ -3689,23 +3874,27 @@ function dashboardFlags() {
         description: issue.description,
         daysOpen: daysOpen,
         weekRaised: null,
-        issueId: issue.id
+        issueId: issue.id,
+        status: issue.status || 'open',
+        owner: issue.owner || 'Course Ops Lead'
       });
     });
   });
 
   getActiveMidroundRounds().forEach(round => {
-    const current = currentWeekFor(round);
     round.cohorts.forEach((cohort, ci) => {
       Object.keys(cohort.weeks).forEach(wk => {
         const w = cohort.weeks[wk];
+        if (!w.actionStatus) w.actionStatus = {};
+        if (!w.actionOwner) w.actionOwner = {};
         const weekNum = Number(wk);
         MIDROUND_SECTIONS.forEach(s => {
           s.items.forEach(item => {
             if (!item.triggersAction) return;
             if (!item.triggersAction(w.values)) return;
             const actionText = (w.actions[item.id] || '').trim();
-            if (actionText) return;
+            let status = w.actionStatus[item.id];
+            if (!status) status = actionText ? 'resolved' : 'open';
             const sessionStart = round.session1Date ? new Date(round.session1Date + 'T00:00:00').getTime() : now;
             const weekStart = sessionStart + (weekNum - 1) * 7 * 24 * 60 * 60 * 1000;
             const daysOpen = Math.max(0, Math.floor((now - weekStart) / (1000 * 60 * 60 * 24)));
@@ -3720,7 +3909,9 @@ function dashboardFlags() {
               description: item.text,
               daysOpen: daysOpen,
               weekRaised: weekNum,
-              itemId: item.id
+              itemId: item.id,
+              status: status,
+              owner: w.actionOwner[item.id] || 'Course Ops Lead'
             });
           });
         });
@@ -3737,7 +3928,9 @@ function dashboardActiveCards() {
     const totalChecked = round.cohorts.reduce((n, c) => n + Object.values(c.state.checks).filter(Boolean).length, 0);
     const total = round.cohorts.length * TOTAL_ITEMS;
     const pct = total ? Math.round((totalChecked / total) * 100) : 0;
-    const openIssues = (round.issues || []).filter(i => i.status === 'open').length;
+    const openIssuesList = (round.issues || []).filter(i => i.status === 'open');
+    const openIssues = openIssuesList.length;
+    const blockedItems = openIssuesList.slice(0, 3).map(i => i.description);
     const session1 = round.session1Date ? new Date(round.session1Date + 'T00:00:00').getTime() : null;
     const days = session1 != null ? Math.round((session1 - now) / (1000 * 60 * 60 * 24)) : null;
     let urgency = 100;
@@ -3754,6 +3947,7 @@ function dashboardActiveCards() {
       modeLabel: 'launching',
       pct: pct,
       openIssues: openIssues,
+      blockedItems: blockedItems,
       days: days,
       statusCls: statusCls,
       statusLabel: statusLabel,
@@ -3762,7 +3956,9 @@ function dashboardActiveCards() {
   });
   getActiveMidroundRounds().forEach(round => {
     const current = currentWeekFor(round);
-    const openActions = allOpenActionsForRound(round).length;
+    const openActionList = allOpenActionsForRound(round);
+    const openActions = openActionList.length;
+    const blockedItems = openActionList.slice(0, 3).map(a => a.cohortLabel + ' / W' + a.week + ': ' + a.itemLabel);
     let worst = 'status-green';
     round.cohorts.forEach(c => {
       const s = cohortMidroundStatus(c, current);
@@ -3771,10 +3967,14 @@ function dashboardActiveCards() {
       else if (s.cls === 'status-grey' && worst === 'status-green') worst = 'status-grey';
     });
     const checksDoneThisWeek = round.cohorts.filter(c => c.weeks[String(current)] && c.weeks[String(current)].completedAt).length;
-    let urgency = 50;
-    if (worst === 'status-red') urgency = 5;
-    else if (worst === 'status-amber') urgency = 15;
-    else if (worst === 'status-grey') urgency = 30;
+    // Distinguish complete / overdue / not started for the current week (per spec)
+    let weekStatus = 'not started';
+    if (checksDoneThisWeek === round.cohorts.length) weekStatus = 'complete';
+    else {
+      const todayDow = new Date().getDay();
+      if (checksDoneThisWeek > 0) weekStatus = 'in progress';
+      else if (todayDow >= 5 || todayDow === 0) weekStatus = 'overdue';
+    }
     cards.push({
       kind: 'midround',
       roundKey: String(round.roundNumber),
@@ -3785,13 +3985,27 @@ function dashboardActiveCards() {
       weeks: round.weeks,
       checksDone: checksDoneThisWeek,
       cohortCount: round.cohorts.length,
+      checkStatus: weekStatus,
       openActions: openActions,
+      blockedItems: blockedItems,
       statusCls: worst,
-      statusLabel: worst === 'status-red' ? 'Needs action' : worst === 'status-amber' ? 'Watch' : worst === 'status-grey' ? 'Check pending' : 'Healthy',
-      urgency: urgency
+      statusLabel: worst === 'status-red' ? 'Needs action' : worst === 'status-amber' ? 'Watch' : worst === 'status-grey' ? 'Check pending' : 'Healthy'
     });
   });
-  cards.sort((a, b) => a.urgency - b.urgency);
+  // P0-10: strict tiered sort. Tier 0 = all launches (by days asc).
+  // Tier 1 = midround red. Tier 2 = midround amber. Tier 3 = midround grey/green.
+  cards.sort((a, b) => {
+    const tier = (c) => {
+      if (c.kind === 'launch') return 0;
+      if (c.statusCls === 'status-red') return 1;
+      if (c.statusCls === 'status-amber') return 2;
+      return 3;
+    };
+    const ta = tier(a), tb = tier(b);
+    if (ta !== tb) return ta - tb;
+    if (a.kind === 'launch' && b.kind === 'launch') return (a.days == null ? 999 : a.days) - (b.days == null ? 999 : b.days);
+    return 0;
+  });
   return cards;
 }
 
@@ -3826,8 +4040,22 @@ function dashboardUpcomingThisWeek() {
         roundKey: String(round.roundNumber)
       });
     }
+    // Retrospective due: round ends within 7 days (per spec)
+    if (round.session1Date) {
+      const start = new Date(round.session1Date + 'T00:00:00').getTime();
+      const end = start + (round.weeks || 5) * 7 * 24 * 60 * 60 * 1000;
+      const daysToEnd = Math.round((end - now) / (1000 * 60 * 60 * 24));
+      if (daysToEnd >= -7 && daysToEnd <= 7) {
+        items.push({
+          kind: 'retrospective',
+          label: 'Round ' + round.roundNumber + ' retrospective due',
+          meta: daysToEnd >= 0 ? 'Round ends in ' + daysToEnd + ' day' + (daysToEnd === 1 ? '' : 's') : 'Ended ' + Math.abs(daysToEnd) + ' days ago',
+          roundKey: String(round.roundNumber)
+        });
+      }
+    }
   });
-  dashboardFlags().filter(f => f.daysOpen > 7).forEach(f => {
+  dashboardFlags().filter(f => f.daysOpen > 7 && f.status !== 'resolved').forEach(f => {
     items.push({
       kind: 'aging',
       label: f.roundLabel + ' / ' + f.cohortLabel + ' flag aging',
@@ -3861,7 +4089,7 @@ function renderDashboardEmpty() {
   const allArchived = Object.values(store.archivedMidroundRounds || {}).length;
   const heading = allArchived > 0 ? 'No active rounds' : 'Welcome';
   const body = allArchived > 0
-    ? 'All rounds have been closed out. Start a new one below, or view past rounds from the mid-round mode header.'
+    ? 'All rounds have been closed out. Start a new one below.'
     : 'This tool helps you run a round of cohort-based courses safely. Set up a new round in launching mode to use the pre-launch checklist, or in mid-round mode to run weekly health checks.';
   wrap.innerHTML = '<h2>' + heading + '</h2><p>' + escapeHtml(body) + '</p>';
   const actions = document.createElement('div');
@@ -3876,12 +4104,19 @@ function renderDashboardEmpty() {
   mdBtn.textContent = 'Set up a new round (mid-round)';
   mdBtn.addEventListener('click', () => { store.mode = 'midround'; store.midroundView = 'setup'; saveStore(); render(); });
   actions.appendChild(mdBtn);
+  if (allArchived > 0) {
+    const pastBtn = document.createElement('button');
+    pastBtn.className = 'btn btn-link';
+    pastBtn.textContent = 'View past rounds';
+    pastBtn.addEventListener('click', () => { store.mode = 'midround'; store.midroundView = 'pastRounds'; saveStore(); render(); });
+    actions.appendChild(pastBtn);
+  }
   wrap.appendChild(actions);
   return wrap;
 }
 
 function renderDashboardBanner() {
-  const flags = dashboardFlags();
+  const flags = dashboardFlags().filter(f => f.status !== 'resolved');
   const cards = dashboardActiveCards();
   const upcoming = dashboardUpcomingThisWeek();
   const launchesInWeek = upcoming.filter(u => u.kind === 'launch').length;
@@ -3909,6 +4144,22 @@ function renderDashboardBanner() {
   const flagsSub = flags.length === 0
     ? 'no open flags'
     : (agedFlags === 0 ? 'all under 7 days' : agedFlags + ' open over 7 days');
+  const allHealthy = flags.length === 0
+    && (checksDue === 0 || checksDone === checksDue)
+    && launchesInWeek === 0
+    && cards.every(c => c.statusCls === 'status-green');
+  if (allHealthy && cards.length > 0) {
+    banner.classList.add('healthy');
+    banner.innerHTML = `
+      <div class="cell"><div class="label">Today</div><div class="value">${escapeHtml(dayName)}</div><div class="sub">${escapeHtml(dateStr)}</div></div>
+      <div class="cell healthy-message" style="grid-column: span 4;">
+        <div class="label">Status</div>
+        <div class="value">All systems healthy</div>
+        <div class="sub">${cards.length} active ${cards.length === 1 ? 'round' : 'rounds'}, no open flags, all checks complete</div>
+      </div>
+    `;
+    return banner;
+  }
   banner.innerHTML = `
     <div class="cell"><div class="label">Today</div><div class="value">${escapeHtml(dayName)}</div><div class="sub">${escapeHtml(dateStr)}</div></div>
     <div class="cell"><div class="label">Active rounds</div><div class="value">${cards.length}</div><div class="sub">${getActiveLaunchRounds().length} launching, ${getActiveMidroundRounds().length} mid-round</div></div>
@@ -3936,7 +4187,15 @@ function renderDashboardFlagsSection() {
   const toolbar = document.createElement('div');
   toolbar.className = 'dash-flags-toolbar';
   toolbar.innerHTML = `
-    <span style="font-size:13px;color:var(--text-muted);">Sort by</span>
+    <label class="toolbar-label" for="dash-flag-filter">Status</label>
+    <select id="dash-flag-filter">
+      <option value="active">Open and in progress</option>
+      <option value="open">Open only</option>
+      <option value="in-progress">In progress only</option>
+      <option value="resolved">Resolved only</option>
+      <option value="all">All</option>
+    </select>
+    <label class="toolbar-label" for="dash-flag-sort">Sort by</label>
     <select id="dash-flag-sort">
       <option value="days-open">Days open</option>
       <option value="week">Week raised</option>
@@ -3947,18 +4206,30 @@ function renderDashboardFlagsSection() {
   sec.appendChild(toolbar);
 
   const sortSel = toolbar.querySelector('#dash-flag-sort');
+  const filterSel = toolbar.querySelector('#dash-flag-filter');
   const listWrap = document.createElement('div');
   sec.appendChild(listWrap);
 
   function paint() {
     const mode = sortSel.value;
-    const sorted = flags.slice().sort((a, b) => {
+    const filterMode = filterSel.value;
+    const filtered = flags.filter(f => {
+      if (filterMode === 'all') return true;
+      if (filterMode === 'active') return f.status === 'open' || f.status === 'in-progress';
+      return f.status === filterMode;
+    });
+    const sorted = filtered.slice().sort((a, b) => {
       if (mode === 'days-open') return b.daysOpen - a.daysOpen;
       if (mode === 'week') return (a.weekRaised || 0) - (b.weekRaised || 0);
       if (mode === 'round') return a.roundLabel.localeCompare(b.roundLabel);
       if (mode === 'signal') return a.signalType.localeCompare(b.signalType);
       return 0;
     });
+    if (sorted.length === 0) {
+      listWrap.innerHTML = '';
+      listWrap.appendChild(dashEmptyRow('No flags match this filter.', 'neutral'));
+      return;
+    }
     listWrap.innerHTML = '';
     sorted.forEach(f => {
       const row = document.createElement('div');
@@ -3969,7 +4240,13 @@ function renderDashboardFlagsSection() {
       tag.textContent = f.signalType;
       row.appendChild(tag);
       const middle = document.createElement('div');
-      middle.innerHTML = `<div class="desc">${escapeHtml(f.description)}</div><div class="meta">${escapeHtml(f.roundLabel)} / ${escapeHtml(f.cohortLabel)} / ${escapeHtml(f.sectionTitle)}${f.weekRaised != null ? ' / Week ' + f.weekRaised : ''}</div>`;
+      const statusBadgeCls = f.status === 'resolved' ? 'status-green' : f.status === 'in-progress' ? 'status-amber' : 'status-grey';
+      const statusLabel = f.status === 'resolved' ? 'Resolved' : f.status === 'in-progress' ? 'In progress' : 'Open';
+      middle.innerHTML = `
+        <div class="desc">${escapeHtml(f.description)}</div>
+        <div class="meta">${escapeHtml(f.roundLabel)} / ${escapeHtml(f.cohortLabel)} / ${escapeHtml(f.sectionTitle)}${f.weekRaised != null ? ' / Week ' + f.weekRaised : ''} / Owner: ${escapeHtml(f.owner || 'Course Ops Lead')}</div>
+        <div class="meta"><span class="status-badge ${statusBadgeCls}" style="margin-top:4px;">${statusLabel}</span></div>
+      `;
       row.appendChild(middle);
       const days = document.createElement('div');
       days.className = 'days-open';
@@ -3978,29 +4255,13 @@ function renderDashboardFlagsSection() {
       const btn = document.createElement('button');
       btn.className = 'btn btn-small';
       btn.textContent = 'Log action';
-      btn.addEventListener('click', () => {
-        if (f.kind === 'launch') {
-          store.mode = 'launch';
-          store.activeRound = f.roundKey;
-          store.activeCohort = f.cohortIdx;
-          store.view = 'issues';
-          saveStore();
-          openIssueModal({ editingId: f.issueId });
-        } else {
-          store.mode = 'midround';
-          store.activeMidroundRound = f.roundKey;
-          store.activeMidroundCohort = f.cohortIdx;
-          store.activeWeek = f.weekRaised || 1;
-          store.midroundView = 'cohort';
-          saveStore();
-          render();
-        }
-      });
+      btn.addEventListener('click', () => openLogActionModal(f));
       row.appendChild(btn);
       listWrap.appendChild(row);
     });
   }
   sortSel.addEventListener('change', paint);
+  filterSel.addEventListener('change', paint);
   paint();
   return sec;
 }
@@ -4023,12 +4284,16 @@ function renderDashboardActiveRoundsSection() {
         : 'No launch date set';
       metaLine = dayLine + ' / Checklist ' + c.pct + '% / ' + c.openIssues + ' open ' + (c.openIssues === 1 ? 'issue' : 'issues');
     } else {
-      metaLine = 'Week ' + c.currentWeek + ' of ' + c.weeks + ' / Checks ' + c.checksDone + ' of ' + c.cohortCount + ' / ' + c.openActions + ' open ' + (c.openActions === 1 ? 'action' : 'actions');
+      metaLine = 'Week ' + c.currentWeek + ' of ' + c.weeks + ' / Week check ' + c.checkStatus + ' / ' + c.openActions + ' open ' + (c.openActions === 1 ? 'action' : 'actions');
     }
+    const blockedHtml = (c.blockedItems && c.blockedItems.length > 0)
+      ? '<ul class="blocked-list">' + c.blockedItems.map(b => '<li>' + escapeHtml(b) + '</li>').join('') + (c.openIssues > 3 || c.openActions > 3 ? '<li class="blocked-more">' + ((c.openIssues || c.openActions) - 3) + ' more</li>' : '') + '</ul>'
+      : '';
     left.innerHTML = `
       <div class="head">${escapeHtml(c.title)}<span class="mode-pill">${escapeHtml(c.modeLabel)}</span></div>
       <div class="meta">${escapeHtml(c.course)}</div>
-      <div class="meta" style="margin-top:6px;">${escapeHtml(metaLine)}</div>
+      <div class="meta">${escapeHtml(metaLine)}</div>
+      ${blockedHtml}
     `;
     row.appendChild(left);
     const right = document.createElement('div');
@@ -4087,19 +4352,29 @@ function renderDashboardUpcomingSection() {
         store.mode = 'launch';
         store.activeRound = it.roundKey;
         store.view = 'summary';
+        saveStore();
+        render();
       } else if (it.kind === 'midround') {
         store.mode = 'midround';
         store.activeMidroundRound = it.roundKey;
         store.midroundView = 'summary';
+        saveStore();
+        render();
       } else if (it.kind === 'aging') {
         store.mode = 'midround';
         store.activeMidroundRound = it.roundKey;
         store.activeMidroundCohort = it.cohortIdx;
         store.activeWeek = it.weekRaised || 1;
         store.midroundView = 'cohort';
+        saveStore();
+        render();
+      } else if (it.kind === 'retrospective') {
+        store.mode = 'midround';
+        store.activeMidroundRound = it.roundKey;
+        store.midroundView = 'summary';
+        saveStore();
+        startCloseOutFlow();
       }
-      saveStore();
-      render();
     });
     row.appendChild(btn);
     wrap.appendChild(row);
@@ -4401,7 +4676,7 @@ function exportDashboardSummary() {
   else trends.forEach(t => lines.push('- ' + t));
 
   const md = lines.join('\n');
-  const filename = 'ops-weekly-summary-' + today.toISOString().slice(0, 10) + '.md';
+  const filename = 'tais-ops-weekly-summary-' + today.toISOString().slice(0, 10) + '.md';
   const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
