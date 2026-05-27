@@ -1288,11 +1288,13 @@ function maybeOpenConversionWizard() {
   if (store.modal) return false;
   const ready = findLaunchReadyToConvert();
   if (ready.length === 0) return false;
-  openConversionWizard(ready[0]);
+  // Skip recursive render: we are already inside render(). The modal will be
+  // appended to $app by the existing render-tail.
+  openConversionWizard(ready[0], { render: false });
   return true;
 }
 
-function openConversionWizard(launchRound) {
+function openConversionWizard(launchRound, opts) {
   store.modal = {
     type: 'conversion',
     draft: {
@@ -1305,7 +1307,7 @@ function openConversionWizard(launchRound) {
       openIssueCount: (launchRound.issues || []).filter(i => i.status !== 'resolved').length
     }
   };
-  render();
+  if (!opts || opts.render !== false) render();
 }
 
 function renderConversionWizard() {
@@ -1387,6 +1389,133 @@ function renderConversionWizard() {
   actions.appendChild(start);
   wrap.appendChild(actions);
   return wrap;
+}
+
+// =============================================================================
+//                              DEMO DATA SEED
+// =============================================================================
+// Populates a realistic state mirroring the work-test scenario:
+// Round 7 in mid-round mode at week 3 with Cohort 11 trending red (Jamie
+// pattern: low pulse, facilitator concern); Round 8 launching in 19 days with
+// two open issues. Hit via ?demo=1 URL param or the "Try with sample data"
+// button on the empty dashboard.
+function loadDemoData() {
+  localStorage.removeItem(STORAGE_KEY);
+  store = defaultStore();
+
+  const today = new Date();
+  const fmt = d => d.toISOString().slice(0, 10);
+  const r8Date = new Date(today.getTime() + 19 * 86400000);
+  const r7Date = new Date(today.getTime() - 16 * 86400000);
+
+  // Round 8: pre-launch checklist in progress with 2 open issues
+  store.mode = 'launch';
+  createRound({
+    roundNumber: 8,
+    courseName: 'Technical AI Safety Course',
+    session1Date: fmt(r8Date),
+    numCohorts: 6,
+    cohortLabels: ['Cohort 13', 'Cohort 14', 'Cohort 15', 'Cohort 16', 'Cohort 17', 'Cohort 18']
+  });
+  const r8 = activeRound();
+  // Some cohorts further along than others
+  ['s1i1', 's1i2', 's1i3', 's2i1', 's2i2', 's3i1', 's3i2', 's4i1', 's5i1', 's6i1', 's7i1'].forEach(k => r8.cohorts[0].state.checks[k] = true);
+  ['s1i1', 's2i1', 's3i1', 's4i1', 's5i1'].forEach(k => r8.cohorts[1].state.checks[k] = true);
+  r8.cohorts[2].state.checks['s1i1'] = true;
+  const dayAgo = new Date(today.getTime() - 5 * 86400000);
+  const twoDaysAgo = new Date(today.getTime() - 2 * 86400000);
+  r8.issues.push({
+    id: 'demo-iss-1', cohortIdx: 1, sectionIdx: 3,
+    description: 'Slack channel not yet created for Cohort 14',
+    resolution: '', dateLogged: dayAgo.toISOString(),
+    status: 'open', owner: 'Course Ops Lead'
+  });
+  r8.issues.push({
+    id: 'demo-iss-2', cohortIdx: 0, sectionIdx: 0,
+    description: 'Welcome email automation log missing two recipients',
+    resolution: '', dateLogged: twoDaysAgo.toISOString(),
+    status: 'open', owner: 'Course Ops Lead'
+  });
+
+  // Round 7: mid-round, week 3 of 5, Cohort 11 in trouble (Jamie)
+  store.mode = 'midround';
+  createMidroundRound({
+    roundNumber: 7,
+    courseName: 'Technical AI Safety Course',
+    session1Date: fmt(r7Date),
+    weeks: 5,
+    numCohorts: 6,
+    cohortLabels: ['Cohort 7', 'Cohort 8', 'Cohort 9', 'Cohort 10', 'Cohort 11', 'Cohort 12'],
+    facilitators: ['Aisha Rahman', 'David Olusegun', 'Priya Shankar', 'Tom Reeves', 'Jamie Whitford', 'Ben Carter']
+  });
+  const r7 = activeMidroundRound();
+
+  const seedWeek = (cohortIdx, week, vals, completed) => {
+    const c = r7.cohorts[cohortIdx];
+    const w = getOrCreateWeekData(c, week);
+    Object.assign(w.values, vals);
+    if (completed) w.completedAt = new Date(today.getTime() - (16 - week * 7) * 86400000).toISOString();
+  };
+
+  // Week 1: all cohorts healthy
+  r7.cohorts.forEach((c, i) => {
+    seedWeek(i, 1, {
+      mds1i1: true, mds1i2: [8.5, 8, 8.5, 8, 7.5, 7][i], mds1i3: 'steady',
+      mds2i1: 10, mds2i3: [9, 10, 10, 9, 9, 8][i],
+      mds3i1: true, mds3i2: 'yes', mds3i3: 'yes', mds3i4: 'yes',
+      mds4i1: true, mds4i2: 'moderate', mds5i1: true
+    }, true);
+  });
+
+  // Week 2: Cohort 11 starts trending, facilitator concern logged
+  r7.cohorts.forEach((c, i) => {
+    seedWeek(i, 2, {
+      mds1i1: true, mds1i2: [9, 8, 8.5, 7.5, 6.5, 7][i],
+      mds1i3: ['steady', 'steady', 'improving', 'steady', 'declining', 'steady'][i],
+      mds2i1: [10, 10, 10, 9, 9, 10][i], mds2i3: [10, 9, 10, 9, 8, 9][i],
+      mds3i1: true,
+      mds3i2: i === 4 ? 'no' : 'yes',
+      mds3i3: 'yes',
+      mds3i4: i === 4 ? 'no' : 'yes',
+      mds3i5: i === 4 ? 'Late twice, dismissive comment about community group, one-line feedback' : '',
+      mds4i1: true, mds4i2: 'moderate', mds5i1: true
+    }, true);
+  });
+
+  // Week 3: Cohorts 7-9 complete; 10-12 in progress; 11 critical
+  for (let i = 0; i < 3; i++) {
+    seedWeek(i, 3, {
+      mds1i1: true, mds1i2: [8.5, 8, 9][i], mds1i3: 'steady',
+      mds2i1: 10, mds2i3: 10,
+      mds3i1: true, mds3i2: 'yes', mds3i4: 'yes',
+      mds4i1: true, mds4i2: 'moderate', mds5i1: true
+    }, true);
+  }
+  seedWeek(4, 3, {
+    mds1i1: true, mds1i2: 5.5, mds1i3: 'declining',
+    mds3i2: 'no', mds3i4: 'no',
+    mds3i5: 'Quality concerns continue; participant complaint forwarded to course lead'
+  }, false);
+
+  // Land the user on the dashboard
+  store.mode = 'dashboard';
+  saveStore();
+}
+
+function maybeHandleDemoUrl() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('demo') === '1' || params.has('demo')) {
+      loadDemoData();
+      // Strip the param so reload doesn't repeatedly wipe state
+      params.delete('demo');
+      const q = params.toString();
+      const newUrl = window.location.pathname + (q ? '?' + q : '') + window.location.hash;
+      window.history.replaceState(null, '', newUrl);
+      return true;
+    }
+  } catch (e) { /* file:// origins reject history.replaceState - safe to ignore */ }
+  return false;
 }
 
 function ensureCourseDatalist() {
@@ -4363,6 +4492,16 @@ function renderDashboardEmpty() {
     actions.appendChild(pastBtn);
   }
   wrap.appendChild(actions);
+
+  if (allArchived === 0) {
+    const demoBtn = document.createElement('button');
+    demoBtn.className = 'btn btn-link';
+    demoBtn.style.marginTop = '16px';
+    demoBtn.textContent = 'Try with sample data';
+    demoBtn.addEventListener('click', () => { loadDemoData(); render(); });
+    wrap.appendChild(demoBtn);
+  }
+
   return wrap;
 }
 
@@ -4958,6 +5097,8 @@ function exportDashboardSummary() {
 // ----------------------------- INIT -----------------------------
 
 let store = loadStore();
+// ?demo=1 wipes localStorage and seeds a realistic R7+R8 state for demos and walkthroughs.
+maybeHandleDemoUrl();
 // Default to dashboard on every load if any rounds exist (per spec: "first thing seen on every visit")
 if (hasAnyActiveRounds()) store.mode = 'dashboard';
 ensureCourseDatalist();

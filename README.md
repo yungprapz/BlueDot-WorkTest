@@ -4,9 +4,11 @@ Submission by Prapthi Agarwala.
 
 ## Live tool
 
-Pre-round launch checklist (open in any browser, no install):
+BlueDot Round Operations (open in any browser, no install):
 
-**https://yungprapz.github.io/BlueDot-WorkTest/**
+**Empty state:** https://yungprapz.github.io/BlueDot-WorkTest/bluedot-launch-checklist.html
+
+**Populated demo** (Round 7 mid-round mirroring the Jamie/Cohort 11 scenario + Round 8 launching): https://yungprapz.github.io/BlueDot-WorkTest/bluedot-launch-checklist.html?demo=1
 
 ## What is here
 
