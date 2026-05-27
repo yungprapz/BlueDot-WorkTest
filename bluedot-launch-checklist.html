@@ -591,12 +591,24 @@
     background: transparent;
     border: 1px solid transparent;
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: 8px 14px;
     font-weight: 500;
     color: var(--text-muted);
     font-size: 14px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+    text-align: left;
+  }
+  .mode-tab .sub {
+    font-size: 11px;
+    font-weight: 400;
+    opacity: 0.7;
+    margin-top: 2px;
   }
   .mode-tab:hover { color: var(--text); background: var(--surface-alt); }
+  .mode-tab.active .sub { opacity: 0.9; }
   .mode-tab.active {
     background: var(--accent);
     color: white;
@@ -864,6 +876,8 @@
   .dash-flag-row .signal-type.communication { --signal-bg: #ecfccb; --signal-fg: #3f6212; }
   .dash-flag-row .signal-type.other { --signal-bg: var(--surface-alt); --signal-fg: var(--text); }
   .dash-flag-row .signal-type.launch-blocker { --signal-bg: var(--red-bg); --signal-fg: var(--red-fg); }
+  .dash-flag-row .signal-type.launch-carryover { --signal-bg: #fef3c7; --signal-fg: #92400e; }
+  [data-theme="dark"] .dash-flag-row .signal-type.launch-carryover { --signal-bg: #78350f; --signal-fg: #fde68a; }
   [data-theme="dark"] .dash-flag-row .signal-type.pulse { --signal-bg: #1e1b4b; --signal-fg: #c7d2fe; }
   [data-theme="dark"] .dash-flag-row .signal-type.facilitator { --signal-bg: #2e1065; --signal-fg: #e9d5ff; }
   [data-theme="dark"] .dash-flag-row .signal-type.attendance { --signal-bg: #164e63; --signal-fg: #a5f3fc; }
@@ -1205,6 +1219,176 @@ const BLUEDOT_COURSES = [
   { name: 'Incubator Week', slug: 'incubator-week' }
 ];
 
+// =============================================================================
+//                     LAUNCH -> MID-ROUND AUTO-CONVERSION
+// =============================================================================
+
+// A launch round is "ready to convert" when its session 1 date has passed
+// and the user has not yet completed the conversion wizard.
+function findLaunchReadyToConvert() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const ready = [];
+  Object.keys(store.rounds || {}).forEach(key => {
+    const round = store.rounds[key];
+    if (!round.session1Date) return;
+    if (round.conversionDeclinedAt) return;
+    const session = new Date(round.session1Date + 'T00:00:00');
+    if (session <= today) ready.push(round);
+  });
+  return ready;
+}
+
+function convertLaunchToMidround(launchKey, facilitators, weeks) {
+  const launch = store.rounds[launchKey];
+  if (!launch) return null;
+  const target = String(launch.roundNumber);
+  if (store.midroundRounds[target]) {
+    alert('Round ' + launch.roundNumber + ' already exists in mid-round mode. Cannot convert.');
+    return null;
+  }
+  const openIssues = (launch.issues || []).filter(i => i.status !== 'resolved');
+  const priorSnapshot = launch.cohorts.map(c => ({
+    label: c.label,
+    checks: Object.assign({}, c.state.checks),
+    notes: Object.assign({}, c.state.notes),
+    edgeCases: Object.assign({}, c.state.edgeCases)
+  }));
+  const midround = {
+    roundNumber: launch.roundNumber,
+    courseName: launch.courseName,
+    session1Date: launch.session1Date,
+    weeks: weeks || 5,
+    cohorts: launch.cohorts.map((c, i) => ({
+      label: c.label,
+      facilitator: (facilitators[i] || '').trim(),
+      weeks: {}
+    })),
+    createdAt: launch.createdAt,
+    convertedFromLaunchAt: new Date().toISOString(),
+    issues: openIssues,
+    priorLaunchSnapshot: priorSnapshot,
+    closed: false
+  };
+  store.midroundRounds[target] = midround;
+  delete store.rounds[launchKey];
+  if (store.activeRound === launchKey) store.activeRound = null;
+  saveStore();
+  return midround;
+}
+
+function declineLaunchConversion(launchKey) {
+  const launch = store.rounds[launchKey];
+  if (!launch) return;
+  launch.conversionDeclinedAt = new Date().toISOString();
+  saveStore();
+}
+
+function maybeOpenConversionWizard() {
+  if (store.modal) return false;
+  const ready = findLaunchReadyToConvert();
+  if (ready.length === 0) return false;
+  openConversionWizard(ready[0]);
+  return true;
+}
+
+function openConversionWizard(launchRound) {
+  store.modal = {
+    type: 'conversion',
+    draft: {
+      launchKey: String(launchRound.roundNumber),
+      roundNumber: launchRound.roundNumber,
+      courseName: launchRound.courseName,
+      session1Date: launchRound.session1Date,
+      cohorts: launchRound.cohorts.map(c => ({ label: c.label, facilitator: '' })),
+      weeks: 5,
+      openIssueCount: (launchRound.issues || []).filter(i => i.status !== 'resolved').length
+    }
+  };
+  render();
+}
+
+function renderConversionWizard() {
+  const m = store.modal;
+  const d = m.draft;
+  const wrap = document.createElement('div');
+  const sessionDate = new Date(d.session1Date + 'T00:00:00');
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const daysSince = Math.round((today - sessionDate) / (1000 * 60 * 60 * 24));
+  const subline = daysSince === 0 ? 'Round ' + d.roundNumber + ' starts today.'
+    : daysSince === 1 ? 'Round ' + d.roundNumber + ' started yesterday.'
+    : 'Round ' + d.roundNumber + ' started ' + daysSince + ' days ago.';
+
+  wrap.innerHTML = `
+    <h3 style="margin-top:0;">${escapeHtml(subline)}</h3>
+    <p style="color:var(--text-muted);margin-top:0;font-size:14px;">
+      Time to switch ${escapeHtml(d.courseName)} from launch readiness tracking to weekly health checks.
+      Add a facilitator for each cohort to begin.
+    </p>
+    ${d.openIssueCount > 0 ? `<div style="background:var(--amber-bg);color:var(--amber-fg);padding:8px 12px;border-radius:6px;font-size:13px;margin-bottom:14px;border-left:3px solid var(--amber-solid);">
+      ${d.openIssueCount} open ${d.openIssueCount === 1 ? 'launch issue carries' : 'launch issues carry'} over to mid-round and will appear in the action-required list.
+    </div>` : ''}
+  `;
+
+  const cohortsWrap = document.createElement('div');
+  cohortsWrap.className = 'form-row';
+  cohortsWrap.innerHTML = '<label>Facilitator per cohort</label>';
+  const rows = document.createElement('div');
+  rows.style.display = 'grid';
+  rows.style.gap = '6px';
+  rows.style.marginTop = '6px';
+  d.cohorts.forEach((c, i) => {
+    const r = document.createElement('div');
+    r.style.display = 'grid';
+    r.style.gridTemplateColumns = '180px 1fr';
+    r.style.gap = '8px';
+    r.style.alignItems = 'center';
+    r.innerHTML = `
+      <span style="font-size:14px;color:var(--text);">${escapeHtml(c.label)}</span>
+      <input type="text" class="conv-fac" data-idx="${i}" value="${escapeHtml(c.facilitator)}" placeholder="Facilitator name">
+    `;
+    rows.appendChild(r);
+  });
+  cohortsWrap.appendChild(rows);
+  wrap.appendChild(cohortsWrap);
+
+  const weeksRow = document.createElement('div');
+  weeksRow.className = 'form-row';
+  weeksRow.innerHTML = `<label>Round length (weeks)</label><input type="number" id="conv-weeks" min="3" max="12" value="${d.weeks}" style="max-width:120px;">`;
+  wrap.appendChild(weeksRow);
+
+  const actions = document.createElement('div');
+  actions.className = 'modal-actions';
+  const later = document.createElement('button');
+  later.className = 'btn';
+  later.textContent = 'Not yet';
+  later.addEventListener('click', () => {
+    declineLaunchConversion(d.launchKey);
+    closeModal();
+  });
+  actions.appendChild(later);
+
+  const start = document.createElement('button');
+  start.className = 'btn btn-primary';
+  start.textContent = 'Start mid-round tracking';
+  start.addEventListener('click', () => {
+    const facilitators = Array.from(wrap.querySelectorAll('.conv-fac')).map(i => i.value);
+    const weeks = Math.max(3, Math.min(12, Number(wrap.querySelector('#conv-weeks').value) || 5));
+    const created = convertLaunchToMidround(d.launchKey, facilitators, weeks);
+    if (created) {
+      store.mode = 'midround';
+      store.activeMidroundRound = String(created.roundNumber);
+      store.midroundView = 'summary';
+      saveStore();
+    }
+    closeModal();
+  });
+  actions.appendChild(start);
+  wrap.appendChild(actions);
+  return wrap;
+}
+
 function ensureCourseDatalist() {
   if (document.getElementById('bluedot-courses')) return;
   const dl = document.createElement('datalist');
@@ -1490,6 +1674,9 @@ function render() {
   document.documentElement.setAttribute('data-theme', store.darkMode ? 'dark' : 'light');
   document.documentElement.setAttribute('data-mode', store.mode || 'launch');
   $app.innerHTML = '';
+  // Auto-detect any launch round whose session 1 has arrived and prompt for conversion.
+  // Skips when another modal is already open (handled inside the function).
+  if (!store.modal) maybeOpenConversionWizard();
 
   if (store.mode === 'dashboard') {
     renderDashboardMode();
@@ -1579,19 +1766,19 @@ function renderModeSwitcher() {
 
   const dashTab = document.createElement('button');
   dashTab.className = 'mode-tab dashboard-tab' + (store.mode === 'dashboard' ? ' active' : '');
-  dashTab.textContent = 'Dashboard';
+  dashTab.innerHTML = 'Dashboard<span class="sub">What needs attention</span>';
   dashTab.addEventListener('click', () => { store.mode = 'dashboard'; saveStore(); render(); });
   bar.appendChild(dashTab);
 
   const launchTab = document.createElement('button');
   launchTab.className = 'mode-tab launch-tab' + (store.mode === 'launch' ? ' active' : '');
-  launchTab.textContent = 'Launching a round';
+  launchTab.innerHTML = 'Launching a round<span class="sub">Pre-launch checklist</span>';
   launchTab.addEventListener('click', () => { store.mode = 'launch'; saveStore(); render(); });
   bar.appendChild(launchTab);
 
   const mdTab = document.createElement('button');
   mdTab.className = 'mode-tab midround-tab' + (store.mode === 'midround' ? ' active' : '');
-  mdTab.textContent = 'Mid-round check';
+  mdTab.innerHTML = 'Mid-round check<span class="sub">Weekly health checks</span>';
   mdTab.addEventListener('click', () => { store.mode = 'midround'; saveStore(); render(); });
   bar.appendChild(mdTab);
 
@@ -2249,6 +2436,7 @@ function renderModal() {
   else if (store.modal.type === 'confirm') modal.appendChild(renderConfirm());
   else if (store.modal.type === 'retrospective') modal.appendChild(renderRetrospectiveForm());
   else if (store.modal.type === 'log-action') modal.appendChild(renderLogActionForm());
+  else if (store.modal.type === 'conversion') modal.appendChild(renderConversionWizard());
 
   backdrop.appendChild(modal);
   return backdrop;
@@ -3766,6 +3954,10 @@ function openLogActionModal(flag) {
     const round = store.rounds[flag.roundKey];
     const issue = round && round.issues.find(i => i.id === flag.issueId);
     currentActionText = issue ? (issue.resolution || '') : '';
+  } else if (flag.kind === 'launch-carryover') {
+    const round = store.midroundRounds[flag.roundKey];
+    const issue = round && (round.issues || []).find(i => i.id === flag.issueId);
+    currentActionText = issue ? (issue.resolution || '') : '';
   } else {
     const round = store.midroundRounds[flag.roundKey];
     const cohort = round && round.cohorts[flag.cohortIdx];
@@ -3855,6 +4047,14 @@ function renderLogActionForm() {
         issue.status = status;
         issue.owner = owner;
       }
+    } else if (d.kind === 'launch-carryover') {
+      const round = store.midroundRounds[d.roundKey];
+      const issue = round && (round.issues || []).find(i => i.id === d.issueId);
+      if (issue) {
+        issue.resolution = text;
+        issue.status = status;
+        issue.owner = owner;
+      }
     } else {
       const round = store.midroundRounds[d.roundKey];
       const cohort = round && round.cohorts[d.cohortIdx];
@@ -3912,6 +4112,27 @@ function dashboardFlags() {
   });
 
   getActiveMidroundRounds().forEach(round => {
+    // Launch-carryover issues that came across at conversion
+    (round.issues || []).forEach(issue => {
+      const cohortLabel = round.cohorts[issue.cohortIdx] ? round.cohorts[issue.cohortIdx].label : 'Unknown';
+      const sectionTitle = SECTIONS[issue.sectionIdx] ? SECTIONS[issue.sectionIdx].title : 'General';
+      const daysOpen = Math.max(0, Math.floor((now - new Date(issue.dateLogged).getTime()) / (1000 * 60 * 60 * 24)));
+      out.push({
+        kind: 'launch-carryover',
+        roundKey: String(round.roundNumber),
+        roundLabel: 'Round ' + round.roundNumber,
+        cohortIdx: issue.cohortIdx,
+        cohortLabel: cohortLabel,
+        signalType: 'launch carryover',
+        sectionTitle: sectionTitle,
+        description: issue.description,
+        daysOpen: daysOpen,
+        weekRaised: null,
+        issueId: issue.id,
+        status: issue.status || 'open',
+        owner: issue.owner || 'Course Ops Lead'
+      });
+    });
     round.cohorts.forEach((cohort, ci) => {
       Object.keys(cohort.weeks).forEach(wk => {
         const w = cohort.weeks[wk];
@@ -4306,6 +4527,22 @@ function renderDashboardActiveRoundsSection() {
   cards.forEach(c => {
     const row = document.createElement('div');
     row.className = 'dash-active-card';
+    row.setAttribute('role', 'button');
+    row.setAttribute('tabindex', '0');
+    row.style.cursor = 'pointer';
+    const navTo = () => {
+      if (c.kind === 'launch') { store.mode = 'launch'; store.activeRound = c.roundKey; store.view = 'summary'; }
+      else { store.mode = 'midround'; store.activeMidroundRound = c.roundKey; store.midroundView = 'summary'; }
+      saveStore();
+      render();
+    };
+    row.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      navTo();
+    });
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navTo(); }
+    });
     const left = document.createElement('div');
     let metaLine = '';
     if (c.kind === 'launch') {
