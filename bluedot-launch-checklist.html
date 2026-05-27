@@ -1187,6 +1187,36 @@ const FAILURE_TABLE = [
 const STORAGE_KEY = 'bluedot-launch-checklist-v1';
 const TOTAL_ITEMS = SECTIONS.reduce((n, s) => n + s.items.length, 0);
 
+// Real BlueDot Impact course catalog (sourced from bluedot.org/courses/sitemap.xml).
+// Users can pick one of these from the setup form datalist, or type a custom name.
+const BLUEDOT_COURSES = [
+  { name: 'Technical AI Safety Course', slug: 'technical-ai-safety' },
+  { name: 'Technical AI Safety Project Sprint', slug: 'technical-ai-safety-project' },
+  { name: 'AI Alignment', slug: 'alignment' },
+  { name: 'Frontier AI Governance Course', slug: 'ai-governance' },
+  { name: 'AGI Strategy Course', slug: 'agi-strategy' },
+  { name: 'Future of AI Course', slug: 'future-of-ai' },
+  { name: 'Introduction to Digital Minds', slug: 'digital-minds' },
+  { name: 'Economics of TAI', slug: 'economics-of-tai' },
+  { name: 'Biosecurity Course', slug: 'biosecurity' },
+  { name: 'UV Air Disinfection', slug: 'uv-air-disinfection' },
+  { name: 'PPE Stockpiles', slug: 'ppe-stockpiles' },
+  { name: 'Writing Intensive', slug: 'writing' },
+  { name: 'Incubator Week', slug: 'incubator-week' }
+];
+
+function ensureCourseDatalist() {
+  if (document.getElementById('bluedot-courses')) return;
+  const dl = document.createElement('datalist');
+  dl.id = 'bluedot-courses';
+  BLUEDOT_COURSES.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.name;
+    dl.appendChild(opt);
+  });
+  document.body.appendChild(dl);
+}
+
 // Mid-round data: six sections of weekly check items. Each item declares
 // its input type so the renderer can dispatch without per-item code.
 // Types: check (boolean), number (numeric), text (free text), choice (one of options)
@@ -1718,10 +1748,10 @@ function renderSetup(existing) {
     : 'Enter round details to generate one checklist per cohort.';
   card.appendChild(desc);
 
-  const initial = existing || { roundNumber: '', courseName: 'Technical AI Safety', session1Date: '', numCohorts: 6, cohortLabels: [] };
+  const initial = existing || { roundNumber: '', courseName: 'Technical AI Safety Course', session1Date: '', numCohorts: 6, cohortLabels: [] };
 
   card.appendChild(formRow('Round number', `<input type="number" id="setup-round" min="1" value="${escapeHtml(initial.roundNumber)}" required>`));
-  card.appendChild(formRow('Course name', `<input type="text" id="setup-course" value="${escapeHtml(initial.courseName)}" required>`));
+  card.appendChild(formRow('Course name', `<input type="text" id="setup-course" value="${escapeHtml(initial.courseName)}" list="bluedot-courses" placeholder="Pick a BlueDot course or type your own" required>`));
   card.appendChild(formRow('First session date', `<input type="date" id="setup-date" value="${escapeHtml(initial.session1Date)}" required>`));
   card.appendChild(formRow('Number of cohorts', `<input type="number" id="setup-num" min="1" max="12" value="${existing ? existing.cohorts.length : initial.numCohorts}" required>`));
 
@@ -1763,7 +1793,7 @@ function renderSetup(existing) {
   submitBtn.addEventListener('click', () => {
     const setup = {
       roundNumber: Number(card.querySelector('#setup-round').value),
-      courseName: card.querySelector('#setup-course').value.trim() || 'Technical AI Safety',
+      courseName: card.querySelector('#setup-course').value.trim() || 'Technical AI Safety Course',
       session1Date: card.querySelector('#setup-date').value,
       numCohorts: Math.max(1, Math.min(12, Number(card.querySelector('#setup-num').value) || 1)),
       cohortLabels: Array.from(labelsList.querySelectorAll('input')).map(i => i.value.trim())
@@ -2814,13 +2844,13 @@ function renderMidroundSetup(existing) {
     : 'Enter round details to start weekly health checks across cohorts.';
   card.appendChild(desc);
 
-  const initial = existing || { roundNumber: '', courseName: 'Technical AI Safety', session1Date: '', weeks: 5, cohorts: [], cohortLabels: [], facilitators: [] };
+  const initial = existing || { roundNumber: '', courseName: 'Technical AI Safety Course', session1Date: '', weeks: 5, cohorts: [], cohortLabels: [], facilitators: [] };
   const initLabels = existing ? existing.cohorts.map(c => c.label) : Array.from({ length: 6 }, (_, i) => 'Cohort ' + (i + 1));
   const initFacilitators = existing ? existing.cohorts.map(c => c.facilitator) : [];
   const initNum = existing ? existing.cohorts.length : 6;
 
   card.appendChild(formRow('Round number', `<input type="number" id="md-setup-round" min="1" value="${escapeHtml(initial.roundNumber)}" required>`));
-  card.appendChild(formRow('Course name', `<input type="text" id="md-setup-course" value="${escapeHtml(initial.courseName)}" required>`));
+  card.appendChild(formRow('Course name', `<input type="text" id="md-setup-course" value="${escapeHtml(initial.courseName)}" list="bluedot-courses" placeholder="Pick a BlueDot course or type your own" required>`));
   card.appendChild(formRow('First session date', `<input type="date" id="md-setup-date" value="${escapeHtml(initial.session1Date)}" required>`));
   card.appendChild(formRow('Round length (weeks)', `<input type="number" id="md-setup-weeks" min="3" max="12" value="${initial.weeks || 5}" required>`));
   card.appendChild(formRow('Number of cohorts', `<input type="number" id="md-setup-num" min="1" max="12" value="${initNum}" required>`));
@@ -2889,7 +2919,7 @@ function renderMidroundSetup(existing) {
   submitBtn.addEventListener('click', () => {
     const setup = {
       roundNumber: Number(card.querySelector('#md-setup-round').value),
-      courseName: card.querySelector('#md-setup-course').value.trim() || 'Technical AI Safety',
+      courseName: card.querySelector('#md-setup-course').value.trim() || 'Technical AI Safety Course',
       session1Date: card.querySelector('#md-setup-date').value,
       weeks: Math.max(3, Math.min(12, Number(card.querySelector('#md-setup-weeks').value) || 5)),
       numCohorts: Math.max(1, Math.min(12, Number(card.querySelector('#md-setup-num').value) || 1)),
@@ -4693,6 +4723,7 @@ function exportDashboardSummary() {
 let store = loadStore();
 // Default to dashboard on every load if any rounds exist (per spec: "first thing seen on every visit")
 if (hasAnyActiveRounds()) store.mode = 'dashboard';
+ensureCourseDatalist();
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
