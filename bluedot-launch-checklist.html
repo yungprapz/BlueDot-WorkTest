@@ -877,7 +877,9 @@
   .dash-flag-row .signal-type.other { --signal-bg: var(--surface-alt); --signal-fg: var(--text); }
   .dash-flag-row .signal-type.launch-blocker { --signal-bg: var(--red-bg); --signal-fg: var(--red-fg); }
   .dash-flag-row .signal-type.launch-carryover { --signal-bg: #fef3c7; --signal-fg: #92400e; }
+  .dash-flag-row .signal-type.launch-task { --signal-bg: #dbeafe; --signal-fg: #1e40af; }
   [data-theme="dark"] .dash-flag-row .signal-type.launch-carryover { --signal-bg: #78350f; --signal-fg: #fde68a; }
+  [data-theme="dark"] .dash-flag-row .signal-type.launch-task { --signal-bg: #1e3a8a; --signal-fg: #bfdbfe; }
   [data-theme="dark"] .dash-flag-row .signal-type.pulse { --signal-bg: #1e1b4b; --signal-fg: #c7d2fe; }
   [data-theme="dark"] .dash-flag-row .signal-type.facilitator { --signal-bg: #2e1065; --signal-fg: #e9d5ff; }
   [data-theme="dark"] .dash-flag-row .signal-type.attendance { --signal-bg: #164e63; --signal-fg: #a5f3fc; }
@@ -4218,6 +4220,34 @@ function dashboardFlags() {
   const now = Date.now();
 
   getActiveLaunchRounds().forEach(round => {
+    // Per-cohort launch-task flag: one row per cohort with unchecked items.
+    // Surfaces work the user can see on the dashboard without opening the round.
+    const roundCreatedAt = round.createdAt ? new Date(round.createdAt).getTime() : now;
+    const session1 = round.session1Date ? new Date(round.session1Date + 'T00:00:00').getTime() : now;
+    const daysToLaunch = Math.round((session1 - now) / (1000 * 60 * 60 * 24));
+    round.cohorts.forEach((cohort, ci) => {
+      const checked = Object.values(cohort.state.checks).filter(Boolean).length;
+      const remaining = TOTAL_ITEMS - checked;
+      if (remaining === 0) return;
+      const daysOpen = Math.max(0, Math.floor((now - roundCreatedAt) / (1000 * 60 * 60 * 24)));
+      out.push({
+        kind: 'launch-task',
+        roundKey: String(round.roundNumber),
+        roundLabel: 'Round ' + round.roundNumber,
+        cohortIdx: ci,
+        cohortLabel: cohort.label,
+        signalType: 'launch task',
+        sectionTitle: 'Launch checklist',
+        description: remaining + ' launch checklist ' + (remaining === 1 ? 'item' : 'items') + ' remaining (' + checked + ' of ' + TOTAL_ITEMS + ' complete, ' + (daysToLaunch >= 0 ? daysToLaunch + ' days to launch' : Math.abs(daysToLaunch) + ' days past launch') + ')',
+        daysOpen: daysOpen,
+        weekRaised: null,
+        status: 'open',
+        owner: 'Course Ops Lead',
+        daysToLaunch: daysToLaunch,
+        remaining: remaining
+      });
+    });
+
     (round.issues || []).forEach(issue => {
       const cohortLabel = round.cohorts[issue.cohortIdx] ? round.cohorts[issue.cohortIdx].label : 'Unknown';
       const sectionTitle = SECTIONS[issue.sectionIdx] ? SECTIONS[issue.sectionIdx].title : 'General';
@@ -4644,8 +4674,20 @@ function renderDashboardFlagsSection() {
       row.appendChild(days);
       const btn = document.createElement('button');
       btn.className = 'btn btn-small';
-      btn.textContent = 'Log action';
-      btn.addEventListener('click', () => openLogActionModal(f));
+      if (f.kind === 'launch-task') {
+        btn.textContent = 'Open cohort';
+        btn.addEventListener('click', () => {
+          store.mode = 'launch';
+          store.activeRound = f.roundKey;
+          store.activeCohort = f.cohortIdx;
+          store.view = 'cohort';
+          saveStore();
+          render();
+        });
+      } else {
+        btn.textContent = 'Log action';
+        btn.addEventListener('click', () => openLogActionModal(f));
+      }
       row.appendChild(btn);
       listWrap.appendChild(row);
     });
